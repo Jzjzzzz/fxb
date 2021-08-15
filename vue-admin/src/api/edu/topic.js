@@ -15,9 +15,9 @@ export default {
     })
   },
   //新增单选题
-  saveMultipleChoice(topic) {
+  saveTopic(topic) {
     return request({
-      url: `/admin/core/topic/saveMultipleChoice`,
+      url: `/admin/core/topic/saveTopic`,
       method: 'post',
       data: topic
     })
@@ -39,5 +39,19 @@ export default {
       method: 'delete'
     })
   },
-
+  //根据id查询题目
+  getById(id){
+    return request({
+      url: `/admin/core/topic/getById/${id}`,
+      method: 'get'
+    })
+  },
+  //根据id修改题目
+  updateTopicById(topicSaveVo){
+    return request({
+      url: `/admin/core/topic/updateTopicById`,
+      method: 'put',
+      data : topicSaveVo
+    })
+  },
 }

@@ -60,9 +60,7 @@ public class AdminDictController {
     @PostMapping("/saveTop")
     public R saveTop(@RequestBody Dict dict){
         boolean result = dictService.saveTop(dict);
-        if(result){
-            return R.ok().message("新增成功");
-        }
+        if(result) return R.ok().message("新增成功");
         return R.error().message("新增失败");
     }
 
@@ -78,9 +76,7 @@ public class AdminDictController {
     @PutMapping("/update")
     public R update(@RequestBody Dict dict){
         boolean result = dictService.updateById(dict);
-        if(result){
-            return R.ok().message("修改成功");
-        }
+        if(result) return R.ok().message("修改成功");
         return R.error().message("修改失败");
     }
 
@@ -88,18 +84,14 @@ public class AdminDictController {
     @DeleteMapping("/removeByIdTop/{id}")
     public R removeByIdTop(@PathVariable Long id){
         boolean result = dictService.removeByIdTop(id);
-        if(result){
-            return R.ok().message("删除成功");
-        }
+        if(result) return R.ok().message("删除成功");
         return R.error().message("删除失败");
     }
     @ApiOperation("清空redis缓存")
     @GetMapping("/emptyDictByParentId/{parentId}")
     public R emptyDictByParentId(@PathVariable Long parentId){
         boolean result = DictUtils.emptyRedis(parentId);
-        if(result){
-            return R.ok().message("清空缓存成功");
-        }
+        if(result) return R.ok().message("清空缓存成功");
         return R.error().message("暂无缓存数据需要清除");
     }
 

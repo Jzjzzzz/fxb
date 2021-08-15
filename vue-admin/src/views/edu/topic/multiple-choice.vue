@@ -25,11 +25,12 @@
       <el-form-item label="难度：" required>
         <el-rate v-model="form.difficult" class="question-item-rate"></el-rate>
       </el-form-item>
-      <el-form-item label="正确答案：" prop="correctArray" required>
-        <el-radio-group v-model="form.correctArray">
-          <el-radio v-for="item in form.items" :label="item.prefix" :key="item.prefix">{{item.prefix}}</el-radio>
+      <el-form-item label="正确答案：" prop="correct" required>
+        <el-radio-group v-model="form.correct">
+          <el-radio  v-for="item in form.items"  :key="item.prefix"  :label="item.prefix">{{item.prefix}}</el-radio>
         </el-radio-group>
       </el-form-item>
+
       <el-form-item>
         <el-button type="primary" @click="onSubmit">提交</el-button>
         <el-button type="success" @click="questionItemAdd">添加选项</el-button>
@@ -53,12 +54,12 @@ export default {
       form:{
         subjectId: null,
         correct: '',
-        correctArray: [],
         titleContent: '',
         score: '',
         difficult: 0,
         content: '',
         analyzes: '',
+        questionId: 1,
         items: [
           {  prefix: 'A', content: '' },
           {  prefix: 'B', content: '' },
@@ -73,8 +74,7 @@ export default {
   created() {
     this.fetchData()
   },
-  methods: {
-   
+  methods: {  
     //添加选项
     questionItemAdd () {
       let items = this.form.items
@@ -96,21 +96,41 @@ export default {
       .then(response=>{
         this.subjectFilter = response.data.list
       })
+      //当id不为0的时候回显数据
+      if(this.$route.params.id!=0){
+        topicApi.getById(this.$route.params.id)
+        .then(response=>{
+          this.form = response.data.model
+          this.form.items = JSON.parse(this.form.content)
+        })
+      }
     },
     //新增修改提交表单
     onSubmit(){
-      this.cteateMultiple()
+      if(this.$route.params.id==0){
+        this.cteateMultiple()
+      }
+      else(
+        this.updateMultiple()
+      )
     },
     //新增
-    cteateMultiple(){
-       this.form.correct = this.form.correctArray.toString()
+    cteateMultiple(){  
        this.form.content = JSON.stringify(this.form.items) 
-       topicApi.saveMultipleChoice(this.form)
+       topicApi.saveTopic(this.form)
            .then(response=>{
             this.$message.success(response.message)
             this.$router.push({ path: '/edu/topic/list'})
       })
     },
+    updateMultiple(){
+      this.form.content = JSON.stringify(this.form.items) 
+      topicApi.updateTopicById(this.form)
+      .then(response=>{
+        this.$message.success(response.message)
+        this.$router.push({ path: '/edu/topic/list'})
+      })
+    }
   }
 }
 </script>

@@ -21,6 +21,9 @@ public class EduTopicListVo {
     @ApiModelProperty(value = "科目名称")
     private String name;
 
+    @ApiModelProperty(value = "题型id")
+    private Integer questionId;
+
     @ApiModelProperty(value = "题型")
     private String questionName;
 

@@ -8,10 +8,9 @@ import com.jzj.core.mapper.EduTopicMapper;
 import com.jzj.core.pojo.entity.EduTopic;
 import com.jzj.core.pojo.entity.EduTopicContent;
 import com.jzj.core.pojo.query.TopicQuery;
+import com.jzj.core.pojo.vo.EduTopicEditVo;
 import com.jzj.core.pojo.vo.EduTopicListVo;
-import com.jzj.core.pojo.vo.EduTopicMultipleVo;
-import com.jzj.core.service.DictService;
-import com.jzj.core.service.EduSubjectService;
+import com.jzj.core.pojo.vo.EduTopicSaveVo;
 import com.jzj.core.service.EduTopicContentService;
 import com.jzj.core.service.EduTopicService;
 import org.springframework.beans.BeanUtils;
@@ -37,21 +36,17 @@ import java.util.Map;
 public class EduTopicServiceImpl extends ServiceImpl<EduTopicMapper, EduTopic> implements EduTopicService {
     @Resource
     private EduTopicContentService topicContentService;
-    @Resource
-    private EduSubjectService subjectService;
-    @Resource
-    private DictService dictService;
 
     @Transactional
     @Override
-    public boolean saveMultiple(EduTopicMultipleVo multipleVo) {
+    public boolean saveTopic(EduTopicSaveVo topicSaveVo) {
         //添加题目详情表数据
         EduTopicContent topicContent = new EduTopicContent();
-        BeanUtils.copyProperties(multipleVo,topicContent);
+        BeanUtils.copyProperties(topicSaveVo,topicContent);
         topicContentService.save(topicContent);
         //添加题目表数据
         EduTopic topic = new EduTopic();
-        BeanUtils.copyProperties(multipleVo,topic);
+        BeanUtils.copyProperties(topicSaveVo,topic);
         topic.setTopicDetailsId(topicContent.getId());
         topic.setStatus(1);
         topic.setQuestionId(1);
@@ -96,5 +91,27 @@ public class EduTopicServiceImpl extends ServiceImpl<EduTopicMapper, EduTopic> i
         //删除题目
         baseMapper.deleteById(topic.getId());
         return true;
+    }
+
+    @Override
+    public EduTopicEditVo getByIdTopic(Long id) {
+
+        return baseMapper.getByIdTopic(id);
+    }
+
+    @Transactional
+    @Override
+    public boolean updateTopic(EduTopicSaveVo topicSaveVo) {
+        //封装题目表
+        EduTopic topic = new EduTopic();
+        BeanUtils.copyProperties(topicSaveVo,topic);
+        //封装题目详情表
+        EduTopicContent topicContent = new EduTopicContent();
+        BeanUtils.copyProperties(topicSaveVo,topicContent);
+
+        //提交
+        int count = baseMapper.updateById(topic);
+        boolean result = topicContentService.updateById(topicContent);
+        return result;
     }
 }

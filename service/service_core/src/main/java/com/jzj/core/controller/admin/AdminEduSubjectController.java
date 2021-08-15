@@ -56,9 +56,7 @@ public class AdminEduSubjectController {
     @PutMapping("/update")
     public R update(@RequestBody EduSubject subject){
         boolean result = subjectService.updateById(subject);
-        if(result){
-            return R.ok().message("修改成功");
-        }
+        if(result) return R.ok().message("修改成功");
         return R.error().message("修改失败");
     }
     @ApiOperation("根据ID查询科目")
@@ -73,9 +71,7 @@ public class AdminEduSubjectController {
     @DeleteMapping("/removeById/{id}")
     public R removeById(@PathVariable Long id){
         boolean result = subjectService.removeById(id);
-        if(result){
-            return R.ok().message("删除成功");
-        }
+        if(result) return R.ok().message("删除成功");
         return R.error().message("删除失败");
     }
 

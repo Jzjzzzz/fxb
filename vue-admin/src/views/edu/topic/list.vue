@@ -15,7 +15,7 @@
       <el-button type="primary" icon="el-icon-search" @click="fetchData()">查询</el-button>
       <el-popover placement="bottom" trigger="click">
           <el-button type="warning" size="mini"  v-for="item in editUrlEnum" :key="item.key"
-                     @click="$router.push({ path: '/edu/topic/'+item.dictCode+'/'+item.value })">{{item.name}}
+                     @click="$router.push({ path: '/edu/topic/'+item.dictCode+'/'+0 })">{{item.name}}
           </el-button>
           <el-button slot="reference" type="primary" class="link-left">添加</el-button>
       </el-popover>
@@ -58,7 +58,7 @@
             type="primary"
             size="mini"
             icon="el-icon-edit"
-            @click="approvalShow(scope.row.id)"
+            @click="approvalShow(scope)"
           >
             修改
           </el-button>
@@ -109,6 +109,12 @@ export default {
     this.fetchData()
   },
   methods: {
+    approvalShow(scope){
+      if(scope.row.questionId==1){
+        this.$router.push({ path: '/edu/topic/multiple-choice'+'/'+scope.row.id })
+      }
+      
+    },
     // 根据id删除数据
     removeById(id) {
       this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {

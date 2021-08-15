@@ -11,7 +11,13 @@ import java.io.Serializable;
  * @date 2021/8/12 18:45
  */
 @Data
-public class EduTopicMultipleVo implements Serializable {
+public class EduTopicSaveVo implements Serializable {
+
+    @ApiModelProperty(value = "题目表id")
+    private Long id;
+
+    @ApiModelProperty(value = "题干，选项详情表id")
+    private Long topicDetailsId;
 
     @ApiModelProperty(value = "学科id")
     private Long subjectId;
@@ -33,5 +39,8 @@ public class EduTopicMultipleVo implements Serializable {
 
     @ApiModelProperty(value = "题目解析")
     private String analyzes;
+
+    @ApiModelProperty(value = "题型")
+    private Integer questionId;
 
 }

@@ -8,7 +8,8 @@ import com.jzj.core.pojo.entity.Dict;
 import com.jzj.core.pojo.entity.EduSubject;
 import com.jzj.core.pojo.entity.EduTopic;
 import com.jzj.core.pojo.query.TopicQuery;
-import com.jzj.core.pojo.vo.EduTopicMultipleVo;
+import com.jzj.core.pojo.vo.EduTopicEditVo;
+import com.jzj.core.pojo.vo.EduTopicSaveVo;
 import com.jzj.core.service.EduSubjectService;
 import com.jzj.core.service.EduTopicService;
 import com.jzj.core.utils.DictUtils;
@@ -45,13 +46,11 @@ public class AdminEduTopicController {
         List<Dict> list = DictUtils.getListByParentId(100L);
         return R.ok().data("list",list);
     }
-    @ApiOperation("新增单选题")
-    @PostMapping("/saveMultipleChoice")
-    public R saveMultipleChoice(@RequestBody EduTopicMultipleVo multipleVo){
-        boolean result = topicService.saveMultiple(multipleVo);
-        if(result){
-            return R.ok().message("新增单选题成功");
-        }
+    @ApiOperation("新增题目")
+    @PostMapping("/saveTopic")
+    public R saveTopic(@RequestBody EduTopicSaveVo topicSaveVo){
+        boolean result = topicService.saveTopic(topicSaveVo);
+        if(result) return R.ok().message("新增题目成功");
         return R.error().message("新增失败");
     }
     @ApiOperation("题目列表数据")
@@ -73,10 +72,22 @@ public class AdminEduTopicController {
     @DeleteMapping("/removeById/{id}")
     public R removeById(@PathVariable Long id){
         boolean result = topicService.removeTopicById(id);
-        if(result){
-            return R.ok().message("删除成功");
-        }
-        return R.error().message("删除失败");
+        if(result) return R.ok().message("删除题目成功");
+        return R.error().message("删除题目失败");
+    }
+    @ApiOperation("根据ID查询题目和详情信息")
+    @GetMapping("/getById/{id}")
+    public R getById(@PathVariable Long id){
+        EduTopicEditVo model = topicService.getByIdTopic(id);
+        if(model!=null) return R.ok().data("model",model);
+        return R.error().message("该条数据不存在");
+    }
+    @ApiOperation("修改题目")
+    @PutMapping("/updateTopicById")
+    public R updateTopicById(@RequestBody EduTopicSaveVo topicSaveVo){
+        boolean result = topicService.updateTopic(topicSaveVo);
+        if(result) return R.ok().message("修改题目成功");
+        return R.error().message("修改题目失败");
     }
 }
 
