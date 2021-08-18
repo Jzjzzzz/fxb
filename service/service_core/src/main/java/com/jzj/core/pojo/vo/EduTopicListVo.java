@@ -30,6 +30,9 @@ public class EduTopicListVo {
     @ApiModelProperty(value = "题目题干")
     private String titleContent;
 
+    @ApiModelProperty(value = "题干，选项详情表id")
+    private Long topicDetailsId;
+
     @ApiModelProperty(value = "题目分数")
     private Integer score;
 

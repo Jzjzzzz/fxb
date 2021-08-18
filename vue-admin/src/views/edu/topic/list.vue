@@ -109,10 +109,20 @@ export default {
     this.fetchData()
   },
   methods: {
+    //修改跳转
     approvalShow(scope){
       if(scope.row.questionId==1){
+        this.$router.push({ path: '/edu/topic/single-choice'+'/'+scope.row.id })
+      }else if(scope.row.questionId==2){
         this.$router.push({ path: '/edu/topic/multiple-choice'+'/'+scope.row.id })
+      }else if(scope.row.questionId==3){
+        this.$router.push({ path: '/edu/topic/completion'+'/'+scope.row.id })
+      }else if(scope.row.questionId==4){
+        this.$router.push({ path: '/edu/topic/shortAnswer-question'+'/'+scope.row.id })
+      }else if(scope.row.questionId==5){
+        this.$router.push({ path: '/edu/topic/trueFalse-choice'+'/'+scope.row.id })
       }
+      
       
     },
     // 根据id删除数据

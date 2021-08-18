@@ -28,4 +28,6 @@ public interface EduTopicService extends IService<EduTopic> {
     EduTopicEditVo getByIdTopic(Long id);
 
     boolean updateTopic(EduTopicSaveVo topicSaveVo);
+
+    Map<String, Object> getTopicListById(Long id, Page<EduTopic> pageParam);
 }

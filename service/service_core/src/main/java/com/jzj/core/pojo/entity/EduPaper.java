@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 题目
+ * 试卷
  * </p>
  *
  * @author Jzj
@@ -23,32 +23,14 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="EduTopic对象", description="题目")
-public class EduTopic implements Serializable {
+@ApiModel(value="EduPaper对象", description="试卷")
+public class EduPaper implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "题目表id")
+    @ApiModelProperty(value = "试卷表id")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-
-    @ApiModelProperty(value = "学科id")
-    private Long subjectId;
-
-    @ApiModelProperty(value = "题目分数")
-    private Integer score;
-
-    @ApiModelProperty(value = "题目难度")
-    private Integer difficult;
-
-    @ApiModelProperty(value = "正确答案")
-    private String correct;
-
-    @ApiModelProperty(value = "题干，选项详情表id")
-    private Long topicDetailsId;
-
-    @ApiModelProperty(value = "状态")
-    private Integer status;
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
@@ -58,8 +40,26 @@ public class EduTopic implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date gmtModified;
 
-    @ApiModelProperty(value = "题型")
-    private Integer questionId;
+    @ApiModelProperty(value = "状态")
+    private Integer status;
+
+    @ApiModelProperty(value = "试卷总分")
+    private Integer score;
+
+    @ApiModelProperty(value = "学科")
+    private Long subjectId;
+
+    @ApiModelProperty(value = "题目总数")
+    private Integer questionCount;
+
+    @ApiModelProperty(value = "考试时长")
+    private Integer suggestTime;
+
+    @ApiModelProperty(value = "试卷名称")
+    private String paperName;
+
+    @ApiModelProperty(value = "试卷标题")
+    private String paperTitle;
 
 
 }

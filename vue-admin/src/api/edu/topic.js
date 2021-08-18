@@ -54,4 +54,11 @@ export default {
       data : topicSaveVo
     })
   },
+  //根据课程id查询题目
+  listTopicPageBySubjectId(id,page,limit){
+    return request({
+      url: `/admin/core/topic/getTopicListBySubjectId/${id}/${page}/${limit}`,
+      method: 'get'
+    })
+  },
 }

@@ -15,6 +15,7 @@ import com.jzj.core.service.EduTopicService;
 import com.jzj.core.utils.DictUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.data.redis.listener.Topic;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -88,6 +89,13 @@ public class AdminEduTopicController {
         boolean result = topicService.updateTopic(topicSaveVo);
         if(result) return R.ok().message("修改题目成功");
         return R.error().message("修改题目失败");
+    }
+    @ApiOperation("根据课程id查询题目列表")
+    @GetMapping("/getTopicListBySubjectId/{id}/{page}/{limit}")
+    public R getTopicListBySubjectId(@PathVariable Long id,@PathVariable Long page,@PathVariable Long limit){
+        Page<EduTopic> pageParam = new Page<>(page, limit);
+        Map<String, Object> map = topicService.getTopicListById(id,pageParam);
+        return R.ok().data("map",map);
     }
 }
 

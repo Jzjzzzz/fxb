@@ -49,7 +49,6 @@ public class EduTopicServiceImpl extends ServiceImpl<EduTopicMapper, EduTopic> i
         BeanUtils.copyProperties(topicSaveVo,topic);
         topic.setTopicDetailsId(topicContent.getId());
         topic.setStatus(1);
-        topic.setQuestionId(1);
         baseMapper.insert(topic);
         return true;
     }
@@ -113,5 +112,26 @@ public class EduTopicServiceImpl extends ServiceImpl<EduTopicMapper, EduTopic> i
         int count = baseMapper.updateById(topic);
         boolean result = topicContentService.updateById(topicContent);
         return result;
+    }
+
+    @Override
+    public Map<String, Object> getTopicListById(Long id, Page<EduTopic> pageParam) {
+        ArrayList<EduTopicListVo> list = new ArrayList<>();
+        HashMap<String, Object> map = new HashMap<>();
+        QueryWrapper<EduTopic> wrapper = new QueryWrapper<>();
+        wrapper.eq("status", 1);
+        wrapper.eq("subject_id",id);
+        IPage<EduTopic> selectPage = baseMapper.selectPage(pageParam, wrapper);
+        List<EduTopic> records = selectPage.getRecords();
+        for (EduTopic topic : records) {
+            //封装数据
+            EduTopicListVo topicListVo = baseMapper.getBaseTopicList(topic.getId());
+            list.add(topicListVo);
+        }
+        //获取数据总数
+        long total = selectPage.getTotal();
+        map.put("list",list);
+        map.put("total",total);
+        return map;
     }
 }

@@ -25,15 +25,16 @@
       <el-form-item label="难度：" required>
         <el-rate v-model="form.difficult" class="question-item-rate"></el-rate>
       </el-form-item>
-      <el-form-item label="正确答案：" prop="correctArray" required>
-        <el-checkbox-group v-model="form.correctArray">
-          <el-checkbox @change="selectChange" v-for="item in form.items" :label="item.prefix" :key="item.prefix">{{item.prefix}}</el-checkbox>
-        </el-checkbox-group>
+      
+      <el-form-item label="正确答案：" prop="correct" required>
+        <el-radio-group  v-model="form.correct">
+          <el-radio   v-for="item in form.items"  :key="item.prefix"  :label="item.prefix">{{item.prefix}}</el-radio>
+        </el-radio-group>
       </el-form-item>
 
       <el-form-item>
         <el-button type="primary" @click="onSubmit">提交</el-button>
-        <el-button type="success" @click="questionItemAdd">添加选项</el-button>
+        <el-button type="success"  @click="questionItemAdd">添加选项</el-button>
 
       </el-form-item>
     </el-form>
@@ -59,13 +60,8 @@ export default {
         difficult: 0,
         content: '',
         analyzes: '',
-        questionId: 2,
-        correctArray: [],
+        questionId: 3,
         items: [
-          {  prefix: 'A', content: '' },
-          {  prefix: 'B', content: '' },
-          {  prefix: 'C', content: '' },
-          {  prefix: 'D', content: '' }
         ],
         
       },
@@ -75,7 +71,7 @@ export default {
   created() {
     this.fetchData()
   },
-  methods: { 
+  methods: {  
     //强制更新视图
     selectChange(){
       this.$forceUpdate()
@@ -90,7 +86,8 @@ export default {
       } else {
         newLastPrefix = 'A'
       }
-      items.push({  prefix: newLastPrefix, content: '' })
+      items.push({ prefix: newLastPrefix, content: '' })
+      //强制更新视图
       this.$forceUpdate()
     },
     //移除选项
@@ -108,8 +105,6 @@ export default {
         .then(response=>{
           this.form = response.data.model
           this.form.items = JSON.parse(this.form.content)
-          this.form.correctArray = this.form.correct.split(',')
-          this.form.correct=''
         })
       }
     },
@@ -125,7 +120,6 @@ export default {
     //新增
     cteateMultiple(){  
        this.form.content = JSON.stringify(this.form.items) 
-       this.form.correct =  this.form.correctArray.toString()
        topicApi.saveTopic(this.form)
            .then(response=>{
             this.$message.success(response.message)
@@ -134,7 +128,6 @@ export default {
     },
     updateMultiple(){
       this.form.content = JSON.stringify(this.form.items) 
-      this.form.correct =  this.form.correctArray.toString()
       topicApi.updateTopicById(this.form)
       .then(response=>{
         this.$message.success(response.message)

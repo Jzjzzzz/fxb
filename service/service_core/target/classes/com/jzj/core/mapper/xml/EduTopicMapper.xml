@@ -4,7 +4,7 @@
 
     <!--题目列表所有信息集合-->
     <select id="getBaseTopicList" resultType="com.jzj.core.pojo.vo.EduTopicListVo">
-        select t.id,t.score,t.difficult,t.gmt_create,t.gmt_modified,t.question_id,s.name,tc.title_content,d.name question_name
+        select t.id,t.score,t.difficult,t.gmt_create,t.gmt_modified,t.topic_details_id,t.question_id,s.name,tc.title_content,d.name question_name
         from edu_topic t
                  left join edu_subject s on t.subject_id =s.id
                  left join edu_topic_content tc on t.topic_details_id=tc.id

@@ -9,12 +9,8 @@
       <el-form-item label="题干：" prop="titleContent" required>
         <tinymce  :height="300"  v-model="form.titleContent"/>
       </el-form-item>
-      <el-form-item label="选项：" required>
-        <el-form-item :label="item.prefix" :key="item.prefix"  v-for="(item,index) in form.items"  label-width="50px" class="question-item-label">
-          <el-input v-model="item.prefix"  style="width:50px;" />
-          <tinymce :height="300" v-model="item.content" />
-          <el-button type="danger" size="mini" class="question-item-remove" icon="el-icon-delete" @click="questionItemRemove(index)"></el-button>
-        </el-form-item>
+      <el-form-item label="答案" prop="correct" required>
+        <tinymce :height="300" v-model="form.correct"/>
       </el-form-item>
       <el-form-item label="解析：" prop="analyzes" required>
         <tinymce :height="300" v-model="form.analyzes"/>
@@ -25,16 +21,9 @@
       <el-form-item label="难度：" required>
         <el-rate v-model="form.difficult" class="question-item-rate"></el-rate>
       </el-form-item>
-      <el-form-item label="正确答案：" prop="correctArray" required>
-        <el-checkbox-group v-model="form.correctArray">
-          <el-checkbox @change="selectChange" v-for="item in form.items" :label="item.prefix" :key="item.prefix">{{item.prefix}}</el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
 
       <el-form-item>
         <el-button type="primary" @click="onSubmit">提交</el-button>
-        <el-button type="success" @click="questionItemAdd">添加选项</el-button>
-
       </el-form-item>
     </el-form>
     
@@ -59,15 +48,7 @@ export default {
         difficult: 0,
         content: '',
         analyzes: '',
-        questionId: 2,
-        correctArray: [],
-        items: [
-          {  prefix: 'A', content: '' },
-          {  prefix: 'B', content: '' },
-          {  prefix: 'C', content: '' },
-          {  prefix: 'D', content: '' }
-        ],
-        
+        questionId: 4,     
       },
       dialogVisible: false,
     }
@@ -75,28 +56,12 @@ export default {
   created() {
     this.fetchData()
   },
-  methods: { 
+  methods: {  
     //强制更新视图
     selectChange(){
       this.$forceUpdate()
     },
-    //添加选项
-    questionItemAdd () {
-      let items = this.form.items
-      let newLastPrefix
-      if (items.length > 0) {
-        let last = items[items.length - 1]
-        newLastPrefix = String.fromCharCode(last.prefix.charCodeAt() + 1)
-      } else {
-        newLastPrefix = 'A'
-      }
-      items.push({  prefix: newLastPrefix, content: '' })
-      this.$forceUpdate()
-    },
-    //移除选项
-    questionItemRemove (index) {
-      this.form.items.splice(index, 1)
-    },
+   
     fetchData(){
       topicApi.listSubject()
       .then(response=>{
@@ -107,9 +72,6 @@ export default {
         topicApi.getById(this.$route.params.id)
         .then(response=>{
           this.form = response.data.model
-          this.form.items = JSON.parse(this.form.content)
-          this.form.correctArray = this.form.correct.split(',')
-          this.form.correct=''
         })
       }
     },
@@ -124,8 +86,6 @@ export default {
     },
     //新增
     cteateMultiple(){  
-       this.form.content = JSON.stringify(this.form.items) 
-       this.form.correct =  this.form.correctArray.toString()
        topicApi.saveTopic(this.form)
            .then(response=>{
             this.$message.success(response.message)
@@ -133,8 +93,6 @@ export default {
       })
     },
     updateMultiple(){
-      this.form.content = JSON.stringify(this.form.items) 
-      this.form.correct =  this.form.correctArray.toString()
       topicApi.updateTopicById(this.form)
       .then(response=>{
         this.$message.success(response.message)
