@@ -1,7 +1,6 @@
 package com.jzj.core.pojo.vo;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -13,6 +12,7 @@ import java.util.Date;
  * @date 2021/8/13 14:51
  */
 @Data
+@ApiModel(description="题目列表封装对象")
 public class EduTopicListVo {
 
     @ApiModelProperty(value = "题目表id")
@@ -40,10 +40,8 @@ public class EduTopicListVo {
     private Integer difficult;
 
     @ApiModelProperty(value = "创建时间")
-    @TableField(fill = FieldFill.INSERT)
     private Date gmtCreate;
 
     @ApiModelProperty(value = "修改时间")
-    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date gmtModified;
 }

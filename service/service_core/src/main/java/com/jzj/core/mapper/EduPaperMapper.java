@@ -2,6 +2,8 @@ package com.jzj.core.mapper;
 
 import com.jzj.core.pojo.entity.EduPaper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.jzj.core.pojo.vo.EduPaperListVo;
+import com.jzj.core.pojo.vo.EduTopicListVo;
 
 /**
  * <p>
@@ -12,5 +14,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2021-08-18
  */
 public interface EduPaperMapper extends BaseMapper<EduPaper> {
+    EduPaperListVo getBasePaperList(Long id);
 
 }

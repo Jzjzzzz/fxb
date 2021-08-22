@@ -15,7 +15,6 @@ import com.jzj.core.service.EduTopicService;
 import com.jzj.core.utils.DictUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.data.redis.listener.Topic;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

@@ -1,5 +1,6 @@
 package com.jzj.core.pojo.vo;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
  * @date 2021/8/12 18:45
  */
 @Data
+@ApiModel(description="题目新增封装对象")
 public class EduTopicSaveVo implements Serializable {
 
     @ApiModelProperty(value = "题目表id")

@@ -1,5 +1,6 @@
 package com.jzj.core.pojo.vo;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @date 2021/8/18 19:35
  */
 @Data
+@ApiModel(description="试卷新增对象")
 public class EduPaperSaveVo {
     @ApiModelProperty(value = "试卷表id")
     private Long id;

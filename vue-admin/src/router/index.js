@@ -30,11 +30,11 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    name: 'Dashboard',
     children: [{
       path: 'dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '复习宝后台首页', icon: 'dashboard' }
+      meta: { title: '复习宝后台首页', icon:'el-icon-s-home' },
+      name: 'Dashboard',
     }]
   }]
 /**

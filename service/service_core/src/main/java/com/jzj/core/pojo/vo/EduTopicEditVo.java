@@ -1,5 +1,6 @@
 package com.jzj.core.pojo.vo;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -7,9 +8,9 @@ import lombok.Data;
  * @author Jzj
  * @version 1.0
  * @date 2021/8/15 17:40
- * 题目修改封装类
  */
 @Data
+@ApiModel(description="题目修改封装对象")
 public class EduTopicEditVo {
 
     @ApiModelProperty(value = "题目表id")
