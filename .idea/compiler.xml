@@ -16,18 +16,18 @@
         <module name="api_gateway" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="api_gateway" target="1.8" />
-      <module name="common" target="1.8" />
-      <module name="common_utils" target="1.8" />
+    <bytecodeTargetLevel target="8">
+      <module name="api_gateway" target="8" />
+      <module name="common" target="8" />
+      <module name="common_utils" target="8" />
       <module name="fxb_parent" target="1.8" />
-      <module name="infrastructure" target="1.8" />
-      <module name="service" target="1.8" />
-      <module name="service_acl" target="1.8" />
-      <module name="service_base" target="1.8" />
-      <module name="service_core" target="1.8" />
-      <module name="service_oss" target="1.8" />
-      <module name="spring_security" target="1.8" />
+      <module name="infrastructure" target="8" />
+      <module name="service" target="8" />
+      <module name="service_acl" target="8" />
+      <module name="service_base" target="8" />
+      <module name="service_core" target="8" />
+      <module name="service_oss" target="8" />
+      <module name="spring_security" target="8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

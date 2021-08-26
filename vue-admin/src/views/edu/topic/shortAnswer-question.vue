@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="form" ref="form" label-width="100px" >
+    <el-form :model="form" :rules="rules" ref="form" label-width="100px" >
       <el-form-item label="学科：" prop="subjectId" required>
         <el-select v-model="form.subjectId" placeholder="学科" >
           <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id" :label="item.name"></el-option>
@@ -12,7 +12,7 @@
       <el-form-item label="答案" prop="correct" required>
         <tinymce :height="300" v-model="form.correct"/>
       </el-form-item>
-      <el-form-item label="解析：" prop="analyzes" required>
+      <el-form-item label="解析：" prop="analyzes" >
         <tinymce :height="300" v-model="form.analyzes"/>
       </el-form-item>
       <el-form-item label="分数：" prop="score" required>
@@ -51,6 +51,14 @@ export default {
         questionId: 4,     
       },
       dialogVisible: false,
+      rules: {
+        subjectId: [{ required: true, message: '学科不能为空', trigger: 'blur' }],
+        titleContent: [{ required: true, message: '题干不能为空', trigger: 'blur' }],
+        score: [{ required: true, message: '分数不能为空', trigger: 'blur' },
+        { type: 'number', message: '分数必须为数字类型'}],
+        difficult: [{ required: true, message: '难度不能为空', trigger: 'blur' }],
+        correct: [{ required: true, message: '正确答案不能为空', trigger: 'blur' }]
+      }
     }
   },
   created() {
@@ -86,18 +94,31 @@ export default {
     },
     //新增
     cteateMultiple(){  
-       topicApi.saveTopic(this.form)
+      this.$refs.form.validate(valid=>{
+        if (!valid) {
+           console.log('校验出错')
+         }else{
+           topicApi.saveTopic(this.form)
            .then(response=>{
             this.$message.success(response.message)
             this.$router.push({ path: '/edu/topic/list'})
       })
+         }
+      })
     },
     updateMultiple(){
-      topicApi.updateTopicById(this.form)
+      this.$refs.form.validate(valid=>{
+        if (!valid) {
+           console.log('校验出错')
+         }else{
+           topicApi.updateTopicById(this.form)
       .then(response=>{
         this.$message.success(response.message)
         this.$router.push({ path: '/edu/topic/list'})
       })
+         }
+      })
+      
     }
   }
 }

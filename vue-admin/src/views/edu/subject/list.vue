@@ -255,9 +255,6 @@ export default {
         this.listLoading = false
       })
     }
-
-    
-   
   }
 }
 </script>

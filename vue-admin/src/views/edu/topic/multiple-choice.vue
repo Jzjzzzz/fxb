@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="form" ref="form" label-width="100px" >
+    <el-form :model="form" ref="form" :rules="rules" label-width="100px" >
       <el-form-item label="学科：" prop="subjectId" required>
         <el-select v-model="form.subjectId" placeholder="学科" >
           <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id" :label="item.name"></el-option>
@@ -9,14 +9,14 @@
       <el-form-item label="题干：" prop="titleContent" required>
         <tinymce  :height="300"  v-model="form.titleContent"/>
       </el-form-item>
-      <el-form-item label="选项：" required>
+      <el-form-item label="选项：" >
         <el-form-item :label="item.prefix" :key="item.prefix"  v-for="(item,index) in form.items"  label-width="50px" class="question-item-label">
           <el-input v-model="item.prefix"  style="width:50px;" />
           <tinymce :height="300" v-model="item.content" />
           <el-button type="danger" size="mini" class="question-item-remove" icon="el-icon-delete" @click="questionItemRemove(index)"></el-button>
         </el-form-item>
       </el-form-item>
-      <el-form-item label="解析：" prop="analyzes" required>
+      <el-form-item label="解析：" prop="analyzes" >
         <tinymce :height="300" v-model="form.analyzes"/>
       </el-form-item>
       <el-form-item label="分数：" prop="score" required>
@@ -70,6 +70,14 @@ export default {
         
       },
       dialogVisible: false,
+      rules: {
+        subjectId: [{ required: true, message: '学科不能为空', trigger: 'blur' }],
+        titleContent: [{ required: true, message: '题干不能为空', trigger: 'blur' }],
+        score: [{ required: true, message: '分数不能为空', trigger: 'blur' },
+        { type: 'number', message: '分数必须为数字类型'}],
+        difficult: [{ required: true, message: '难度不能为空', trigger: 'blur' }],
+        correctArray: [{ required: true, message: '正确答案不能为空', trigger: 'blur' }]
+      }
     }
   },
   created() {
@@ -124,21 +132,34 @@ export default {
     },
     //新增
     cteateMultiple(){  
-       this.form.content = JSON.stringify(this.form.items) 
+      this.$refs.form.validate(valid=>{
+        if (!valid) {
+           console.log('校验出错')
+         }else{
+            this.form.content = JSON.stringify(this.form.items) 
        this.form.correct =  this.form.correctArray.toString()
        topicApi.saveTopic(this.form)
            .then(response=>{
             this.$message.success(response.message)
             this.$router.push({ path: '/edu/topic/list'})
       })
+         }
+      })
     },
     updateMultiple(){
-      this.form.content = JSON.stringify(this.form.items) 
+      
+       this.$refs.form.validate(valid=>{
+        if (!valid) {
+           console.log('校验出错')
+         }else{
+            this.form.content = JSON.stringify(this.form.items) 
       this.form.correct =  this.form.correctArray.toString()
       topicApi.updateTopicById(this.form)
       .then(response=>{
         this.$message.success(response.message)
         this.$router.push({ path: '/edu/topic/list'})
+      })
+         }
       })
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-   <el-form :model="form" ref="form" label-width="100px"  >
+   <el-form :rules="rules"  :model="form" ref="form" label-width="100px"  >
       <el-form-item label="学科：" prop="subjectId" required>
         <el-select v-bind:disabled="this.$route.params.id!=0" v-model="form.subjectId" placeholder="学科">
           <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id"
@@ -10,7 +10,7 @@
       <el-form-item label="试卷名称："  prop="paperName" required>
         <el-input v-model="form.paperName"/>
       </el-form-item>
-          <el-form-item label="试卷简介："  prop="paperTitle" required>
+          <el-form-item label="试卷简介："  prop="paperTitle" >
         <el-input v-model="form.paperTitle"/>
       </el-form-item>
       <el-form-item label="建议时长：" prop="suggestTime" required>
@@ -94,7 +94,14 @@ export default {
       dialogVisible: false, //添加或修改对话框
       list: [], //数据列表
       formLabelWidth: '80px',
-      firstFlag: true
+      firstFlag: true,
+      rules: {
+        subjectId: [{ required: true, message: '学科不能为空', trigger: 'blur' }],
+        paperName: [{ required: true, message: '试卷名不能为空', trigger: 'blur' }],
+        suggestTime: [{ required: true, message: '建议时长不能为空', trigger: 'blur' },
+        { type: 'number', message: '分数必须为数字类型'}],
+        
+      }
       
     }
   },
@@ -121,21 +128,35 @@ export default {
     },
     //新增
     createPaper(){
-      this.form.topicListVoList = this.multipleTable
+      this.$refs.form.validate(valid=>{
+        if (!valid) {
+           console.log('校验出错')
+         }else{
+            this.form.topicListVoList = this.multipleTable
         paperApi.save(this.form)
         .then(response=>{
             this.$message.success(response.message)
             this.$router.push({ path: '/edu/paper/list'})
         })
+         }
+      })
+      
     },
     //修改
     updatePaper(){
-      this.form.topicListVoList = this.multipleTable
+      this.$refs.form.validate(valid=>{
+        if (!valid) {
+           console.log('校验出错')
+         }else{
+            this.form.topicListVoList = this.multipleTable
       paperApi.updateById(this.form)
         .then(response=>{
             this.$message.success(response.message)
             this.$router.push({ path: '/edu/paper/list'})
         })
+         }
+      })
+      
     },
     submitForm(){
         if(this.$route.params.id!=0){
