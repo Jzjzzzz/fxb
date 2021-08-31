@@ -2,7 +2,9 @@ package demo;
 
 import com.jzj.core.CoreApplication;
 import com.jzj.core.pojo.entity.Dict;
+import com.jzj.core.pojo.entity.WebConfig;
 import com.jzj.core.service.DictService;
+import com.jzj.core.service.WebConfigService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +27,8 @@ public class RedisTest {
     @Resource
     private RedisTemplate redisTemplate;
 
+    @Resource
+    private WebConfigService webConfigService;
     /**
      * list
      */
@@ -60,6 +64,9 @@ public class RedisTest {
      */
     @Test
     public void test04(){
+        WebConfig configRedis = webConfigService.getWebConfigRedis();
 
+        System.out.println(configRedis);
     }
+
 }

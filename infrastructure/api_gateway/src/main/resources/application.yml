@@ -21,5 +21,9 @@ spring:
         - id: service-core
           uri: lb://service-core
           predicates:
-            - Path=/admin/core/**/**
+            - Path=/admin/core/**/**,/ucenterservice/apimember/**/**,/front/core/**
+        - id: service-oss
+          uri: lb://service-oss
+          predicates:
+            - Path=/eduoss/fileoss/**
 
