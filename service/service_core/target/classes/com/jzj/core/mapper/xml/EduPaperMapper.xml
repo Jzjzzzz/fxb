@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzj.core.mapper.EduPaperMapper">
+
+    <!--试卷列表-->
+    <select id="getBasePaperList" resultType="com.jzj.core.pojo.vo.EduPaperListVo">
+        select p.id,p.gmt_create,p.gmt_modified,p.score,p.subject_id,s.name subject_name,p.question_count,p.paper_name
+        from edu_paper p
+                 left join edu_subject s on p.subject_id = s.id
+        where p.id =#{id}
+    </select>
+</mapper>
