@@ -7,7 +7,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.jzj.core.pojo.entity.EduSubject;
 import com.jzj.core.pojo.query.PaperQuery;
 import com.jzj.core.pojo.vo.EduPaperSaveVo;
+import com.jzj.core.pojo.vo.FrontPaperIndexVo;
 
+import java.awt.print.Paper;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,4 +32,8 @@ public interface EduPaperService extends IService<EduPaper> {
     EduPaperSaveVo getByIdPaper(Long id);
 
     boolean updatePaper(EduPaperSaveVo paperSaveVo);
+
+    List<FrontPaperIndexVo> getHotPaperList();
+
+    Map<String, Object> getFrontPaperList(Page<EduPaper> eduPaperPage, PaperQuery paperQuery);
 }

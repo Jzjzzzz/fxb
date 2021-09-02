@@ -21,25 +21,24 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
     @Bean
-    public Docket webApiConfig(){
-
+    public Docket adminApiConfig(){
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("webApi")
-                .apiInfo(webApiInfo())
+                .apiInfo(adminApiInfo())
                 .select()
                 // .paths(Predicates.not(PathSelectors.regex("/admin/.*")))
                 .paths(Predicates.not(PathSelectors.regex("/error.*")))
                 .build();
-
     }
 
-    private ApiInfo webApiInfo(){
-
+    private ApiInfo adminApiInfo(){
         return new ApiInfoBuilder()
-                .title("网站-课程中心API文档")
-                .description("本文档描述了课程中心微服务接口定义")
+                .title("复习宝后台管理系统API文档")
+                .description("本文档描述了复习宝后台管理系统的各个模块的接口的调用方式")
                 .version("1.0")
                 .contact(new Contact("漫漫长路", "http://jzjzzzz.icu", "946232976@qq.com"))
                 .build();
     }
+
+
 }

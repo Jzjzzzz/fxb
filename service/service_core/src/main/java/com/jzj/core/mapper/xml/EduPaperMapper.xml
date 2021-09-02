@@ -9,4 +9,19 @@
                  left join edu_subject s on p.subject_id = s.id
         where p.id =#{id}
     </select>
+    <!--查询热门的前8条试卷列表-->
+    <select id="getHotPaperList" resultType="com.jzj.core.pojo.vo.FrontPaperIndexVo">
+        select p.id,p.score,p.suggest_time,p.paper_name,s.name subject_name
+        from edu_paper p
+                 left join edu_subject s on p.subject_id =s.id
+        order by  p.gmt_create desc
+            limit 8
+    </select>
+    <!--根据id查询试卷-->
+    <select id="getBasePaperById" resultType="com.jzj.core.pojo.vo.FrontPaperIndexVo">
+        select p.id,p.score,p.suggest_time,p.paper_name,s.name subject_name
+        from edu_paper p
+                 left join edu_subject s on p.subject_id =s.id
+        where p.id = #{id}
+    </select>
 </mapper>

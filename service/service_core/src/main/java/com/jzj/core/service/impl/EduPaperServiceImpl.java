@@ -13,6 +13,7 @@ import com.jzj.core.pojo.query.PaperQuery;
 import com.jzj.core.pojo.vo.EduPaperListVo;
 import com.jzj.core.pojo.vo.EduPaperSaveVo;
 import com.jzj.core.pojo.vo.EduTopicListVo;
+import com.jzj.core.pojo.vo.FrontPaperIndexVo;
 import com.jzj.core.service.EduPaperService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
@@ -83,6 +84,52 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
 
 
         return true;
+    }
+
+    @Override
+    public List<FrontPaperIndexVo> getHotPaperList() {
+        List<FrontPaperIndexVo> list = baseMapper.getHotPaperList();
+        return list;
+    }
+
+    @Override
+    public Map<String, Object> getFrontPaperList(Page<EduPaper> eduPaperPage, PaperQuery paperQuery) {
+        QueryWrapper<EduPaper> wrapper = new QueryWrapper<>();
+        ArrayList<FrontPaperIndexVo> list = new ArrayList<>();
+
+        if (!StringUtils.isEmpty(paperQuery.getSubjectId())) {
+            wrapper.eq("subject_id", paperQuery.getSubjectId());
+        }
+        if (!StringUtils.isEmpty(paperQuery.getGmtCreate())) {
+            wrapper.orderByDesc("gmt_create");
+        }
+
+
+        baseMapper.selectPage(eduPaperPage, wrapper);
+
+        List<EduPaper> records = eduPaperPage.getRecords();
+        for (EduPaper paper : records) {
+            //封装数据
+            FrontPaperIndexVo paperList = baseMapper.getBasePaperById(paper.getId());
+            list.add(paperList);
+        }
+        long current = eduPaperPage.getCurrent();
+        long pages = eduPaperPage.getPages();
+        long size = eduPaperPage.getSize();
+        long total = eduPaperPage.getTotal();
+        boolean hasNext = eduPaperPage.hasNext();
+        boolean hasPrevious = eduPaperPage.hasPrevious();
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("items", list);
+        map.put("current", current);
+        map.put("pages", pages);
+        map.put("size", size);
+        map.put("total", total);
+        map.put("hasNext", hasNext);
+        map.put("hasPrevious", hasPrevious);
+
+        return map;
     }
 
     @Override

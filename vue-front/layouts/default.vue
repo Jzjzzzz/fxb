@@ -13,7 +13,7 @@
             <router-link to="/" tag="li" active-class="current" exact>
               <a>首页</a>
             </router-link>
-            <router-link to="/course" tag="li" active-class="current">
+            <router-link to="/paper" tag="li" active-class="current">
               <a>试卷</a>
             </router-link>
             <router-link to="/teacher" tag="li" active-class="current">
