@@ -2,6 +2,8 @@ package com.jzj.core.service;
 
 import com.jzj.core.pojo.entity.WebConfig;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jzj.core.pojo.vo.SlideshowVo;
+import com.jzj.core.pojo.vo.WebConfigVo;
 
 /**
  * <p>
@@ -17,7 +19,8 @@ public interface WebConfigService extends IService<WebConfig> {
 
     boolean editWebConfig(WebConfig webConfig);
 
-    WebConfig getWebConfigRedis();
+    WebConfigVo getWebConfigRedis();
 
 
+    SlideshowVo getSlideshowRedis();
 }

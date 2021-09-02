@@ -62,11 +62,6 @@ public class RedisTest {
     /**
      * hash
      */
-    @Test
-    public void test04(){
-        WebConfig configRedis = webConfigService.getWebConfigRedis();
 
-        System.out.println(configRedis);
-    }
 
 }

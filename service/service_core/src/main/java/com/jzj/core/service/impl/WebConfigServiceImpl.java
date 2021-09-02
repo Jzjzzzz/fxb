@@ -3,13 +3,17 @@ package com.jzj.core.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jzj.core.pojo.entity.WebConfig;
 import com.jzj.core.mapper.WebConfigMapper;
+import com.jzj.core.pojo.vo.SlideshowVo;
+import com.jzj.core.pojo.vo.WebConfigVo;
 import com.jzj.core.service.WebConfigService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jzj.servicebase.RedisConfig;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,25 +50,52 @@ public class WebConfigServiceImpl extends ServiceImpl<WebConfigMapper, WebConfig
         if(sum>=1){
             //清空redis缓存
             redisTemplate.delete(FILE_PATH + "config");
+            redisTemplate.delete(FILE_PATH + "slideshow");
             return true;
         }
         return false;
     }
 
     @Override
-    public WebConfig getWebConfigRedis() {
+    public WebConfigVo getWebConfigRedis() {
+        WebConfigVo webConfigVo = new WebConfigVo();
         WebConfig webConfig =null;
         //判断是否在redis中有缓存数据
-        webConfig = (WebConfig)redisTemplate.opsForValue().get(FILE_PATH + "config");
-        if(webConfig!=null){
-            return webConfig;
+        webConfigVo = (WebConfigVo)redisTemplate.opsForValue().get(FILE_PATH + "config");
+        if(webConfigVo!=null){
+            return webConfigVo;
         }
         //当redis中没有数据时，查询数据库
         webConfig = baseMapper.selectOne(null);
+        BeanUtils.copyProperties(webConfig,webConfigVo);
         //存入redis
-        redisTemplate.opsForValue().set(FILE_PATH+"config",webConfig);
-        return webConfig;
+        redisTemplate.opsForValue().set(FILE_PATH+"config",webConfigVo);
+        return webConfigVo;
 
+    }
+
+    @Override
+    public SlideshowVo getSlideshowRedis() {
+        SlideshowVo slideshowVo = new SlideshowVo();
+        WebConfig webConfig =null;
+        //判断是否在redis中有缓存数据
+        SlideshowVo slideshowList =(SlideshowVo) redisTemplate.opsForValue().get(FILE_PATH + "slideshow");
+        if(slideshowList!=null){
+            System.out.println("从redis中获取数据");
+            return slideshowList;
+        }
+        //当redis中没有数据时，查询数据库
+        webConfig = baseMapper.selectOne(null);
+        ArrayList<String> list = new ArrayList<>();
+        //组装轮播图数据
+        list.add(webConfig.getSlideshowOne());
+        list.add(webConfig.getSlideshowTwo());
+        list.add(webConfig.getSlideshowThree());
+        slideshowVo.setSlideshowList(list);
+        //存入redis
+        redisTemplate.opsForValue().set(FILE_PATH+"slideshow",slideshowVo);
+
+        return slideshowVo;
     }
 
 

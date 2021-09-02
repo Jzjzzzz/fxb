@@ -1,39 +1,22 @@
 <template>
-  
   <div>
     <!-- 幻灯片 开始 -->
-<div v-swiper:mySwiper="swiperOption">
-    <div class="swiper-wrapper">
-        <div  class="swiper-slide" style="background: #040B1B;">
-            <a target="_blank" >
-                <img src="~/assets/img/lun1.jpg" width="1000px"  alt="banner.title">
-            </a>
-        </div>
-        <div  class="swiper-slide" style="background: #040B1B;">
-            <a target="_blank" >
-                <img src="~/assets/img/lun2.jpg" width="1000px" alt="banner.title">
-            </a>
-        </div>
-        <div  class="swiper-slide" style="background: #040B1B;">
-            <a target="_blank" >
-                <img src="~/assets/img/lun3.jpg" width="1000px" alt="banner.title">
-            </a>
-        </div>
-       
-    </div>
-    <div class="swiper-pagination swiper-pagination-white"></div>
-    <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
-    <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
-</div>
+  <el-carousel :interval="4000" type="card" height="350px">
+    <el-carousel-item v-for="banner in bannerList.slideshowList" :key="banner.id">
+      <h3 class="medium">
+        <img :src="banner" alt  width="950px"/>
+      </h3>
+    </el-carousel-item>
+  </el-carousel>
 <!-- 幻灯片 结束 -->
     
      <div id="aCoursesList">
-      <!-- 网校课程 开始 -->
+      <!-- 热门试卷 开始 -->
       <div>
         <section class="container">
           <header class="comm-title">
             <h2 class="tac">
-              <span class="c-333">热门课程</span>
+              <span class="c-333">热门试卷</span>
             </h2>
           </header>
           <div>
@@ -70,18 +53,18 @@
               <div class="clear"></div>
             </article>
             <section class="tac pt20">
-              <a href="#" title="全部课程" class="comm-btn c-btn-2">全部课程</a>
+              <a href="#" title="全部试卷" class="comm-btn c-btn-2">全部试卷</a>
             </section>
           </div>
         </section>
       </div>
-      <!-- /网校课程 结束 -->
-      <!-- 网校名师 开始 -->
+      <!-- /热门试卷 结束 -->
+      <!-- 温故知新 开始 -->
       <div>
         <section class="container">
           <header class="comm-title">
             <h2 class="tac">
-              <span class="c-333">名师大咖</span>
+              <span class="c-333">温故知新</span>
             </h2>
           </header>
           <div>
@@ -111,12 +94,12 @@
               <div class="clear"></div>
             </article>
             <section class="tac pt20">
-              <a href="#" title="全部讲师" class="comm-btn c-btn-2">全部讲师</a>
+              <a href="#" title="全部文章" class="comm-btn c-btn-2">全部文章</a>
             </section>
           </div>
         </section>
       </div>
-      <!-- /网校名师 结束 -->
+      <!-- /温故知新 结束 -->
     </div>
   </div>
 </template>
@@ -152,7 +135,7 @@ export default {
     }
   },
   created(){
-   
+   this.getBannerList()
   },
  
   methods:{
@@ -169,9 +152,27 @@ export default {
     getBannerList(){
       bannerApi.getListBanner()
         .then(response=>{
-        this.bannerList = response.data.data.list
+          
+        this.bannerList = response.data.data.slideshowVo
     })
     }
   }
 }
 </script>
+<style>
+  .el-carousel__item h3 {
+    color: #475669;
+    font-size: 14px;
+    opacity: 0.75;
+    line-height: 200px;
+    margin: 0;
+  }
+  
+  .el-carousel__item:nth-child(2n) {
+    background-color: #99a9bf;
+  }
+  
+  .el-carousel__item:nth-child(2n+1) {
+    background-color: #d3dce6;
+  }
+</style>

@@ -3,9 +3,12 @@ package com.jzj.core.controller.front;
 
 import com.jzj.commonutils.R;
 import com.jzj.core.pojo.entity.WebConfig;
+import com.jzj.core.pojo.vo.SlideshowVo;
+import com.jzj.core.pojo.vo.WebConfigVo;
 import com.jzj.core.service.WebConfigService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -28,8 +31,14 @@ public class WebConfigController {
     @ApiOperation("前台获取网站配置")
     @GetMapping("/getWebConfigRedis")
     public R getWebConfig(){
-        WebConfig webConfig = webConfigService.getWebConfigRedis();
-        return R.ok().data("webConfig",webConfig);
+        WebConfigVo webConfigVo = webConfigService.getWebConfigRedis();
+        return R.ok().data("webConfig",webConfigVo);
+    }
+    @ApiOperation("前台获取轮播图")
+    @GetMapping("/getSlideshow")
+    public R getSlideshow(){
+        SlideshowVo slideshowVo = webConfigService.getSlideshowRedis();
+        return R.ok().data("slideshowVo",slideshowVo);
     }
 }
 

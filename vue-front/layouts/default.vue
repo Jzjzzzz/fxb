@@ -5,7 +5,7 @@
       <section class="container">
         <h1 id="logo">
           <a href="#" :title="webconfig.name">
-            <img :src="webconfig.logo" background-size:200px 78px; :alt="webconfig.name">
+            <img :src="webconfig.logo"  :alt="webconfig.name">
           </a>
         </h1>
         <div class="h-r-nsl">
@@ -14,10 +14,10 @@
               <a>首页</a>
             </router-link>
             <router-link to="/course" tag="li" active-class="current">
-              <a>课程</a>
+              <a>试卷</a>
             </router-link>
             <router-link to="/teacher" tag="li" active-class="current">
-              <a>名师</a>
+              <a>考试</a>
             </router-link>
             <router-link to="/article" tag="li" active-class="current">
               <a>文章</a>
@@ -62,7 +62,7 @@
           <aside class="h-r-search">
             <form action="#" method="post">
               <label class="h-r-s-box">
-                <input type="text" placeholder="输入你想学的课程" name="queryCourse.courseName" value>
+                <input type="text" placeholder="输入你要查找的试卷" name="queryCourse.courseName" value>
                 <button type="submit" class="s-btn">
                   <em class="icon18">&nbsp;</em>
                 </button>

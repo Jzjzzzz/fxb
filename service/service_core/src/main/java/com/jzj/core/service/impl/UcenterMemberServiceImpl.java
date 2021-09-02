@@ -82,10 +82,10 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
 
         //校验校验验证码
         //从redis获取发送的验证码
-        String mobleCode = redisTemplate.opsForValue().get(mobile);
-        if(!code.equals(mobleCode)) {
-            throw new BusinessException(20001,"error");
-        }
+        // String mobleCode = redisTemplate.opsForValue().get(mobile);
+        // if(!code.equals(mobleCode)) {
+        //     throw new BusinessException(20001,"error");
+        // }
 
         //查询数据库中是否存在相同的手机号码
         Integer count = baseMapper.selectCount(new QueryWrapper<UcenterMember>().eq("mobile", mobile));

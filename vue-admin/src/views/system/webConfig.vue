@@ -87,13 +87,16 @@
           首页轮播图
         </span>
         <el-form ref="form" :model="form" label-width="80px">
-          <el-form-item label="轮播图" prop="email">
+          <el-form-item label="轮播图" prop="slideshowOne">
               <el-upload
                   class="upload-demo"
                   :action="handleBeforeUploadImg()"
                   :on-preview="handlePreview"
                   :on-remove="handleRemove"
+                  :on-success="handleSuccess"
                   :file-list="fileList"
+                  :limit="3"
+                  :on-exceed="handleExceed"
                   list-type="picture">
                   <el-button size="small" type="primary">点击上传</el-button>
               </el-upload>
@@ -169,7 +172,7 @@ export default {
   data() {
     return {
 
-      fileList: [],
+      fileList: [{url:''},{url:''},{url:''}],
       BASE_API: process.env.BASE_API, // 接口API地址
       imagecropperShow: false, // 是否显示上传组件
       imagecropperKey: 0, // 上传组件id
@@ -189,6 +192,7 @@ export default {
         showList: [],
         loginTypeList: []
       },
+      
       uploadUrl:'/eduoss/fileoss/upload/'  
     }
   },
@@ -199,18 +203,30 @@ export default {
 
   // 定义方法
   methods: {
+    //(轮播图上传相关)
+    handleSuccess(response){
+      this.fileList.push(response.data.url)
+    },
+    //(轮播图上传相关)
+    handleExceed(){
+      this.$message.error('轮播图不能大于3张')
+    },
     handleBeforeUploadImg: function() {
       return this.BASE_API + this.uploadUrl+'slideshow'
     },
     //(轮播图上传相关)
-     handleRemove(file, fileList) {
-        console.log(file, fileList);
+     handleRemove(file) {
+
+        for (const key in this.fileList) {
+          if (file.uid == this.fileList[key].uid) {
+           this.fileList.splice(key,1)
+          }
+        }
       },
       //(轮播图上传相关) 
       handlePreview(file) {
         console.log(file);
       },
-
     // 上传成功后的回调函数(Logo上传相关)
     cropSuccess(data) {
       console.log(data)
@@ -231,12 +247,20 @@ export default {
       // 调用api
       webConfigApi.getWebConfig().then(response => {
         this.form = response.data.webConfig
-        
+       
+        this.fileList[0].url = this.form.slideshowOne
+        this.fileList[1].url = this.form.slideshowTwo
+        this.fileList[2].url = this.form.slideshowThree
+
+
       })
     },
 
     submitForm() {
       let form = this.form
+      form.slideshowOne = this.fileList[0] 
+      form.slideshowTwo = this.fileList[1] 
+      form.slideshowThree = this.fileList[2] 
       webConfigApi.editWebConfig(form).then(response => {
         this.$message.success('保存成功')
         this.fetchData()

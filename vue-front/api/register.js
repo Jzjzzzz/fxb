@@ -11,7 +11,7 @@ export default {
   //用户注册
   submitRegister(formItem) {
     return request({
-      url: `/educenter/member/register`,
+      url: `/ucenterservice/apimember/register`,
       method: 'post',
       data: formItem
     })
