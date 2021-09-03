@@ -5,7 +5,7 @@
 
    
       <!-- /考试封面介绍 -->
-      <div class="mt20 c-infor-box">
+      <div class="mt20 c-infor-box" >
         <article class="fl col-7">
           <section class="mr30">
             <div class="i-box">
@@ -14,13 +14,13 @@
                   <h3 style="padding-left:310px">计算机等级考试三</h3>
                 </section>
               </div>
-              <div style="padding-top:8px" >
-                <div>
+              <!--单选题 开始-->
+              <div v-show="active==0">               
                   <el-card class="box-card">
                     <div slot="header" class="clearfix">
                       <h3 ><strong>1 [单选题] 关于Java编译，下面哪一个正确（）</strong></h3>
                     </div>
-                    <div  class="text item">
+                    <div class="text item">
                       <el-radio-group v-model="radio" >
                         <div style="padding:15px" >
                           <el-radio   v-model="radio" :label="1">A. Java程序经编译后产生machine code</el-radio>
@@ -36,43 +36,130 @@
                         </div> 
                       </el-radio-group>
                     </div>
+                    <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-show="active!=0" >上一题</el-button>
+                    <el-button size="small" type="success" @click="next" style="margin-top:20px" >下一题</el-button>
                     <el-button class="shiny" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
-                  </el-card>
-                </div>
+                  </el-card>   
               </div>
+              <!-- /单选题 结束 -->
+
+               <!--多选题 开始-->
+              <div v-show="active==1">               
+                  <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                      <h3 ><strong>2 [多选题] 关于Java编译，下面哪一个正确（）</strong></h3>
+                    </div>
+                    <div class="text item">
+                       <el-checkbox-group v-model="radio">
+                         <div style="padding:15px">
+                          <el-checkbox label="复选框 A">A. Java程序经编译后产生machine code</el-checkbox>
+                         </div>
+                         <div style="padding:15px">
+                          <el-checkbox label="复选框 B">B. Java程序经编译后会生产byte code</el-checkbox>
+                         </div>
+                         <div style="padding:15px">
+                          <el-checkbox label="复选框 C">C. Java程序经编译后会产生DLL</el-checkbox>
+                         </div>
+                         <div style="padding:15px">
+                          <el-checkbox label="复选框 D">D. 以上都不正确</el-checkbox>
+                         </div>
+                      </el-checkbox-group>
+                    </div>
+                    <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-show="active!=0" >上一题</el-button>
+                    <el-button size="small" type="success" @click="next" style="margin-top:20px" >下一题</el-button>
+                    <el-button class="shiny" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
+                  </el-card>   
+              </div>
+              <!-- /多选题 结束 -->
+
+              <!--判断题 开始-->
+              <div style="padding-top:8px"  v-show="active==2">               
+                  <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                      <h3 ><strong>3 [判断题] 关于Java编译，下面哪一个正确（）</strong></h3>
+                    </div>
+                    <div class="text item">
+                      <el-radio-group v-model="radio" >
+                        <div style="padding:15px" >
+                          <el-radio   v-model="radio" :label="1">A. Java程序经编译后产生machine code</el-radio>
+                        </div>
+                        <div style="padding:15px">
+                          <el-radio v-model="radio" :label="2">B. Java程序经编译后会生产byte code</el-radio>
+                        </div>
+                      </el-radio-group>
+                    </div>
+                    <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-show="active!=0" >上一题</el-button>
+                    <el-button size="small" type="success" @click="next" style="margin-top:20px" >下一题</el-button>
+                    <el-button class="shiny" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
+                  </el-card>   
+              </div>
+              <!-- /判断题 结束 -->
+
+              <!--问答题 开始-->
+              <div style="padding-top:8px"  v-show="active==3">               
+                  <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                      <h3 ><strong>4 [简答题] 关于Java编译，下面哪一个正确（）</strong></h3>
+                    </div>
+                    <el-form ref="form" :model="form" >
+                      <el-form-item label="答案">
+                      <el-input type="textarea" v-model="form.desc"></el-input>
+                    </el-form-item>
+                    </el-form>
+                    
+                    <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-show="active!=0" >上一题</el-button>
+                    <el-button size="small" type="success" @click="next" style="margin-top:20px" >下一题</el-button>
+                    <el-button class="shiny" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
+                  </el-card>   
+              </div>
+              <!-- /问答题 结束 -->
+              
               
             </div>
             
           </section>
           
         </article>
-        <aside class="fl col-3">
-          <div class="i-box">
+        <aside class="fl col-3 " >
+          <div class="i-box" >
             <div>
               <section class="c-infor-tabTitle ">
                 <div style="margin-top:20px;margin-left:10px">
-                  <h3 class="el-icon-time">用时 : <span style="color:red">01:42:22</span></h3>
+                  <no-ssr>
+                    <vac :end-time="new Date().getTime() + 1200000" @finish="(vac) => finish(vac)">
+                      <h3 slot="process"  slot-scope="{ timeObj }"  class="el-icon-time">剩余时间 : <span style="color:red">{{ `${timeObj.h}:${timeObj.m}:${timeObj.s}` }}</span></h3>
+                      <h3 slot="finish">考试结束啦!</h3>
+                    </vac>
+                  </no-ssr>
+                  
                 </div>
                  <div style="margin-top:20px;margin-left:10px">
                   <h3  class="el-icon-s-data">总分 : 100</h3>
-                </div>
+                 </div>
+                 <div style="margin-top:20px;margin-left:10px">
+                  <h3  class="el-icon-reading">题数 : 100</h3>
+                 </div>
                  <el-divider ></el-divider>
 
 
               </section>
-              <section class="stud-act-list"> 
-                <h3>单选题</h3>
-              </section>
+              
             </div>
             <div>
-                <el-button style=" margin: 10px;" @click.native="handleStep(index)" v-for="(item,index) in stepList" :key="index">{{index+1}}</el-button>
+              <section class="stud-act-list" style="padding-left:10px"> 
+                <h3>单选题</h3>
+              </section>
+                <el-button style=" margin: 7px;" @click.native="handleStep(index)" v-for="(item,index) in data" :key="index">{{index+1}}</el-button>
             </div>
-            <!-- <el-steps :active="active" finish-status="success" align-center>
-              <el-step  v-for="(item,index) in stepList" :key="index" :title="item"></el-step>
-            </el-steps> -->
+            
+            <el-button @click="drawer = true" type="primary" style="margin-left: 6px;">
+              交卷
+            </el-button>
+            
           </div>
+          
         </aside>
-        <div class="clear"></div>
+       
       </div>
     </section>
     <!-- /考试详情 结束 -->
@@ -82,15 +169,16 @@
 <script>
 import '/static/DynamicButton/style.css'
 
+
 import courseApi from "@/api/course"
 export default {
-  
   data () {
     return {
+      form:{},
       radio: '1',
-     active: 0,
+      active: 0,
       page:1,
-      data:['1','2','3','4','5','6','7'],
+      data:['1','2','3','4'],
       course:{},
       chapterList:[], //考试分类
       searchObj: {
@@ -100,20 +188,30 @@ export default {
       gmtCreate:"",
       priceSort:"",
       subjectLevelOne:[],
-      stepList:[
-        '第一题','第二题','第三题','第四题','第五题','第六题','第七题'
-      ]
+      
       
     }
     
   },
   methods: {
+    //倒计时结束
+    finish(vac){
+      // alert('考试结束啦！')
+    },
+    //上一题
+    lastStep(){
+       this.active--
+    },
+    //下一题
     next() {
-        if (this.active++ > 5) this.active = 0;
+      this.active+1
+       if (this.active++ > 4) this.active = 0;
       },
+      //点击答题卡跳转题目
       handleStep(index){
         this.active = index
       }
   }
 }
 </script>
+
