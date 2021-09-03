@@ -36,4 +36,6 @@ public interface EduPaperService extends IService<EduPaper> {
     List<FrontPaperIndexVo> getHotPaperList();
 
     Map<String, Object> getFrontPaperList(Page<EduPaper> eduPaperPage, PaperQuery paperQuery);
+
+    FrontPaperIndexVo getPaperById(Long id);
 }

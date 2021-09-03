@@ -133,6 +133,12 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
     }
 
     @Override
+    public FrontPaperIndexVo getPaperById(Long id) {
+        FrontPaperIndexVo paperList = baseMapper.getBasePaperById(id);
+        return paperList;
+    }
+
+    @Override
     public Map<String, Object> listPage(Page<EduPaper> pageParam, PaperQuery paperQuery) {
         ArrayList<EduPaperListVo> list = new ArrayList<>();
         HashMap<String, Object> map = new HashMap<>();

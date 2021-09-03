@@ -21,7 +21,6 @@
                 <li v-for="(item,index) in this.subjectList" :key="index">
                   <a :title="item.name" @click="searchTwo(item.id,index)" href="#">{{item.name}}</a>
                 </li>
-            
               </ul>
             </dd>
           </dl>
@@ -69,7 +68,7 @@
                         :alt="item.paperName"
                       >
                       <div class="cc-mask">
-                        <a href="#" title="开始考试" class="comm-btn c-btn-1">开始考试</a>
+                        <a :href="'/paper/'+item.id" title="开始考试" class="comm-btn c-btn-1">开始考试</a>
                       </div>
                     </section>
                     <h3 class="hLh30 txtOf mt10">

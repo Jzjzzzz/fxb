@@ -49,5 +49,12 @@ public class EduPaperController {
         Map<String,Object> map = paperService.getFrontPaperList(eduPaperPage,paperQuery);
         return R.ok().data("map",map);
     }
+
+    @ApiOperation("根据ID查询试卷")
+    @GetMapping("getPaperById/{id}")
+    public R getPaperById(@PathVariable Long id){
+        FrontPaperIndexVo paper = paperService.getPaperById(id);
+        return R.ok().data("paper",paper);
+    }
 }
 
