@@ -14,4 +14,11 @@ export default {
       data: searchObj
     })
   },
+  getPaperTopicById(id){
+    return request({
+      url: `/front/core/paper/getPaperTopicById/${id}`,
+      method: 'get',
+    })
+},
+  
 }

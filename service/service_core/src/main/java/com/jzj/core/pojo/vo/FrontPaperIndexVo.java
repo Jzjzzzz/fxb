@@ -1,6 +1,7 @@
 package com.jzj.core.pojo.vo;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -9,7 +10,7 @@ import lombok.Data;
  * @Date 2021/9/2 11:22
  * @Version 1.0
  */
-@Api(tags = "首页热门试卷模型")
+@ApiModel("前台首页热门试卷模型")
 @Data
 public class FrontPaperIndexVo {
 

@@ -8,6 +8,7 @@ import com.jzj.core.pojo.entity.EduSubject;
 import com.jzj.core.pojo.query.PaperQuery;
 import com.jzj.core.pojo.vo.EduPaperSaveVo;
 import com.jzj.core.pojo.vo.FrontPaperIndexVo;
+import com.jzj.core.pojo.vo.FrontPaperTopicVo;
 
 import java.awt.print.Paper;
 import java.util.List;
@@ -38,4 +39,6 @@ public interface EduPaperService extends IService<EduPaper> {
     Map<String, Object> getFrontPaperList(Page<EduPaper> eduPaperPage, PaperQuery paperQuery);
 
     FrontPaperIndexVo getPaperById(Long id);
+
+    FrontPaperTopicVo getPaperTopicById(Long id);
 }

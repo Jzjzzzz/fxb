@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.jzj.core.pojo.entity.EduTopic;
 import com.jzj.core.pojo.vo.EduTopicEditVo;
 import com.jzj.core.pojo.vo.EduTopicListVo;
+import com.jzj.core.pojo.vo.FrontTopicVo;
 
 /**
  * <p>
@@ -17,4 +18,6 @@ public interface EduTopicMapper extends BaseMapper<EduTopic> {
     EduTopicListVo getBaseTopicList(Long id);
 
     EduTopicEditVo getByIdTopic(Long id);
+
+    FrontTopicVo getByIdTopicFront(Long topicId,Long parentId);
 }

@@ -11,114 +11,174 @@
             <div class="i-box">
               <div>
                 <section id="c-i-tabTitle" class="c-infor-tabTitle c-tab-title">
-                  <h3 style="padding-left:310px">计算机等级考试三</h3>
+                  <h3 style="padding-left:310px">{{form.paperName}}</h3>
                 </section>
               </div>
               <!--单选题 开始-->
-              <div v-show="active==0">               
-                  <el-card class="box-card">
+              <div style="padding-top:8px" v-show="active==index" v-for="(item,index) in form.singleChoiceList" :key="item.id">               
+                  <el-card class="box-card" shadow="hover">
                     <div slot="header" class="clearfix">
-                      <h3 ><strong>1 [单选题] 关于Java编译，下面哪一个正确（）</strong></h3>
+                      <h3 >
+                        <strong >{{index+1}}.  [{{item.questionName}}] ({{item.score}}分) 
+                          <p style="display:inline-block;" v-html="item.titleContent"></p>
+                        </strong>
+                      </h3>
                     </div>
                     <div class="text item">
                       <el-radio-group v-model="radio" >
-                        <div style="padding:15px" >
-                          <el-radio   v-model="radio" :label="1">A. Java程序经编译后产生machine code</el-radio>
+                        <div style="padding:15px" v-for="option in JSON.parse(item.content)"  :key="option.prefix">
+                          <el-radio  :label="option.prefix">{{option.prefix}}. 
+                            <span style="display:inline-block;" v-html="option.content"></span>
+                          </el-radio>
                         </div>
-                        <div style="padding:15px">
-                          <el-radio v-model="radio" :label="2">B. Java程序经编译后会生产byte code</el-radio>
-                        </div>
-                        <div style="padding:15px">
-                          <el-radio v-model="radio" :label="3">C. Java程序经编译后会产生DLL</el-radio>
-                        </div>
-                        <div style="padding:15px">
-                          <el-radio v-model="radio" :label="4">D. 以上都不正确</el-radio>
-                        </div> 
                       </el-radio-group>
                     </div>
-                    <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-show="active!=0" >上一题</el-button>
-                    <el-button size="small" type="success" @click="next" style="margin-top:20px" >下一题</el-button>
-                    <el-button class="shiny" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
+                    <el-row >
+                      <el-col :span="17">
+                        <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
+                        <el-button size="small" type="success" @click="next" style="margin-top:20px" v-if="active<form.questionCount-1" >下一题</el-button>
+                        <el-button class="shiny" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
+                      </el-col>
+                    <el-col :span="1.5" style="padding-top:27px">
+                    <h5><strong>难度 : </strong></h5>
+                    </el-col>
+                    <el-col :span="5" style="padding-top:27px">
+                    
+                    <el-rate 
+                      v-model="item.difficult"
+                      disabled
+                      text-color="#ff9900"
+                      score-template="{value}">
+                    </el-rate>
+                    </el-col>
+                    </el-row>
                   </el-card>   
               </div>
               <!-- /单选题 结束 -->
 
                <!--多选题 开始-->
-              <div v-show="active==1">               
-                  <el-card class="box-card">
+              <div style="padding-top:8px" v-show="active==index+form.singleChoiceNumber" v-for="(item,index) in form.multipleChoiceList" :key="item.id">               
+                  <el-card class="box-card" shadow="hover">
                     <div slot="header" class="clearfix">
-                      <h3 ><strong>2 [多选题] 关于Java编译，下面哪一个正确（）</strong></h3>
+                      <h3 >
+                        <strong >{{index+1+form.singleChoiceNumber}}.  [{{item.questionName}}] ({{item.score}}分) 
+                          <p style="display:inline-block;" v-html="item.titleContent"></p>
+                        </strong>
+                      </h3>
                     </div>
                     <div class="text item">
                        <el-checkbox-group v-model="radio">
-                         <div style="padding:15px">
-                          <el-checkbox label="复选框 A">A. Java程序经编译后产生machine code</el-checkbox>
-                         </div>
-                         <div style="padding:15px">
-                          <el-checkbox label="复选框 B">B. Java程序经编译后会生产byte code</el-checkbox>
-                         </div>
-                         <div style="padding:15px">
-                          <el-checkbox label="复选框 C">C. Java程序经编译后会产生DLL</el-checkbox>
-                         </div>
-                         <div style="padding:15px">
-                          <el-checkbox label="复选框 D">D. 以上都不正确</el-checkbox>
+                         <div style="padding:15px" v-for="option in JSON.parse(item.content)"  :key="option.prefix">
+                          <el-checkbox  :label="option.prefix" >{{option.prefix}}. 
+                            <span style="display:inline-block;" v-html="option.content"></span></el-checkbox>
                          </div>
                       </el-checkbox-group>
                     </div>
-                    <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-show="active!=0" >上一题</el-button>
-                    <el-button size="small" type="success" @click="next" style="margin-top:20px" >下一题</el-button>
-                    <el-button class="shiny" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
+                    <el-row >
+                      <el-col :span="17">
+                        <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
+                        <el-button size="small" type="success" @click="next" style="margin-top:20px" v-if="active<form.questionCount-1" >下一题</el-button>
+                        <el-button class="shiny" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
+                      </el-col>
+                    <el-col :span="1.5" style="padding-top:27px">
+                    <h5><strong>难度 : </strong></h5>
+                    </el-col>
+                    <el-col :span="5" style="padding-top:27px">
+                    
+                    <el-rate 
+                      v-model="item.difficult"
+                      disabled
+                      text-color="#ff9900"
+                      score-template="{value}">
+                    </el-rate>
+                    </el-col>
+                    </el-row>
                   </el-card>   
               </div>
               <!-- /多选题 结束 -->
 
               <!--判断题 开始-->
-              <div style="padding-top:8px"  v-show="active==2">               
-                  <el-card class="box-card">
+              <div style="padding-top:8px"  v-show="active==index+form.singleChoiceNumber+form.multipleChoiceNumber" v-for="(item,index) in form.judgeList" :key="item.id">               
+                  <el-card class="box-card" shadow="hover">
                     <div slot="header" class="clearfix">
-                      <h3 ><strong>3 [判断题] 关于Java编译，下面哪一个正确（）</strong></h3>
+                      <h3 >
+                        <strong >{{index+1+form.singleChoiceNumber+form.multipleChoiceNumber}}.  [{{item.questionName}}] ({{item.score}}分) 
+                          <p style="display:inline-block;" v-html="item.titleContent"></p>
+                        </strong>
+                      </h3>    
                     </div>
                     <div class="text item">
                       <el-radio-group v-model="radio" >
-                        <div style="padding:15px" >
-                          <el-radio   v-model="radio" :label="1">A. Java程序经编译后产生machine code</el-radio>
-                        </div>
-                        <div style="padding:15px">
-                          <el-radio v-model="radio" :label="2">B. Java程序经编译后会生产byte code</el-radio>
+                        <div style="padding:15px" v-for="option in JSON.parse(item.content)"  :key="option.prefix">
+                          <el-radio  :label="option.prefix">{{option.prefix}}. 
+                            <span style="display:inline-block;" v-html="option.content"></span>
+                          </el-radio>
                         </div>
                       </el-radio-group>
                     </div>
-                    <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-show="active!=0" >上一题</el-button>
-                    <el-button size="small" type="success" @click="next" style="margin-top:20px" >下一题</el-button>
-                    <el-button class="shiny" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
+
+                    <el-row >
+                      <el-col :span="17">
+                        <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
+                        <el-button size="small" type="success" @click="next" style="margin-top:20px" v-if="active<form.questionCount-1" >下一题</el-button>
+                        <el-button class="shiny" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
+                      </el-col>
+                    <el-col :span="1.5" style="padding-top:27px">
+                    <h5><strong>难度 : </strong></h5>
+                    </el-col>
+                    <el-col :span="5" style="padding-top:27px">
+                    
+                    <el-rate 
+                      v-model="item.difficult"
+                      disabled
+                      text-color="#ff9900"
+                      score-template="{value}">
+                    </el-rate>
+                    </el-col>
+                    </el-row>
                   </el-card>   
               </div>
               <!-- /判断题 结束 -->
 
               <!--问答题 开始-->
-              <div style="padding-top:8px"  v-show="active==3">               
-                  <el-card class="box-card">
+              <div style="padding-top:8px"  v-show="active==index+form.singleChoiceNumber+form.multipleChoiceNumber+form.judgeNumber" v-for="(item,index) in form.shortAnswerList" :key="item.id">               
+                  <el-card class="box-card" shadow="hover">
                     <div slot="header" class="clearfix">
-                      <h3 ><strong>4 [简答题] 关于Java编译，下面哪一个正确（）</strong></h3>
+                      <h3 >
+                        <strong >{{index+1+form.singleChoiceNumber+form.multipleChoiceNumber+form.judgeNumber}}.  [{{item.questionName}}] ({{item.score}}分) 
+                          <p style="display:inline-block;" v-html="item.titleContent"></p>
+                        </strong>
+                      </h3>    
                     </div>
                     <el-form ref="form" :model="form" >
                       <el-form-item label="答案">
                       <el-input type="textarea" v-model="form.desc"></el-input>
                     </el-form-item>
                     </el-form>
+                    <el-row >
+                      <el-col :span="17">
+                        <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
+                        <el-button size="small" type="success" @click="next" style="margin-top:20px" v-if="active<form.questionCount-1" >下一题</el-button>
+                        <el-button class="shiny" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
+                      </el-col>
+                    <el-col :span="1.5" style="padding-top:27px">
+                    <h5><strong>难度 : </strong></h5>
+                    </el-col>
+                    <el-col :span="5" style="padding-top:27px">
                     
-                    <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-show="active!=0" >上一题</el-button>
-                    <el-button size="small" type="success" @click="next" style="margin-top:20px" >下一题</el-button>
-                    <el-button class="shiny" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
+                    <el-rate 
+                      v-model="item.difficult"
+                      disabled
+                      text-color="#ff9900"
+                      score-template="{value}">
+                    </el-rate>
+                    </el-col>
+                    </el-row>
                   </el-card>   
               </div>
-              <!-- /问答题 结束 -->
-              
-              
-            </div>
-            
-          </section>
-          
+              <!-- /问答题 结束 -->           
+            </div>    
+          </section> 
         </article>
         <aside class="fl col-3 " >
           <div class="i-box" >
@@ -126,7 +186,7 @@
               <section class="c-infor-tabTitle ">
                 <div style="margin-top:20px;margin-left:10px">
                   <no-ssr>
-                    <vac :end-time="new Date().getTime() + 1200000" @finish="(vac) => finish(vac)">
+                    <vac :end-time="new Date().getTime() + 1800000" @finish="(vac) => finish(vac)">
                       <h3 slot="process"  slot-scope="{ timeObj }"  class="el-icon-time">剩余时间 : <span style="color:red">{{ `${timeObj.h}:${timeObj.m}:${timeObj.s}` }}</span></h3>
                       <h3 slot="finish">考试结束啦!</h3>
                     </vac>
@@ -134,10 +194,10 @@
                   
                 </div>
                  <div style="margin-top:20px;margin-left:10px">
-                  <h3  class="el-icon-s-data">总分 : 100</h3>
+                  <h3  class="el-icon-s-data">总分 : {{form.score}}</h3>
                  </div>
                  <div style="margin-top:20px;margin-left:10px">
-                  <h3  class="el-icon-reading">题数 : 100</h3>
+                  <h3  class="el-icon-reading">题数 : {{form.questionCount}}</h3>
                  </div>
                  <el-divider ></el-divider>
 
@@ -146,13 +206,25 @@
               
             </div>
             <div>
-              <section class="stud-act-list" style="padding-left:10px"> 
+              <section v-if="form.singleChoiceNumber>0" class="stud-act-list" style="padding-left:5px" > 
                 <h3>单选题</h3>
+                <el-button style=" margin: 5px;" @click.native="handleStep(index)" v-for="(item,index) in form.singleChoiceList" :key="item.id">{{index+1}}</el-button>
               </section>
-                <el-button style=" margin: 7px;" @click.native="handleStep(index)" v-for="(item,index) in data" :key="index">{{index+1}}</el-button>
+               <section v-if="form.multipleChoiceNumber>0" class="stud-act-list" style="padding-left:5px"> 
+                <h3>多选题</h3>
+                <el-button style=" margin: 5px;" @click.native="handleStep(index+form.singleChoiceNumber)" v-for="(item,index) in form.multipleChoiceList" :key="item.id">{{index+1+form.singleChoiceNumber}}</el-button>
+              </section>
+              <section v-if="form.judgeNumber>0" class="stud-act-list" style="padding-left:5px"> 
+                <h3>判断题</h3>
+                <el-button style=" margin: 5px;" @click.native="handleStep(index+form.multipleChoiceNumber+form.singleChoiceNumber)" v-for="(item,index) in form.judgeList" :key="item.id">{{index+1+form.multipleChoiceNumber+form.singleChoiceNumber}}</el-button>
+              </section>
+              <section v-if="this.form.shortAnswerNumber>0" class="stud-act-list" style="padding-left:5px"> 
+                <h3>简答题</h3>
+                <el-button style=" margin: 5px;" @click.native="handleStep(index+form.judgeNumber+form.multipleChoiceNumber+form.singleChoiceNumber)" v-for="(item,index) in form.shortAnswerList" :key="item.id">{{index+1+form.judgeNumber+form.multipleChoiceNumber+form.singleChoiceNumber}}</el-button>
+              </section>
             </div>
             
-            <el-button @click="drawer = true" type="primary" style="margin-left: 6px;">
+            <el-button size="medium"  type="primary" style="margin-left: 100px;margin-top:10px">
               交卷
             </el-button>
             
@@ -168,32 +240,26 @@
 
 <script>
 import '/static/DynamicButton/style.css'
-
-
-import courseApi from "@/api/course"
+import paperApi from "@/api/paper"
 export default {
   data () {
     return {
       form:{},
       radio: '1',
       active: 0,
-      page:1,
-      data:['1','2','3','4'],
-      course:{},
-      chapterList:[], //考试分类
-      searchObj: {
-       
-      }, // 查询表单对象
-      buyCountSort:"",
-      gmtCreate:"",
-      priceSort:"",
-      subjectLevelOne:[],
-      
-      
     }
     
   },
+  created() {
+    this.fetchData()
+  },
   methods: {
+    fetchData(){
+      paperApi.getPaperTopicById(this.$route.params.id)
+      .then(response=>{ 
+        this.form = response.data.data.model
+      })
+    },
     //倒计时结束
     finish(vac){
       // alert('考试结束啦！')
@@ -205,7 +271,7 @@ export default {
     //下一题
     next() {
       this.active+1
-       if (this.active++ > 4) this.active = 0;
+       if (this.active++ > this.form.questionCount) this.active = 0;
       },
       //点击答题卡跳转题目
       handleStep(index){

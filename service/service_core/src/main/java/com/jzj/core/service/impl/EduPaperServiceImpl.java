@@ -5,17 +5,16 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jzj.core.mapper.EduPaperTopicMapper;
 import com.jzj.core.mapper.EduTopicMapper;
+import com.jzj.core.pojo.entity.Dict;
 import com.jzj.core.pojo.entity.EduPaper;
 import com.jzj.core.mapper.EduPaperMapper;
 import com.jzj.core.pojo.entity.EduPaperTopic;
 import com.jzj.core.pojo.entity.EduTopic;
 import com.jzj.core.pojo.query.PaperQuery;
-import com.jzj.core.pojo.vo.EduPaperListVo;
-import com.jzj.core.pojo.vo.EduPaperSaveVo;
-import com.jzj.core.pojo.vo.EduTopicListVo;
-import com.jzj.core.pojo.vo.FrontPaperIndexVo;
+import com.jzj.core.pojo.vo.*;
 import com.jzj.core.service.EduPaperService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.jzj.core.utils.DictUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -138,6 +137,8 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         return paperList;
     }
 
+
+
     @Override
     public Map<String, Object> listPage(Page<EduPaper> pageParam, PaperQuery paperQuery) {
         ArrayList<EduPaperListVo> list = new ArrayList<>();
@@ -194,6 +195,56 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         }
         paperSaveVo.setTopicListVoList(list);
         return paperSaveVo;
+    }
+
+    @Override
+    public FrontPaperTopicVo getPaperTopicById(Long id) {
+        FrontPaperTopicVo model = new FrontPaperTopicVo();
+        EduPaper paper = baseMapper.selectById(id); //查询试卷基本信息
+        BeanUtils.copyProperties(paper,model); //封装试卷基本信息
+        int examTime =model.getSuggestTime()*60*1000;
+        model.setSuggestTime(examTime);
+        List<EduPaperTopic> paperTopicList = eduPaperTopicMapper.selectList(new QueryWrapper<EduPaperTopic>().eq("paper_id", id)); //查询该试卷所有题目
+
+        ArrayList<FrontTopicVo> singleChoiceList = new ArrayList<>(); //单选题集合
+        ArrayList<FrontTopicVo> multipleChoiceList = new ArrayList<>(); //多选题集合
+        ArrayList<FrontTopicVo> judgeList = new ArrayList<>(); //判断题集合
+        ArrayList<FrontTopicVo> shortAnswerList = new ArrayList<>(); //简答题集合
+
+
+        int singleChoiceNumber =0,multipleChoiceNumber =0,shortAnswerNumber =0,judgeNumber =0; //初始化题数
+
+        for (EduPaperTopic paperTopic : paperTopicList) {
+            //查询封装题目
+            FrontTopicVo frontTopicVo;
+            frontTopicVo = eduTopicMapper.getByIdTopicFront(paperTopic.getTopicId(),100L);
+
+            //判断题型按题型存入集合
+            if(frontTopicVo.getQuestionId()==1){
+                singleChoiceList.add(frontTopicVo); //封装单选题
+                singleChoiceNumber++;
+            }else if (frontTopicVo.getQuestionId()==2){
+                multipleChoiceList.add(frontTopicVo); //封装多选题
+                multipleChoiceNumber++;
+            }else if (frontTopicVo.getQuestionId()==4){
+                shortAnswerList.add(frontTopicVo); //封装简答题
+                shortAnswerNumber++;
+            }else if (frontTopicVo.getQuestionId()==5){
+                judgeList.add(frontTopicVo); //封装判断题
+                judgeNumber++;
+            }
+
+        }
+        //装箱
+        model.setSingleChoiceNumber(singleChoiceNumber);
+        model.setMultipleChoiceNumber(multipleChoiceNumber);
+        model.setShortAnswerNumber(shortAnswerNumber);
+        model.setJudgeNumber(judgeNumber);
+        model.setSingleChoiceList(singleChoiceList);
+        model.setMultipleChoiceList(multipleChoiceList);
+        model.setShortAnswerList(shortAnswerList);
+        model.setJudgeList(judgeList);
+        return model;
     }
 
 

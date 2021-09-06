@@ -9,6 +9,7 @@ import com.jzj.core.pojo.entity.EduSubject;
 import com.jzj.core.pojo.query.PaperQuery;
 import com.jzj.core.pojo.vo.EduPaperSaveVo;
 import com.jzj.core.pojo.vo.FrontPaperIndexVo;
+import com.jzj.core.pojo.vo.FrontPaperTopicVo;
 import com.jzj.core.pojo.vo.WebConfigVo;
 import com.jzj.core.service.EduPaperService;
 import com.jzj.core.service.EduSubjectService;
@@ -55,6 +56,13 @@ public class EduPaperController {
     public R getPaperById(@PathVariable Long id){
         FrontPaperIndexVo paper = paperService.getPaperById(id);
         return R.ok().data("paper",paper);
+    }
+
+    @ApiOperation("根据ID查询试卷全部题目详情和试卷详情")
+    @GetMapping("getPaperTopicById/{id}")
+    public R getPaperTopicById(@PathVariable Long id){
+        FrontPaperTopicVo model = paperService.getPaperTopicById(id);
+        return R.ok().data("model",model);
     }
 }
 

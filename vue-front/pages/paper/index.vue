@@ -67,7 +67,7 @@
                         class="img-responsive"
                         :alt="item.paperName"
                       >
-                      <div class="cc-mask">
+                      <div class="cc-mask">           
                         <a :href="'/paper/'+item.id" title="开始考试" class="comm-btn c-btn-1">开始考试</a>
                       </div>
                     </section>

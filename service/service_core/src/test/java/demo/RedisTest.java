@@ -5,6 +5,7 @@ import com.jzj.core.pojo.entity.Dict;
 import com.jzj.core.pojo.entity.WebConfig;
 import com.jzj.core.service.DictService;
 import com.jzj.core.service.WebConfigService;
+import com.jzj.core.utils.DictUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -63,5 +64,11 @@ public class RedisTest {
      * hash
      */
 
+    @Test
+    public void test04(){
+        List<Dict> list = DictUtils.getListByParentId(100L);
+        System.out.println(list);
+
+    }
 
 }

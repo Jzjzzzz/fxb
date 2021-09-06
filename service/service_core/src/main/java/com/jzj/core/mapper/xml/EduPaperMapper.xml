@@ -24,4 +24,6 @@
                  left join edu_subject s on p.subject_id =s.id
         where p.id = #{id}
     </select>
+
+
 </mapper>
