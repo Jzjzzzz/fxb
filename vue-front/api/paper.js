@@ -19,6 +19,13 @@ export default {
       url: `/front/core/paper/getPaperTopicById/${id}`,
       method: 'get',
     })
-},
+  },
+  automaticCorrecting(answer) {
+    return request({
+      url: `/front/core/paper/automaticCorrecting`,
+      method: 'post',
+      data: answer
+    })
+  },
   
 }

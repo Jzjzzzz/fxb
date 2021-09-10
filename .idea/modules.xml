@@ -5,7 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/infrastructure/api_gateway/api_gateway.iml" filepath="$PROJECT_DIR$/infrastructure/api_gateway/api_gateway.iml" />
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/common/common_utils/common_utils.iml" filepath="$PROJECT_DIR$/common/common_utils/common_utils.iml" />
-      <module fileurl="file://$PROJECT_DIR$/fxb_parent.iml" filepath="$PROJECT_DIR$/fxb_parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fxb.iml" filepath="$PROJECT_DIR$/fxb.iml" />
       <module fileurl="file://$PROJECT_DIR$/infrastructure/infrastructure.iml" filepath="$PROJECT_DIR$/infrastructure/infrastructure.iml" />
       <module fileurl="file://$PROJECT_DIR$/service/service.iml" filepath="$PROJECT_DIR$/service/service.iml" />
       <module fileurl="file://$PROJECT_DIR$/service/service_acl/service_acl.iml" filepath="$PROJECT_DIR$/service/service_acl/service_acl.iml" />

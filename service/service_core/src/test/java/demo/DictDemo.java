@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,5 +29,12 @@ public class DictDemo {
     public void test02(){
         boolean b = DictUtils.emptyRedis(100L);
         System.out.println(b);
+    }
+
+    public static void main(String[] args) {
+        String [] a = {"b","B","C"};
+        String [] b = {"A","B","C"};
+        boolean b1 = Arrays.asList(a).containsAll(Arrays.asList(b));
+        System.out.println(b1);
     }
 }

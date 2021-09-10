@@ -40,7 +40,7 @@
                     </h3>
                     <section class="mt10 hLh20 of">
                       <span class="fr jgTag bg-green">
-                        <i class="c-fff fsize12 f-fA">考试时间：{{paper.suggestTime}}ms</i>
+                        <i class="c-fff fsize12 f-fA">考试时间：{{paper.suggestTime}}分钟</i>
                       </span>
                       <span class="fl jgAttr c-ccc f-fA">
                         <i class="c-999 f-fA">总分：{{paper.score}}</i>

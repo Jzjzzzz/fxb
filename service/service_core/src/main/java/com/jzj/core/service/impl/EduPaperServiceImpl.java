@@ -3,18 +3,16 @@ package com.jzj.core.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jzj.core.mapper.EduPaperTopicMapper;
-import com.jzj.core.mapper.EduTopicMapper;
-import com.jzj.core.pojo.entity.Dict;
+import com.jzj.core.mapper.*;
 import com.jzj.core.pojo.entity.EduPaper;
-import com.jzj.core.mapper.EduPaperMapper;
 import com.jzj.core.pojo.entity.EduPaperTopic;
-import com.jzj.core.pojo.entity.EduTopic;
+import com.jzj.core.pojo.entity.EduTestPaperRecords;
+import com.jzj.core.pojo.entity.EduTestTopicRecords;
 import com.jzj.core.pojo.query.PaperQuery;
 import com.jzj.core.pojo.vo.*;
 import com.jzj.core.service.EduPaperService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jzj.core.utils.DictUtils;
+import com.jzj.core.utils.NplUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +20,6 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -39,6 +36,13 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
 
     @Resource
     private EduTopicMapper eduTopicMapper;
+
+    @Resource
+    private EduTestTopicRecordsMapper testTopicRecordsMapper;
+
+
+    @Resource
+    private EduTestPaperRecordsMapper testPaperRecordsMapper;
 
     @Transactional
     @Override
@@ -247,5 +251,172 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         return model;
     }
 
+    @Override
+    public void automaticGrading(FrontPaperFillAnswerVo fillAnswer) {
+        Long paperId = fillAnswer.getId(); //试卷id
+
+        //对试卷数据进行封装
+        EduPaper paper = baseMapper.selectById(paperId); //试卷model
+        EduTestPaperRecords testPaperRecords = new EduTestPaperRecords();
+        BeanUtils.copyProperties(paper,testPaperRecords);
+        testPaperRecords.setPaperScore(paper.getScore()); //试卷原始分数
+        testPaperRecords.setStatus(1); //状态修改
+        testPaperRecords.setDoTime(fillAnswer.getDoTime()); //用时
+        testPaperRecords.setUserId(fillAnswer.getUserId()); //用户id
+        testPaperRecordsMapper.insert(testPaperRecords);
+        List<Integer> count = Arrays.asList(0,0,1);//第一个是总得分，第二个是总答对题数，第三个是序号
+
+
+        //单选题
+        List<Long> singleIds = fillAnswer.getSingleIds(); //单选题id列表
+        List<String> singleRadio = fillAnswer.getSingleRadio(); //单选题答案
+        verifyRadio(testPaperRecords.getId(),singleIds,singleRadio,count);
+
+        //多选题
+        List<Long> multipleIds = fillAnswer.getMultipleIds(); //多选题id列表
+        String[][] multipleRadio = fillAnswer.getMultipleRadio(); //多选题答案
+        verifyMultiple(testPaperRecords.getId(),multipleIds,multipleRadio,count);
+
+        //判断题
+        List<Long> judgeIds = fillAnswer.getJudgeIds(); //判断题id列表
+        List<String> judgeRadio = fillAnswer.getJudgeRadio(); //判断题答案
+        verifyRadio(testPaperRecords.getId(),judgeIds,judgeRadio,count);
+
+        //问答题
+        List<Long> essayIds = fillAnswer.getEssayIds();//问答题id列表
+        List<String> essayQuestion = fillAnswer.getEssayQuestion();//问答题答案
+        verifyQuestions(testPaperRecords.getId(),essayIds,essayQuestion,count);
+
+
+        //试卷统计数据
+        testPaperRecords.setSystemScore(count.get(0)); //系统判断得分
+        testPaperRecords.setUserScore(count.get(0)); //最终得分
+        testPaperRecords.setQuestionCorrect(count.get(1)); //答对题数
+        testPaperRecordsMapper.updateById(testPaperRecords);
+    }
+
+    /**
+     * 对单选题，判断题进行批改操作
+     * @param testPaperId 试卷统计表id
+     * @param ids 题目id列表
+     * @param answerList 用户填写答案列表
+     * @param count 统计数据
+     * @return 返回修改后的统计数据
+     */
+    private  List<Integer> verifyRadio(Long testPaperId,List<Long> ids,List<String> answerList,List<Integer> count){
+        //初始化
+        Integer sumScore = count.get(0); //总得分
+        Integer sumQuestionNumber = count.get(1); //总答对题数
+        Integer serial = count.get(2); //序号
+        for (int i = 0; i <ids.size() ; i++) {
+            EduTestTopicRecords model = new EduTestTopicRecords();
+            FrontPaperAnswerVo topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
+            String answer = answerList.get(i); //当前题目答案
+            //对数据进行装箱
+            BeanUtils.copyProperties(topic,model);
+            model.setTestPaperId(testPaperId); //试卷统计表id
+            model.setSerial(serial); //题目序号
+            serial++; //叠加序号
+            //当答案匹配时
+            if(answer.equals(topic.getCorrect())){
+                sumScore+=topic.getScore(); //叠加分数
+                model.setResult(1); //结果
+                sumQuestionNumber++;
+            }else{
+                model.setResult(0);
+                model.setScore(0); //当前题目得分
+            }
+            testTopicRecordsMapper.insert(model);
+        }
+        //统计
+        count.set(0,sumScore);
+        count.set(1,sumQuestionNumber);
+        count.set(2,serial);
+        return count;
+    }
+
+    /**
+     * 对多选题进行批改操作
+     * @param testPaperId 试卷统计表id
+     * @param ids 题目id列表
+     * @param answerList 用户填写答案列表
+     * @param count 统计数据
+     * @return
+     */
+    private List<Integer> verifyMultiple(Long testPaperId,List<Long> ids,String[][] answerList,List<Integer> count){
+        //初始化
+        Integer sumScore = count.get(0); //总得分
+        Integer sumQuestionNumber = count.get(1); //总答对题数
+        Integer serial = count.get(2); //序号
+        for (int i = 0; i <ids.size() ; i++) {
+            EduTestTopicRecords model = new EduTestTopicRecords();
+            FrontPaperAnswerVo topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
+            String[] answers = answerList[i];//用户输入的答案
+            String [] correct =topic.getCorrect().split(","); //正确答案
+            //对数据进行装箱
+            BeanUtils.copyProperties(topic,model);
+            model.setTestPaperId(testPaperId); //试卷统计表id
+            model.setSerial(serial); //题目序号
+            serial++; //叠加序号
+            //当答案匹配时
+            if(Arrays.asList(correct).containsAll(Arrays.asList(answers))){
+                sumScore+=topic.getScore(); //叠加分数
+                model.setResult(1); //结果
+                sumQuestionNumber++;
+            }else{
+                model.setResult(0);
+                model.setScore(0); //当前题目得分
+            }
+            testTopicRecordsMapper.insert(model);
+        }
+        //统计
+        count.set(0,sumScore);
+        count.set(1,sumQuestionNumber);
+        count.set(2,serial);
+        return count;
+    }
+
+    /**
+     * 对问答题进行批改操作
+     * @param testPaperId 试卷统计表id
+     * @param ids 题目id列表
+     * @param answerList 用户填写答案列表
+     * @param count 统计数据
+     * @return 返回修改后的统计数据
+     */
+    private  List<Integer> verifyQuestions(Long testPaperId,List<Long> ids,List<String> answerList,List<Integer> count){
+        //初始化
+        Integer sumScore = count.get(0); //总得分
+        Integer sumQuestionNumber = count.get(1); //总答对题数
+        Integer serial = count.get(2); //序号
+        for (int i = 0; i <ids.size() ; i++) {
+            EduTestTopicRecords model = new EduTestTopicRecords();
+            FrontPaperAnswerVo topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
+            String answer = answerList.get(i); //用户填写的答案
+            String correct = topic.getCorrect(); //正确答案
+            //对数据进行装箱
+            BeanUtils.copyProperties(topic,model);
+            model.setTestPaperId(testPaperId); //试卷统计表id
+            model.setSerial(serial); //题目序号
+            serial++; //叠加序号
+            Float similarity = NplUtils.similarity(correct, answer); //获取相似度
+            //当答案匹配时
+            if(similarity>0.85){
+                sumScore+=topic.getScore(); //叠加分数
+                model.setResult(1); //结果
+                sumQuestionNumber++;
+            }else{
+                model.setResult(0);
+                model.setScore(0); //当前题目得分
+            }
+            testTopicRecordsMapper.insert(model);
+        }
+        //统计
+        count.set(0,sumScore);
+        count.set(1,sumQuestionNumber);
+        count.set(2,serial);
+        return count;
+
+    }
 
 }

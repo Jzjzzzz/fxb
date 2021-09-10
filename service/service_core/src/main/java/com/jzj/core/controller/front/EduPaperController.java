@@ -1,18 +1,12 @@
 package com.jzj.core.controller.front;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jzj.commonutils.R;
 import com.jzj.core.pojo.entity.EduPaper;
-import com.jzj.core.pojo.entity.EduSubject;
 import com.jzj.core.pojo.query.PaperQuery;
-import com.jzj.core.pojo.vo.EduPaperSaveVo;
-import com.jzj.core.pojo.vo.FrontPaperIndexVo;
-import com.jzj.core.pojo.vo.FrontPaperTopicVo;
-import com.jzj.core.pojo.vo.WebConfigVo;
+import com.jzj.core.pojo.vo.*;
 import com.jzj.core.service.EduPaperService;
-import com.jzj.core.service.EduSubjectService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +29,7 @@ import java.util.Map;
 public class EduPaperController {
     @Resource
     private EduPaperService paperService;
+
 
     @ApiOperation("首页获取热门试卷")
     @GetMapping("/getHotPaper")
@@ -64,5 +59,15 @@ public class EduPaperController {
         FrontPaperTopicVo model = paperService.getPaperTopicById(id);
         return R.ok().data("model",model);
     }
+
+    @ApiOperation("自动改卷")
+    @PostMapping("/automaticCorrecting")
+    public R automaticCorrecting(@RequestBody FrontPaperFillAnswerVo fillAnswer){
+        paperService.automaticGrading(fillAnswer);
+        return R.ok().message("交卷成功");
+    }
+
+
+
 }
 

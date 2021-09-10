@@ -14,7 +14,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Data
-@ApiModel("前台试卷详情信息和试卷题目")
+@ApiModel("前台试卷详情信息和试卷题目(未带答案)")
 public class FrontPaperTopicVo {
 
     @ApiModelProperty(value = "试卷表id")

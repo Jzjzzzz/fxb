@@ -1,6 +1,7 @@
 server:
   port: 8002 # 服务端口
 
+
 #spirng基础配置
 spring:
   profiles:
@@ -43,3 +44,17 @@ mybatis-plus: #mybatis
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  #日志输出配置
   mapper-locations: classpath:com/jzj/core/mapper/xml/*.xml  #xml文件位置
+
+#服务调用
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 10000 #连接超时配置
+        readTimeout: 600000 #执行超时配置
+
+#腾讯云npl
+tengxun:
+  npl:
+    secretId: AKIDRo9DzWytymLBn9bSGo4rQkuxpRnsxRXF
+    secretKey: RgfOq45rOo3N3Td3j8HDuMZeeT3NRIce

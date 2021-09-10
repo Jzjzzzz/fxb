@@ -1,16 +1,14 @@
 package com.jzj.core.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jzj.core.pojo.entity.EduPaper;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.jzj.core.pojo.entity.EduSubject;
 import com.jzj.core.pojo.query.PaperQuery;
 import com.jzj.core.pojo.vo.EduPaperSaveVo;
+import com.jzj.core.pojo.vo.FrontPaperFillAnswerVo;
 import com.jzj.core.pojo.vo.FrontPaperIndexVo;
 import com.jzj.core.pojo.vo.FrontPaperTopicVo;
 
-import java.awt.print.Paper;
 import java.util.List;
 import java.util.Map;
 
@@ -41,4 +39,6 @@ public interface EduPaperService extends IService<EduPaper> {
     FrontPaperIndexVo getPaperById(Long id);
 
     FrontPaperTopicVo getPaperTopicById(Long id);
+
+    void automaticGrading(FrontPaperFillAnswerVo fillAnswer);
 }

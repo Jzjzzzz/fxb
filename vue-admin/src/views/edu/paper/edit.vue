@@ -98,8 +98,7 @@ export default {
       rules: {
         subjectId: [{ required: true, message: '学科不能为空', trigger: 'blur' }],
         paperName: [{ required: true, message: '试卷名不能为空', trigger: 'blur' }],
-        suggestTime: [{ required: true, message: '建议时长不能为空', trigger: 'blur' },
-        { type: 'number', message: '分数必须为数字类型'}],
+        suggestTime: [{ required: true, message: '建议时长不能为空', trigger: 'blur' }],
         
       }
       

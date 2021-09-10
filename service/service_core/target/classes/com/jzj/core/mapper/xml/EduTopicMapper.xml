@@ -29,4 +29,11 @@
                                and dict.value =t.question_id
         where t.id = #{topicId}
     </select>
+    <select id="getByIdTopicFrontAnswer" resultType="com.jzj.core.pojo.vo.FrontPaperAnswerVo">
+        select t.id,t.score,t.question_id,t.difficult,tc.content,tc.correct,tc.analyzes,tc.title_content
+        from edu_topic t
+                 left join edu_topic_content tc
+                           on t.topic_details_id =tc.id
+        where t.id = #{id}
+    </select>
 </mapper>

@@ -1,0 +1,32 @@
+{
+  "groups": [
+    {
+      "name": "tengxun.npl",
+      "type": "com.jzj.core.utils.NplProperties",
+      "sourceType": "com.jzj.core.utils.NplProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "tengxun.npl.s-e-c-r-e-t-i-d",
+      "type": "java.lang.String",
+      "sourceType": "com.jzj.core.utils.NplProperties"
+    },
+    {
+      "name": "tengxun.npl.s-e-c-r-e-t-k-e-y",
+      "type": "java.lang.String",
+      "sourceType": "com.jzj.core.utils.NplProperties"
+    },
+    {
+      "name": "tengxun.npl.secret-id",
+      "type": "java.lang.String",
+      "sourceType": "com.jzj.core.utils.NplProperties"
+    },
+    {
+      "name": "tengxun.npl.secret-key",
+      "type": "java.lang.String",
+      "sourceType": "com.jzj.core.utils.NplProperties"
+    }
+  ],
+  "hints": []
+}
