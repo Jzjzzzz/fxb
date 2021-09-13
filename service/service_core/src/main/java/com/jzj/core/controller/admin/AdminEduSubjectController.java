@@ -47,7 +47,7 @@ public class AdminEduSubjectController {
     @ApiOperation("新增科目")
     @PostMapping("/save")
     public R saveSubject(@RequestBody EduSubject subject){
-        boolean result = subjectService.save(subject);
+        boolean result = subjectService.saveSubject(subject);
         if(result) return R.ok().message("新增成功");
         return R.error().message("新增失败");
     }

@@ -19,4 +19,5 @@ public interface EduSubjectService extends IService<EduSubject> {
     IPage<EduSubject> listPage(Page<EduSubject> pageParam, SubjectQuery subjectQuery);
 
 
+    boolean saveSubject(EduSubject subject);
 }

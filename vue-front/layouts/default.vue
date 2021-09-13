@@ -19,10 +19,10 @@
             <router-link to="/records" tag="li" active-class="current" v-show="this.loginInfo.id!=0" >
               <a>考试记录</a>
             </router-link>
-            <router-link to="/article" tag="li" active-class="current">
+            <router-link to="#" tag="li" active-class="current">
               <a>文章</a>
             </router-link>
-            <router-link to="/qa" tag="li" active-class="current">
+            <router-link to="#" tag="li" active-class="current">
               <a>问答</a>
             </router-link>
           </ul>
@@ -60,14 +60,14 @@
               <!-- /未登录显示第1 li；登录后显示第2，3 li -->
           </ul>       
           <aside class="h-r-search">
-            <form action="#" method="post">
+            <el-form ref="form" :model="form">
               <label class="h-r-s-box">
-                <input type="text" placeholder="输入你要查找的试卷" name="queryCourse.courseName" value>
-                <button type="submit" class="s-btn">
+                <input type="text" placeholder="输入你要查找的试卷" name="queryCourse.paperName" value>
+                <a :href="'/paper'" class="s-btn" style="padding-top:5px">
                   <em class="icon18">&nbsp;</em>
-                </button>
+                </a>  
               </label>
-            </form>
+            </el-form>
           </aside>
         </div>
         <aside class="mw-nav-btn">
@@ -137,11 +137,13 @@ import "~/assets/css/global.css";
 import "~/assets/css/web.css";
 import cookie from 'js-cookie'
 import loginApi from '@/api/login' //（微信登录相关）
+import paperApi from '@/api/paper'
 
 
 export default {
   data(){
     return{
+      form:{},
       webconfig:{
         logo:'',
         name:'',
@@ -164,7 +166,8 @@ export default {
         mobile: '',
         nickname: '',
         sex: ''
-      }
+      },
+      searchObj:{}
     }
   },
   created(){
@@ -180,6 +183,10 @@ export default {
     this.getWebConfig()
   },
   methods:{
+    //首页查询试卷
+    getPageList(){
+      this.$router.push({ path: '/paper' })
+    },
     //获取网站配置信息
     getWebConfig(){
       webConfigApi.getWebConfigRedis()
