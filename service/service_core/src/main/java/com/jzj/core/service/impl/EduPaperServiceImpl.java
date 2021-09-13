@@ -116,21 +116,15 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
             FrontPaperIndexVo paperList = baseMapper.getBasePaperById(paper.getId());
             list.add(paperList);
         }
-        long current = eduPaperPage.getCurrent();
-        long pages = eduPaperPage.getPages();
-        long size = eduPaperPage.getSize();
-        long total = eduPaperPage.getTotal();
-        boolean hasNext = eduPaperPage.hasNext();
-        boolean hasPrevious = eduPaperPage.hasPrevious();
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("items", list);
-        map.put("current", current);
-        map.put("pages", pages);
-        map.put("size", size);
-        map.put("total", total);
-        map.put("hasNext", hasNext);
-        map.put("hasPrevious", hasPrevious);
+        map.put("current", eduPaperPage.getCurrent());
+        map.put("pages", eduPaperPage.getPages());
+        map.put("size", eduPaperPage.getSize());
+        map.put("total", eduPaperPage.getTotal());
+        map.put("hasNext", eduPaperPage.hasNext());
+        map.put("hasPrevious", eduPaperPage.hasPrevious());
 
         return map;
     }
@@ -316,11 +310,13 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
             BeanUtils.copyProperties(topic,model);
             model.setTestPaperId(testPaperId); //试卷统计表id
             model.setSerial(serial); //题目序号
+            model.setUserAnswer(answer);
             serial++; //叠加序号
             //当答案匹配时
             if(answer.equals(topic.getCorrect())){
                 sumScore+=topic.getScore(); //叠加分数
                 model.setResult(1); //结果
+
                 sumQuestionNumber++;
             }else{
                 model.setResult(0);
@@ -357,9 +353,10 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
             BeanUtils.copyProperties(topic,model);
             model.setTestPaperId(testPaperId); //试卷统计表id
             model.setSerial(serial); //题目序号
+            model.setUserAnswer(Arrays.toString(answers));
             serial++; //叠加序号
             //当答案匹配时
-            if(Arrays.asList(correct).containsAll(Arrays.asList(answers))){
+            if(!Arrays.asList(answers).isEmpty() && Arrays.asList(correct).containsAll(Arrays.asList(answers))){
                 sumScore+=topic.getScore(); //叠加分数
                 model.setResult(1); //结果
                 sumQuestionNumber++;
@@ -398,8 +395,14 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
             BeanUtils.copyProperties(topic,model);
             model.setTestPaperId(testPaperId); //试卷统计表id
             model.setSerial(serial); //题目序号
+            model.setUserAnswer(answer);
             serial++; //叠加序号
-            Float similarity = NplUtils.similarity(correct, answer); //获取相似度
+
+            Float similarity= 0F;
+            if(org.apache.commons.lang.StringUtils.isNotBlank(answer)){
+                similarity = NplUtils.similarity(correct, answer); //获取相似度
+            }
+
             //当答案匹配时
             if(similarity>0.85){
                 sumScore+=topic.getScore(); //叠加分数

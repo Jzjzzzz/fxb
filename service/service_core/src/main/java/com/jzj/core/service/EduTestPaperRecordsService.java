@@ -1,7 +1,10 @@
 package com.jzj.core.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jzj.core.pojo.entity.EduTestPaperRecords;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -13,4 +16,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface EduTestPaperRecordsService extends IService<EduTestPaperRecords> {
 
+    Map<String, Object> getTestRecordList(Page<EduTestPaperRecords> recordsPage,Long userId);
+    EduTestPaperRecords getTestPaperById(Long paperId);
 }

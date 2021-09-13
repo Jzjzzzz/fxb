@@ -16,8 +16,8 @@
             <router-link to="/paper" tag="li" active-class="current">
               <a>试卷</a>
             </router-link>
-            <router-link to="/teacher" tag="li" active-class="current">
-              <a>考试</a>
+            <router-link to="/records" tag="li" active-class="current" v-show="this.loginInfo.id!=0" >
+              <a>考试记录</a>
             </router-link>
             <router-link to="/article" tag="li" active-class="current">
               <a>文章</a>
@@ -158,7 +158,7 @@ export default {
       }, //网站配置
       token:'', //（微信登录相关）
       loginInfo:{
-        id: '',
+        id: 0,
         age: '',
         avatar: '',
         mobile: '',
@@ -172,6 +172,7 @@ export default {
     this.token = this.$route.query.token
     if(this.token){
       this.wxLogin()
+      
     }
     //普通登录
     this.showInfo()

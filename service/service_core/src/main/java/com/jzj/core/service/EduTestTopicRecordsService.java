@@ -3,6 +3,8 @@ package com.jzj.core.service;
 import com.jzj.core.pojo.entity.EduTestTopicRecords;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface EduTestTopicRecordsService extends IService<EduTestTopicRecords> {
 
+    List<EduTestTopicRecords> getTestTopicListById(Long paperId);
 }

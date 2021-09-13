@@ -2,8 +2,6 @@
   <div id="aCoursesList" class="bg-fa of">
     <!-- /考试详情 开始 -->
     <section class="container">
-
-   
       <!-- /考试封面介绍 -->
       <div class="mt20 c-infor-box" >
         <article class="fl col-7">
@@ -25,9 +23,9 @@
                       </h3>
                     </div>
                     <div class="text item">
-                      <el-radio-group v-model="radio" >
-                        <div style="padding:15px" v-for="option in JSON.parse(item.content)"  :key="option.prefix">
-                          <el-radio  :label="option.prefix">{{option.prefix}}. 
+                      <el-radio-group v-model="answer.singleRadio[index]"  >
+                        <div style="padding:15px" v-for="option in JSON.parse(item.content)"  :key="option.prefix" >
+                          <el-radio   :label="option.prefix">{{option.prefix}}. 
                             <span style="display:inline-block;" v-html="option.content"></span>
                           </el-radio>
                         </div>
@@ -43,7 +41,6 @@
                     <h5><strong>难度 : </strong></h5>
                     </el-col>
                     <el-col :span="5" style="padding-top:27px">
-                    
                     <el-rate 
                       v-model="item.difficult"
                       disabled
@@ -55,7 +52,6 @@
                   </el-card>   
               </div>
               <!-- /单选题 结束 -->
-
                <!--多选题 开始-->
               <div style="padding-top:8px" v-show="active==index+form.singleChoiceNumber" v-for="(item,index) in form.multipleChoiceList" :key="item.id">               
                   <el-card class="box-card" shadow="hover">
@@ -67,10 +63,11 @@
                       </h3>
                     </div>
                     <div class="text item">
-                       <el-checkbox-group v-model="radio">
-                         <div style="padding:15px" v-for="option in JSON.parse(item.content)"  :key="option.prefix">
-                          <el-checkbox  :label="option.prefix" >{{option.prefix}}. 
-                            <span style="display:inline-block;" v-html="option.content"></span></el-checkbox>
+                       <el-checkbox-group v-model="answer.multipleRadio[index]">
+                         <div style="padding:15px" v-for="(option,index) in JSON.parse(item.content)"  :key="option.prefix">
+                          <el-checkbox :key="index"  :label="option.prefix" >{{option.prefix}}. 
+                            <span style="display:inline-block;" v-html="option.content"></span>
+                          </el-checkbox>
                          </div>
                       </el-checkbox-group>
                     </div>
@@ -84,7 +81,6 @@
                     <h5><strong>难度 : </strong></h5>
                     </el-col>
                     <el-col :span="5" style="padding-top:27px">
-                    
                     <el-rate 
                       v-model="item.difficult"
                       disabled
@@ -96,7 +92,6 @@
                   </el-card>   
               </div>
               <!-- /多选题 结束 -->
-
               <!--判断题 开始-->
               <div style="padding-top:8px"  v-show="active==index+form.singleChoiceNumber+form.multipleChoiceNumber" v-for="(item,index) in form.judgeList" :key="item.id">               
                   <el-card class="box-card" shadow="hover">
@@ -108,7 +103,7 @@
                       </h3>    
                     </div>
                     <div class="text item">
-                      <el-radio-group v-model="radio" >
+                      <el-radio-group v-model="answer.judgeRadio[index]" >
                         <div style="padding:15px" v-for="option in JSON.parse(item.content)"  :key="option.prefix">
                           <el-radio  :label="option.prefix">{{option.prefix}}. 
                             <span style="display:inline-block;" v-html="option.content"></span>
@@ -116,7 +111,6 @@
                         </div>
                       </el-radio-group>
                     </div>
-
                     <el-row >
                       <el-col :span="17">
                         <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
@@ -126,8 +120,7 @@
                     <el-col :span="1.5" style="padding-top:27px">
                     <h5><strong>难度 : </strong></h5>
                     </el-col>
-                    <el-col :span="5" style="padding-top:27px">
-                    
+                    <el-col :span="5" style="padding-top:27px">   
                     <el-rate 
                       v-model="item.difficult"
                       disabled
@@ -139,7 +132,6 @@
                   </el-card>   
               </div>
               <!-- /判断题 结束 -->
-
               <!--问答题 开始-->
               <div style="padding-top:8px"  v-show="active==index+form.singleChoiceNumber+form.multipleChoiceNumber+form.judgeNumber" v-for="(item,index) in form.shortAnswerList" :key="item.id">               
                   <el-card class="box-card" shadow="hover">
@@ -152,7 +144,7 @@
                     </div>
                     <el-form ref="form" :model="form" >
                       <el-form-item label="答案">
-                      <el-input type="textarea" v-model="form.desc"></el-input>
+                      <el-input type="textarea" v-model="answer.essayQuestion[index]"></el-input>
                     </el-form-item>
                     </el-form>
                     <el-row >
@@ -164,8 +156,7 @@
                     <el-col :span="1.5" style="padding-top:27px">
                     <h5><strong>难度 : </strong></h5>
                     </el-col>
-                    <el-col :span="5" style="padding-top:27px">
-                    
+                    <el-col :span="5" style="padding-top:27px">    
                     <el-rate 
                       v-model="item.difficult"
                       disabled
@@ -187,11 +178,10 @@
                 <div style="margin-top:20px;margin-left:10px">
                   <no-ssr>
                     <vac :end-time="new Date().getTime() + 1800000" @finish="(vac) => finish(vac)">
-                      <h3 slot="process"  slot-scope="{ timeObj }"  class="el-icon-time">剩余时间 : <span style="color:red">{{ `${timeObj.h}:${timeObj.m}:${timeObj.s}` }}</span></h3>
+                      <h3 slot="process"   slot-scope="{ timeObj }"   class="el-icon-time">剩余时间 : <span style="color:red" >{{ `${timeObj.h}:${timeObj.m}:${timeObj.s}` }}</span></h3>
                       <h3 slot="finish">考试结束啦!</h3>
                     </vac>
                   </no-ssr>
-                  
                 </div>
                  <div style="margin-top:20px;margin-left:10px">
                   <h3  class="el-icon-s-data">总分 : {{form.score}}</h3>
@@ -200,10 +190,7 @@
                   <h3  class="el-icon-reading">题数 : {{form.questionCount}}</h3>
                  </div>
                  <el-divider ></el-divider>
-
-
-              </section>
-              
+              </section> 
             </div>
             <div>
               <section v-if="form.singleChoiceNumber>0" class="stud-act-list" style="padding-left:5px" > 
@@ -223,46 +210,133 @@
                 <el-button style=" margin: 5px;" @click.native="handleStep(index+form.judgeNumber+form.multipleChoiceNumber+form.singleChoiceNumber)" v-for="(item,index) in form.shortAnswerList" :key="item.id">{{index+1+form.judgeNumber+form.multipleChoiceNumber+form.singleChoiceNumber}}</el-button>
               </section>
             </div>
-            
-            <el-button size="medium"  type="primary" style="margin-left: 100px;margin-top:10px">
+            <el-button size="medium"  type="primary" style="margin-left: 100px;margin-top:10px" @click="onSubmit">
               交卷
-            </el-button>
-            
-          </div>
-          
-        </aside>
-       
+            </el-button>  
+          </div>   
+        </aside>    
       </div>
     </section>
     <!-- /考试详情 结束 -->
   </div>
 </template>
-
 <script>
 import '/static/DynamicButton/style.css'
 import paperApi from "@/api/paper"
+import cookie from 'js-cookie'
 export default {
   data () {
-    return {
-      form:{},
+    return { 
+      loginInfo:{
+        id: 0,
+        age: '',
+        avatar: '',
+        mobile: '',
+        nickname: '',
+        sex: ''
+      }, 
+      runTimes:0,
+      form:{}, //试卷信息和题目信息
       radio: '1',
-      active: 0,
+      //学生填写的集合
+      answer:{
+        id:this.$route.params.id,
+        singleRadio:[], //单选答案列表
+        multipleRadio:[], //多选答案列表
+        judgeRadio:[], //判断题答案列表
+        essayQuestion:[], //问答题答案列表
+        singleIds:[], //单选题序号
+        multipleIds:[],//多选题序号
+        judgeIds:[],//判断题序号
+        essayIds:[], //问答题序号
+        userId:0, //用户id
+        doTime:0, //用时
+      },
+      active: 0, //控制题目显示
     }
     
   },
+  mounted() {
+     setInterval(this.timer, 1000);
+    },
   created() {
+    //用户信息
+    this.showInfo()
     this.fetchData()
+    
   },
   methods: {
+    timer() {
+        this.answer.doTime ++;
+      },
+
+    //从cookie中获取用户信息
+     showInfo() {
+      //debugger
+      var jsonStr = cookie.get("guli_ucenter");
+      
+      if (jsonStr) { 
+        this.loginInfo = JSON.parse(jsonStr)
+        this.answer.userId = this.loginInfo.id
+      }
+      if(this.loginInfo.id==0){
+        this.$router.push({ path: '/login' })
+      }
+    },
     fetchData(){
       paperApi.getPaperTopicById(this.$route.params.id)
       .then(response=>{ 
         this.form = response.data.data.model
+        //初始化单选题的数组大小
+        for (let index = 1; index <= this.form.singleChoiceNumber; index++) {
+          this.answer.singleRadio.push("")
+        }
+        //初始化多选题的二维数组大小
+        for (let index = 1; index <= this.form.multipleChoiceNumber; index++) {
+          this.answer.multipleRadio.push(new Array())
+        }
+        //初始化判断题的数组大小
+        for (let index = 1; index <= this.form.judgeNumber; index++) {
+          this.answer.judgeRadio.push("")
+        }
+        //初始化简答题的数组大小
+        for (let index = 1; index <= this.form.shortAnswerNumber; index++) {
+          this.answer.essayQuestion.push("")
+        }
       })
     },
-    //倒计时结束
+    //交卷
+    submitPaper(){
+      //按序列顺序封装不要打乱
+      //封装单选题id
+      for (let i = 0; i < this.form.singleChoiceNumber; i++) {
+        this.answer.singleIds.push(this.form.singleChoiceList[i].id)
+      }
+      //封装多选题id
+      for (let i = 0; i < this.form.multipleChoiceNumber; i++) {
+        this.answer.multipleIds.push(this.form.multipleChoiceList[i].id)
+      }
+      //封装判断题id
+      for (let i = 0; i < this.form.judgeNumber; i++) {
+        this.answer.judgeIds.push(this.form.judgeList[i].id)
+      }
+       //封装问答题id
+      for (let i = 0; i < this.form.shortAnswerNumber; i++) {
+        this.answer.essayIds.push(this.form.shortAnswerList[i].id)
+      }
+      paperApi.automaticCorrecting(this.answer)
+      .then(response=>{
+        this.$message.success("交卷成功")
+        this.$router.push({ path: '/records' })
+      })
+    },
+    //主动点击交卷
+    onSubmit(){
+      this.submitPaper()
+    },
+    //倒计时结束自动交卷
     finish(vac){
-      // alert('考试结束啦！')
+      this.submitPaper()
     },
     //上一题
     lastStep(){

@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author Jzj
- * @since 2021-09-10
+ * @since 2021-09-13
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -69,6 +69,9 @@ public class EduTestTopicRecords implements Serializable {
 
     @ApiModelProperty(value = "题型")
     private Integer questionId;
+
+    @ApiModelProperty(value = "用户填写答案")
+    private String userAnswer;
 
 
 }
