@@ -11,18 +11,18 @@
       </el-form-item>
       <el-form-item label="选项：" >
         <el-form-item :label="item.prefix" :key="item.prefix"  v-for="(item) in form.items"  label-width="50px" class="question-item-label">
-          <el-input v-model="item.prefix"  style="width:50px;padding-top:20px" />
-          <tinymce :height="300" v-model="item.content" />
+          <el-input v-model="item.prefix"   style="width:50px;padding-top:20px" />
+          <tinymce  :height="300" v-model="item.content" />
         </el-form-item>
       </el-form-item>
       <el-form-item label="解析：" prop="analyzes" >
         <tinymce :height="300" v-model="form.analyzes"/>
       </el-form-item>
       <el-form-item label="分数：" prop="score" required>
-        <el-input-number v-model="form.score" :precision="1" :step="1" :max="100"></el-input-number>
+        <el-input-number v-model="form.score"  :step="1" :min="0" :max="100"></el-input-number>
       </el-form-item>
       <el-form-item label="难度：" required>
-        <el-rate v-model="form.difficult" class="question-item-rate"></el-rate>
+        <el-rate style="padding-top:10px" v-model="form.difficult" class="question-item-rate"></el-rate>
       </el-form-item>
       
       <el-form-item label="正确答案：" prop="correct" required>
@@ -32,7 +32,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">提交</el-button>
+        <el-button type="primary" :disabled="isDisabled" @click="onSubmit">提交</el-button>
       </el-form-item>
     </el-form>
     
@@ -48,6 +48,7 @@ export default {
   components: { Tinymce },
   data() {
     return {
+      isDisabled:false, //防止表单重复提交
       subjectFilter:[], //科目列表
       form:{
         subjectId: null,
@@ -112,12 +113,16 @@ export default {
         if (!valid) {
            console.log('校验出错')
          }else{
-             this.form.content = JSON.stringify(this.form.items) 
-       topicApi.saveTopic(this.form)
-           .then(response=>{
-            this.$message.success(response.message)
-            this.$router.push({ path: '/edu/topic/list'})
-      })
+           this.isDisabled=true
+           this.form.content = JSON.stringify(this.form.items) 
+            topicApi.saveTopic(this.form)
+                .then(response=>{
+                  this.$message.success(response.message)
+                  this.$router.push({ path: '/edu/topic/list'})
+            })
+            .catch(response=>{
+              this.isDisabled=false
+            })
          }
       })
       
@@ -127,12 +132,16 @@ export default {
         if (!valid) {
            console.log('校验出错')
          }else{
+            this.isDisabled=true
             this.form.content = JSON.stringify(this.form.items) 
-      topicApi.updateTopicById(this.form)
-      .then(response=>{
-        this.$message.success(response.message)
-        this.$router.push({ path: '/edu/topic/list'})
-      })
+            topicApi.updateTopicById(this.form)
+            .then(response=>{
+              this.$message.success(response.message)
+              this.$router.push({ path: '/edu/topic/list'})
+            })
+            .catch(response=>{
+              this.isDisabled=false
+            })
          }
       })
       

@@ -151,6 +151,7 @@ export default {
     changeCurrentPage(page) {
       this.page = page
       this.fetchData()
+      
     },
     //清空搜索框
     resetData() {

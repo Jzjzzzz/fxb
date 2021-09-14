@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.jzj.commonutils.BusinessException;
+import com.jzj.commonutils.ResultCode;
+import com.jzj.core.mapper.EduTopicContentMapper;
 import com.jzj.core.mapper.EduTopicMapper;
 import com.jzj.core.pojo.entity.EduTopic;
 import com.jzj.core.pojo.entity.EduTopicContent;
@@ -35,22 +38,26 @@ import java.util.Map;
 @Service
 public class EduTopicServiceImpl extends ServiceImpl<EduTopicMapper, EduTopic> implements EduTopicService {
     @Resource
-    private EduTopicContentService topicContentService;
+    private EduTopicContentMapper topicContentMapper;
 
     @Transactional
     @Override
     public boolean saveTopic(EduTopicSaveVo topicSaveVo) {
+        //校验数据
+        if(topicSaveVo==null) throw new BusinessException(ResultCode.ERROR,"数据异常");
+        if(StringUtils.isEmpty(topicSaveVo.getTitleContent())) throw new BusinessException(ResultCode.ERROR,"题目题干不能为空");
+        if(StringUtils.isEmpty(topicSaveVo.getCorrect())) throw new BusinessException(ResultCode.ERROR,"正确答案不能为空");
+
         //添加题目详情表数据
         EduTopicContent topicContent = new EduTopicContent();
         BeanUtils.copyProperties(topicSaveVo,topicContent);
-        topicContentService.save(topicContent);
+        topicContentMapper.insert(topicContent);
         //添加题目表数据
         EduTopic topic = new EduTopic();
         BeanUtils.copyProperties(topicSaveVo,topic);
         topic.setTopicDetailsId(topicContent.getId());
         topic.setStatus(1);
-        baseMapper.insert(topic);
-        return true;
+        return baseMapper.insert(topic)>0;
     }
 
     @Override
@@ -86,32 +93,35 @@ public class EduTopicServiceImpl extends ServiceImpl<EduTopicMapper, EduTopic> i
     public boolean removeTopicById(Long id) {
         EduTopic topic = baseMapper.selectById(id);
         //删除题目详情数据
-        topicContentService.removeById(topic.getTopicDetailsId());
+        topicContentMapper.deleteById(topic.getTopicDetailsId());
         //删除题目
-        baseMapper.deleteById(topic.getId());
-        return true;
+        return baseMapper.deleteById(topic.getId())>0;
     }
 
     @Override
     public EduTopicEditVo getByIdTopic(Long id) {
-
         return baseMapper.getByIdTopic(id);
     }
 
     @Transactional
     @Override
     public boolean updateTopic(EduTopicSaveVo topicSaveVo) {
+        //校验数据
+        if(topicSaveVo==null) throw new BusinessException(ResultCode.ERROR,"数据异常");
+        if(StringUtils.isEmpty(topicSaveVo.getTitleContent())) throw new BusinessException(ResultCode.ERROR,"题目题干不能为空");
+        if(StringUtils.isEmpty(topicSaveVo.getContent())) throw new BusinessException(ResultCode.ERROR,"题目内容不能为空");
+        if(StringUtils.isEmpty(topicSaveVo.getCorrect())) throw new BusinessException(ResultCode.ERROR,"正确答案不能为空");
         //封装题目表
         EduTopic topic = new EduTopic();
         BeanUtils.copyProperties(topicSaveVo,topic);
         //封装题目详情表
         EduTopicContent topicContent = new EduTopicContent();
         BeanUtils.copyProperties(topicSaveVo,topicContent);
+        topicContent.setId(topic.getTopicDetailsId()); //详情id
 
         //提交
-        int count = baseMapper.updateById(topic);
-        boolean result = topicContentService.updateById(topicContent);
-        return result;
+        baseMapper.updateById(topic);
+        return topicContentMapper.updateById(topicContent)>0;
     }
 
     @Override

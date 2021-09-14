@@ -55,7 +55,7 @@ public class AdminEduSubjectController {
     @ApiOperation("修改科目")
     @PutMapping("/update")
     public R update(@RequestBody EduSubject subject){
-        boolean result = subjectService.updateById(subject);
+        boolean result = subjectService.updateSubjectById(subject);
         if(result) return R.ok().message("修改成功");
         return R.error().message("修改失败");
     }

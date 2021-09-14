@@ -87,7 +87,7 @@
       
     />
     <!-- 添加或修改对话框 -->
-    <el-dialog  :before-close="onClearFrom" title="新增字典" :visible.sync="dialogVisible" width="30%">
+    <el-dialog @open="isDisabled=false" :before-close="onClearFrom" title="新增字典" :visible.sync="dialogVisible" width="30%">
       <el-form :model="form" :rules="rules"  ref="form">
         <el-form-item label="字典名" :label-width="formLabelWidth" prop="name">
         <el-input type="text" v-model="form.name" auto-complete="off"></el-input>
@@ -109,7 +109,7 @@
         <el-button @click="onClearFrom">
           取消
         </el-button>
-        <el-button type="primary" @click="onSubmit">
+        <el-button type="primary" :disabled="isDisabled"  @click="onSubmit">
           确定
         </el-button>
       </div>
@@ -121,6 +121,7 @@ import dictApi from '@/api/system/dict'
 export default {
   data() {
     return {
+      isDisabled:true, //防止表单重复提交
       page:1, //当前页
       limit:5,//每页记录数
       total:0,//总记录数
@@ -180,12 +181,16 @@ export default {
          if (!valid) {
            console.log('校验出错')
          }else{
+           this.isDisabled=true //禁用提交按钮
            dictApi.saveTop(this.form)
            .then(response=>{
             this.dialogVisible = false
             this.$message.success(response.message)
             this.fetchData()
             this.onClearFrom()
+      })
+      .catch(response=>{
+        this.isDisabled=false
       })
          }
       })
@@ -196,12 +201,16 @@ export default {
         if (!valid) {
           console.log('校验出错')
         }else{
+          this.isDisabled=true //禁用提交按钮
           dictApi.updateById(this.form)
           .then(response=>{
             this.dialogVisible = false
             this.$message.success(response.message)
             this.fetchData()
             this.onClearFrom()
+      })
+      .catch(response=>{
+        this.isDisabled=false
       })
         }
       })

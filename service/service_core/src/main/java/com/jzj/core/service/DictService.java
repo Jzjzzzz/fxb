@@ -30,4 +30,6 @@ public interface DictService extends IService<Dict> {
     boolean saveSun(Long parentId, Dict dict);
 
     IPage<Dict> listPage(Page<Dict> pageParam, DictQuery dictQuery);
+
+    boolean updateDictById(Dict dict);
 }

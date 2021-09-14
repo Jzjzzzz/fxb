@@ -1,26 +1,25 @@
 <template>
   <div class="app-container">
    <el-form :rules="rules"  :model="form" ref="form" label-width="100px"  >
-      <el-form-item label="学科：" prop="subjectId" required>
+      <el-form-item label="学科：" prop="subjectId" >
         <el-select v-bind:disabled="this.$route.params.id!=0" v-model="form.subjectId" placeholder="学科">
           <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id"
                      :label="item.name"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="试卷名称："  prop="paperName" required>
+      <el-form-item label="试卷名称："  prop="paperName" >
         <el-input v-model="form.paperName"/>
       </el-form-item>
           <el-form-item label="试卷简介："  prop="paperTitle" >
         <el-input v-model="form.paperTitle"/>
       </el-form-item>
-      <el-form-item label="建议时长：" prop="suggestTime" required>
-        <el-input v-model="form.suggestTime" placeholder="分钟"/>
+      <el-form-item label="考试时长：" prop="suggestTime">
+        <el-input-number v-model="form.suggestTime"  :step="1" :min="0" :max="4320"></el-input-number>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm">提交</el-button>
+        <el-button type="primary" @click="submitForm" :disabled="isDisabled">提交</el-button>
         <el-button type="success" @click="addTopic">添加题目</el-button>
         <el-button type="info" @click="goBackList">返回列表</el-button>
-
       </el-form-item>
     </el-form>
     
@@ -50,7 +49,7 @@
         </el-table>
       <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+          <el-button type="primary" @click="dialogVisible = false" >确定</el-button>
      </span>
       <!-- 分页组件 -->
     <el-pagination
@@ -77,6 +76,7 @@ import paperApi from '@/api/edu/paper'
 export default {
   data() {
     return {
+      isDisabled:false, //防止表单重复提交
       form:{
         id:'',
         subjectId:null,
@@ -98,7 +98,7 @@ export default {
       rules: {
         subjectId: [{ required: true, message: '学科不能为空', trigger: 'blur' }],
         paperName: [{ required: true, message: '试卷名不能为空', trigger: 'blur' }],
-        suggestTime: [{ required: true, message: '建议时长不能为空', trigger: 'blur' }],
+        suggestTime: [{ required: true, message: '考试时长不能为空', trigger: 'blur' }],
         
       }
       
@@ -131,12 +131,16 @@ export default {
         if (!valid) {
            console.log('校验出错')
          }else{
-            this.form.topicListVoList = this.multipleTable
-        paperApi.save(this.form)
-        .then(response=>{
-            this.$message.success(response.message)
-            this.$router.push({ path: '/edu/paper/list'})
-        })
+          this.isDisabled=true
+          this.form.topicListVoList = this.multipleTable
+          paperApi.save(this.form)
+          .then(response=>{
+              this.$message.success(response.message)
+              this.$router.push({ path: '/edu/paper/list'})
+          })
+          .catch(response=>{
+            this.isDisabled=false
+          })
          }
       })
       
@@ -147,12 +151,16 @@ export default {
         if (!valid) {
            console.log('校验出错')
          }else{
-            this.form.topicListVoList = this.multipleTable
-      paperApi.updateById(this.form)
-        .then(response=>{
-            this.$message.success(response.message)
-            this.$router.push({ path: '/edu/paper/list'})
-        })
+          this.isDisabled=true
+          this.form.topicListVoList = this.multipleTable
+          paperApi.updateById(this.form)
+            .then(response=>{
+                this.$message.success(response.message)
+                this.$router.push({ path: '/edu/paper/list'})
+            })
+            .catch(response=>{
+              this.isDisabled=false
+            })
          }
       })
       

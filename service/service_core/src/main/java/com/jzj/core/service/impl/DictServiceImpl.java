@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jzj.commonutils.Assert;
 import com.jzj.commonutils.BusinessException;
 import com.jzj.commonutils.ResponseEnum;
+import com.jzj.commonutils.ResultCode;
 import com.jzj.core.mapper.DictMapper;
 import com.jzj.core.pojo.entity.Dict;
 import com.jzj.core.pojo.query.DictQuery;
@@ -48,6 +49,11 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
 
     @Override
     public boolean saveTop(Dict dict) {
+        //校验数据
+        if(dict==null) throw new BusinessException(ResultCode.ERROR,"参数异常");
+        if(StringUtils.isBlank(dict.getName())) throw new BusinessException(ResultCode.ERROR,"字典名称不能为空");
+        Integer count = baseMapper.selectCount(new QueryWrapper<Dict>().eq("name", dict.getName()));
+        if(count>0) throw new BusinessException(ResultCode.ERROR,"已存在该名称字典");
         QueryWrapper<Dict> dictQueryWrapper = new QueryWrapper<>();
         //查询出当前最大的id
         dictQueryWrapper.eq("parent_id", 1)
@@ -68,6 +74,11 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
 
     @Override
     public boolean saveSun(Long parentId, Dict dict) {
+        //校验参数
+        if(parentId==null) throw new BusinessException(ResultCode.ERROR,"父类不存在");
+        if(dict==null) throw new BusinessException(ResultCode.ERROR,"参数错误");
+        Integer nameCount = baseMapper.selectCount(new QueryWrapper<Dict>().eq("name", dict.getName()));
+        if(nameCount>0) throw new BusinessException(ResultCode.ERROR,"已存在该名称字典");
         //判空
         if(StringUtils.isBlank(dict.getName())){
             throw new BusinessException(20001,"参数不能为空");
@@ -108,6 +119,16 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         wrapper.like(StringUtils.isNotBlank(name), "name", name);
         wrapper.like(StringUtils.isNotBlank(dictCode), "dict_code", dictCode);
         return baseMapper.selectPage(pageParam, wrapper);
+    }
+
+    @Override
+    public boolean updateDictById(Dict dict) {
+        //校验数据
+        if(dict==null) throw new BusinessException(ResultCode.ERROR,"参数异常");
+        if(StringUtils.isBlank(dict.getName())) throw new BusinessException(ResultCode.ERROR,"字典名称不能为空");
+        Integer count = baseMapper.selectCount(new QueryWrapper<Dict>().eq("name", dict.getName()).ne("id",dict.getId()));
+        if(count>0) throw new BusinessException(ResultCode.ERROR,"已存在该名称字典");
+        return baseMapper.updateById(dict)>0;
     }
 
     @Override

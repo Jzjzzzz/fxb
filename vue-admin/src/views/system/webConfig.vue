@@ -75,7 +75,7 @@
           </el-row>
 
           <el-form-item>
-            <el-button type="primary" @click="submitForm()">
+            <el-button type="primary" @click="submitForm()" :disabled="isDisabled">
               保 存
             </el-button>
           </el-form-item>
@@ -106,6 +106,7 @@
               type="primary"
               @click="submitForm()"
               v-permission="'/webConfig/editWebConfig'"
+              :disabled="isDisabled"
             >
               保 存
             </el-button>
@@ -147,6 +148,7 @@
               type="primary"
               @click="submitForm()"
               v-permission="'/webConfig/editWebConfig'"
+              :disabled="isDisabled"
             >
               保 存
             </el-button>
@@ -171,7 +173,7 @@ export default {
   // 定义数据模型
   data() {
     return {
-
+      isDisabled:false, //防止表单重复提交
       fileList: [{url:''},{url:''},{url:''}],
       BASE_API: process.env.BASE_API, // 接口API地址
       imagecropperShow: false, // 是否显示上传组件
@@ -257,13 +259,18 @@ export default {
     },
 
     submitForm() {
+      this.isDisabled=true //禁用提交按钮
       let form = this.form
-      form.slideshowOne = this.fileList[0] 
-      form.slideshowTwo = this.fileList[1] 
-      form.slideshowThree = this.fileList[2] 
+      form.slideshowOne = this.fileList[0].url
+      form.slideshowTwo = this.fileList[1].url
+      form.slideshowThree = this.fileList[2].url
       webConfigApi.editWebConfig(form).then(response => {
         this.$message.success('保存成功')
+        this.isDisabled=false
         this.fetchData()
+      })
+      .catch(response=>{
+        this.isDisabled=false
       })
     }
   }

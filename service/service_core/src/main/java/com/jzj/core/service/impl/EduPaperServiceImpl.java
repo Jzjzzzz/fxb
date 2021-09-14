@@ -3,6 +3,8 @@ package com.jzj.core.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.jzj.commonutils.BusinessException;
+import com.jzj.commonutils.ResultCode;
 import com.jzj.core.mapper.*;
 import com.jzj.core.pojo.entity.EduPaper;
 import com.jzj.core.pojo.entity.EduPaperTopic;
@@ -17,7 +19,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
 import javax.annotation.Resource;
 import java.util.*;
 
@@ -47,6 +48,15 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
     @Transactional
     @Override
     public boolean savePaperOrTopic(EduPaperSaveVo paperSaveVo) {
+        //校验数据
+        if(paperSaveVo==null) throw new BusinessException(ResultCode.ERROR,"数据异常");
+        if(org.apache.commons.lang3.StringUtils.isBlank(paperSaveVo.getPaperName())) throw new BusinessException(ResultCode.ERROR,"试卷名不能为空");
+        if(StringUtils.isEmpty(paperSaveVo.getSuggestTime())) throw new BusinessException(ResultCode.ERROR,"考试时长不能为空");
+        if(paperSaveVo.getSuggestTime()>4320) throw new BusinessException(ResultCode.ERROR,"考试时长不能大于三天");
+        if(paperSaveVo.getSuggestTime()<=0) throw new BusinessException(ResultCode.ERROR,"考试时长异常");
+        Integer count = baseMapper.selectCount(new QueryWrapper<EduPaper>().eq("paper_name", paperSaveVo.getPaperName()));
+        if(count>0) throw new BusinessException(ResultCode.ERROR,"试卷名已存在");
+
         List<EduTopicListVo> topicListVoList = paperSaveVo.getTopicListVoList(); //获取题目集合
         //封装试卷表数据
         EduPaper eduPaper = new EduPaper();
@@ -68,6 +78,15 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
     @Transactional
     @Override
     public boolean updatePaper(EduPaperSaveVo paperSaveVo) {
+        //校验数据
+        if(paperSaveVo==null) throw new BusinessException(ResultCode.ERROR,"数据异常");
+        if(org.apache.commons.lang3.StringUtils.isBlank(paperSaveVo.getPaperName())) throw new BusinessException(ResultCode.ERROR,"试卷名不能为空");
+        if(StringUtils.isEmpty(paperSaveVo.getSuggestTime())) throw new BusinessException(ResultCode.ERROR,"考试时长不能为空");
+        if(paperSaveVo.getSuggestTime()>4320) throw new BusinessException(ResultCode.ERROR,"考试时长不能大于三天");
+        if(paperSaveVo.getSuggestTime()<=0) throw new BusinessException(ResultCode.ERROR,"考试时长异常");
+        Integer count = baseMapper.selectCount(new QueryWrapper<EduPaper>().eq("paper_name", paperSaveVo.getPaperName()).ne("id",paperSaveVo.getId()));
+        if(count>0) throw new BusinessException(ResultCode.ERROR,"试卷名已存在");
+
         List<EduTopicListVo> topicListVoList = paperSaveVo.getTopicListVoList(); //获取题目集合
         //修改试卷基本信息表
         EduPaper eduPaper = new EduPaper();

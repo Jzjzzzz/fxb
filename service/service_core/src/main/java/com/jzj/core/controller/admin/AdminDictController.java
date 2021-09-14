@@ -75,7 +75,7 @@ public class AdminDictController {
     @ApiOperation("修改数据字典")
     @PutMapping("/update")
     public R update(@RequestBody Dict dict){
-        boolean result = dictService.updateById(dict);
+        boolean result = dictService.updateDictById(dict);
         if(result) return R.ok().message("修改成功");
         return R.error().message("修改失败");
     }

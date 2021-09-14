@@ -20,4 +20,6 @@ public interface EduSubjectService extends IService<EduSubject> {
 
 
     boolean saveSubject(EduSubject subject);
+
+    boolean updateSubjectById(EduSubject subject);
 }

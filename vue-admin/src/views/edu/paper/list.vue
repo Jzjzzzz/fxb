@@ -121,11 +121,11 @@ export default {
       //分页相关方法
     changePageSize(size) {
       this.limit = size
-      this.addTopic()
+      this.fetchData()
     },
     changeCurrentPage(page) {
       this.page = page
-      this.addTopic()
+      this.fetchData()
     },
     fetchData(){
       paperApi.listPage(this.page,this.limit,this.searchObj)

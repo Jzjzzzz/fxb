@@ -90,7 +90,7 @@
       
     />
     <!-- 添加或修改对话框 -->
-    <el-dialog  :before-close="onClearFrom" title="新增科目" :visible.sync="dialogVisible" width="30%">
+    <el-dialog  @open="isDisabled=false" :before-close="onClearFrom" title="新增科目" :visible.sync="dialogVisible" width="30%">
       <el-form :model="form" :rules="rules"  ref="form">
         <el-form-item label="科目名" :label-width="formLabelWidth" prop="name">
         <el-input type="text" v-model="form.name" auto-complete="off"></el-input>
@@ -109,7 +109,7 @@
         <el-button @click="onClearFrom">
           取消
         </el-button>
-        <el-button type="primary" @click="onSubmit">
+        <el-button type="primary" @click="onSubmit" :disabled="isDisabled">
           确定
         </el-button>
       </div>
@@ -121,6 +121,7 @@ import subjectApi from '@/api/edu/subject'
 export default {
   data() {
     return {
+      isDisabled:true, //防止表单重复提交
       page:1, //当前页
       limit:5,//每页记录数
       total:0,//总记录数
@@ -161,6 +162,7 @@ export default {
     },
     //新增修改提交表单
     onSubmit(){
+      
       if(this.form.id!=null){
         this.updateTop()
       }else{
@@ -173,6 +175,7 @@ export default {
          if (!valid) {
            console.log('校验出错')
          }else{
+           this.isDisabled=true //禁用提交按钮
            subjectApi.save(this.form)
            .then(response=>{
             this.dialogVisible = false
@@ -180,6 +183,10 @@ export default {
             this.fetchData()
             this.onClearFrom()
       })
+      .catch(response=>{
+        this.isDisabled=false
+      })
+      
          }
       })
     },
@@ -189,12 +196,16 @@ export default {
         if (!valid) {
           console.log('校验出错')
         }else{
+          this.isDisabled=true //禁用提交按钮
           subjectApi.updateById(this.form)
           .then(response=>{
             this.dialogVisible = false
             this.$message.success(response.message)
             this.fetchData()
             this.onClearFrom()
+      })
+      .catch(response=>{
+        this.isDisabled=false
       })
         }
       })
