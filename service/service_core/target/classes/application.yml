@@ -4,6 +4,18 @@ server:
 
 #spirng基础配置
 spring:
+  redis:
+    port: 6379
+    host: 47.115.35.176
+    database: 0
+    password: 1410357039
+    timeout: 1800000
+    lettuce:
+      pool:
+        max-active: 20
+        max-wait: -1
+        max-idle: 5
+        min-idle: 0
   profiles:
     active: dev # 环境设置
   application:
@@ -23,21 +35,6 @@ spring:
     nacos:
       discovery:
         server-addr: 47.115.35.176:8848 # nacos服务地址
-  #redis配置
-  redis:
-    host: 47.115.35.176
-    port: 6379
-    database: 0
-    password: 1410357039
-    timeout: 1800000
-    lettuce:
-      pool:
-        max-active: 20
-        #最大阻塞等待时间(负数表示没限制)
-        max-wait: -1
-        max-idle: 5
-        #最小空闲
-        min-idle: 0
 
 #mybatis配置
 mybatis-plus: #mybatis

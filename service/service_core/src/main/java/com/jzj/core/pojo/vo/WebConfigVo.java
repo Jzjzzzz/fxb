@@ -3,6 +3,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @Author Jzj
  * @Date 2021/9/1 22:52
@@ -10,7 +12,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(description="前台网站配置")
-public class WebConfigVo {
+public class WebConfigVo  {
 
     @ApiModelProperty(value = "网站logo")
     private String logo;
@@ -44,5 +46,7 @@ public class WebConfigVo {
 
     @ApiModelProperty(value = "微信号")
     private String weChat;
+
+
 
 }

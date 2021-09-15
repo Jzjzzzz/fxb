@@ -31,7 +31,7 @@ public class AdminUcenterMemberController {
     @Resource
     private UcenterMemberService memberService;
 
-    @ApiOperation("/获取会员信息列表")
+    @ApiOperation("获取会员信息列表")
     @PostMapping("/listPage/{page}/{limit}")
     public R getUserList(@PathVariable Long page, @PathVariable Long limit, @RequestBody(required = false) UserQuery userQuery){
         Page<UcenterMember> memberPage = new Page<>(page, limit);
