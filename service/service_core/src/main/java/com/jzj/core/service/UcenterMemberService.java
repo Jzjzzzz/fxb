@@ -1,7 +1,10 @@
 package com.jzj.core.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jzj.core.pojo.entity.UcenterMember;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jzj.core.pojo.query.UserQuery;
 import com.jzj.core.pojo.vo.LoginVo;
 import com.jzj.core.pojo.vo.RegisterVo;
 
@@ -19,4 +22,9 @@ public interface UcenterMemberService extends IService<UcenterMember> {
 
     void register(RegisterVo registerVo);
 
+    IPage<UcenterMember> getUserList(Page<UcenterMember> memberPage, UserQuery userQuery);
+
+    boolean adminSave(UcenterMember ucenterMember);
+
+    boolean updateUserById(UcenterMember ucenterMember);
 }

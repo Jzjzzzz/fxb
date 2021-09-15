@@ -1,20 +1,27 @@
 package com.jzj.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jzj.commonutils.BusinessException;
+import com.jzj.commonutils.ResultCode;
 import com.jzj.core.pojo.entity.UcenterMember;
 import com.jzj.core.mapper.UcenterMemberMapper;
+import com.jzj.core.pojo.query.UserQuery;
 import com.jzj.core.pojo.vo.LoginVo;
 import com.jzj.core.pojo.vo.RegisterVo;
 import com.jzj.core.service.UcenterMemberService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jzj.util.JwtUtils;
 import com.jzj.util.MD5;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -103,5 +110,36 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         this.save(member);
     }
 
+    @Override
+    public IPage<UcenterMember> getUserList(Page<UcenterMember> memberPage, UserQuery userQuery) {
+        QueryWrapper<UcenterMember> wrapper = new QueryWrapper<>();
+        if (userQuery == null) return baseMapper.selectPage(memberPage, wrapper);
+        if(StringUtils.isNotBlank(userQuery.getMobile())){
+            wrapper.like("mobile",userQuery.getMobile());
+        }
+        if(StringUtils.isNotBlank(userQuery.getNickname())){
+            wrapper.like("nickname",userQuery.getNickname());
+        }
+        return baseMapper.selectPage(memberPage, wrapper);
+    }
 
+    @Override
+    public boolean adminSave(UcenterMember ucenterMember) {
+        //数据校验
+        if(ucenterMember==null) throw new BusinessException(ResultCode.ERROR,"数据异常");
+        if(StringUtils.isAllBlank(ucenterMember.getNickname(),ucenterMember.getMobile(),ucenterMember.getPassword())) throw new BusinessException(ResultCode.ERROR,"必填项不能为空");
+        ucenterMember.setAge(18); //设置年龄
+        ucenterMember.setSex(1); //设置性别
+        ucenterMember.setPassword(MD5.encrypt(ucenterMember.getPassword())); //密码加密
+        return baseMapper.insert(ucenterMember)>0;
+    }
+
+    @Override
+    public boolean updateUserById(UcenterMember ucenterMember) {
+        //数据校验
+        if(ucenterMember==null) throw new BusinessException(ResultCode.ERROR,"数据异常");
+        if(StringUtils.isAllBlank(ucenterMember.getNickname(),ucenterMember.getMobile(),ucenterMember.getPassword())) throw new BusinessException(ResultCode.ERROR,"必填项不能为空");
+        ucenterMember.setPassword(MD5.encrypt(ucenterMember.getPassword())); //密码加密
+        return baseMapper.updateById(ucenterMember)>0;
+    }
 }
