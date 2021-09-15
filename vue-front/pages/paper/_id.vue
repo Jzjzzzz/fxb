@@ -210,7 +210,7 @@
                 <el-button style=" margin: 5px;" @click.native="handleStep(index+form.judgeNumber+form.multipleChoiceNumber+form.singleChoiceNumber)" v-for="(item,index) in form.shortAnswerList" :key="item.id">{{index+1+form.judgeNumber+form.multipleChoiceNumber+form.singleChoiceNumber}}</el-button>
               </section>
             </div>
-            <el-button size="medium"  type="primary" style="margin-left: 100px;margin-top:10px" @click="onSubmit">
+            <el-button size="medium"  type="primary" style="margin-left: 100px;margin-top:10px" :disabled="isDisabled" @click="onSubmit">
               交卷
             </el-button>  
           </div>   
@@ -227,6 +227,7 @@ import cookie from 'js-cookie'
 export default {
   data () {
     return { 
+      isDisabled:false, //防止表单重复提交
       loginInfo:{
         id: 0,
         age: '',
@@ -307,6 +308,7 @@ export default {
     },
     //交卷
     submitPaper(){
+      this.isDisabled=true //禁用提交按钮
       //按序列顺序封装不要打乱
       //封装单选题id
       for (let i = 0; i < this.form.singleChoiceNumber; i++) {
@@ -328,6 +330,9 @@ export default {
       .then(response=>{
         this.$message.success("交卷成功")
         this.$router.push({ path: '/records' })
+      })
+      .catch(response=>{
+        this.isDisabled=false
       })
     },
     //主动点击交卷
