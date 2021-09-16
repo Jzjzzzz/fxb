@@ -3,6 +3,8 @@ package com.jzj.core.mapper;
 import com.jzj.core.pojo.entity.UcenterMember;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 会员表 Mapper 接口
@@ -12,5 +14,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2021-08-29
  */
 public interface UcenterMemberMapper extends BaseMapper<UcenterMember> {
-
+    List<Integer> getUserSevenDays();
 }

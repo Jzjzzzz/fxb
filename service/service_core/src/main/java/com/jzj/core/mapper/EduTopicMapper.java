@@ -7,6 +7,8 @@ import com.jzj.core.pojo.vo.EduTopicListVo;
 import com.jzj.core.pojo.vo.FrontPaperAnswerVo;
 import com.jzj.core.pojo.vo.FrontTopicVo;
 
+import java.util.List;
+
 /**
  * <p>
  * 题目 Mapper 接口
@@ -23,4 +25,6 @@ public interface EduTopicMapper extends BaseMapper<EduTopic> {
     FrontTopicVo getByIdTopicFront(Long topicId,Long parentId);
 
     FrontPaperAnswerVo getByIdTopicFrontAnswer(Long id);
+
+    List<Integer> getTopicSevenDays();
 }

@@ -22,4 +22,6 @@ public interface EduPaperMapper extends BaseMapper<EduPaper> {
     List<FrontPaperIndexVo> getHotPaperList();
 
     FrontPaperIndexVo getBasePaperById(Long id);
+
+
 }
