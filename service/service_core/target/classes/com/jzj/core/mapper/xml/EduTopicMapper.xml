@@ -36,4 +36,27 @@
                            on t.topic_details_id =tc.id
         where t.id = #{id}
     </select>
+    <select id="getTopicSevenDays" resultType="java.lang.Integer">
+        SELECT ifnull(b.count,0) as count
+        from (
+            SELECT curdate() as days
+            union all
+            SELECT date_sub(curdate(), interval 1 day) as days
+            union all
+            SELECT date_sub(curdate(), interval 2 day) as days
+            union all
+            SELECT date_sub(curdate(), interval 3 day) as days
+            union all
+            SELECT date_sub(curdate(), interval 4 day) as days
+            union all
+            SELECT date_sub(curdate(), interval 5 day) as days
+            union all
+            SELECT date_sub(curdate(), interval 6 day) as days
+            ) a left join (
+            select date(gmt_create) as datetime, count(*) as count
+            from edu_topic
+            group by date(gmt_create)
+            ) b on a.days = b.datetime  ORDER BY a.days desc;
+
+    </select>
 </mapper>

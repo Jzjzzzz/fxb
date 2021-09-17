@@ -5,22 +5,24 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jzj.commonutils.BusinessException;
 import com.jzj.commonutils.ResultCode;
+import com.jzj.core.mapper.EduTestPaperRecordsMapper;
 import com.jzj.core.pojo.entity.UcenterMember;
 import com.jzj.core.mapper.UcenterMemberMapper;
 import com.jzj.core.pojo.query.UserQuery;
-import com.jzj.core.pojo.vo.LoginVo;
-import com.jzj.core.pojo.vo.RegisterVo;
+import com.jzj.core.pojo.vo.*;
 import com.jzj.core.service.UcenterMemberService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jzj.util.JwtUtils;
 import com.jzj.util.MD5;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,6 +39,8 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
     @Resource
     private RedisTemplate<String, String> redisTemplate;
 
+    @Resource
+    private EduTestPaperRecordsMapper testPaperRecordsMapper;
 
     @Override
     public String login(LoginVo loginVo) {
@@ -142,4 +146,28 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         ucenterMember.setPassword(MD5.encrypt(ucenterMember.getPassword())); //密码加密
         return baseMapper.updateById(ucenterMember)>0;
     }
+
+    @Override
+    public boolean updatePasswordById(UserPasswordVo userPasswordVo) {
+        //校验数据
+        if(userPasswordVo==null) throw new BusinessException(ResultCode.ERROR,"数据异常");
+        if(StringUtils.isBlank(userPasswordVo.getOldPassword()) && StringUtils.isBlank(userPasswordVo.getNewPassword())) throw new BusinessException(ResultCode.ERROR,"密码不能为空");
+        UcenterMember user = baseMapper.selectById(userPasswordVo.getId());
+        if(!user.getPassword().equals(MD5.encrypt(userPasswordVo.getOldPassword()))) throw new BusinessException(ResultCode.ERROR,"原密码错误");
+        if(userPasswordVo.getNewPassword().length()<6) throw new BusinessException(ResultCode.ERROR,"密码长度不能小于6");
+        user.setPassword(MD5.encrypt(userPasswordVo.getNewPassword()));
+        return baseMapper.updateById(user)>0;
+    }
+
+    @Override
+    public FrontUserVo getByIdCount(Long id) {
+        FrontUserVo frontUserVo = new FrontUserVo();
+        UcenterMember ucenterMember = baseMapper.selectById(id);
+        BeanUtils.copyProperties(ucenterMember,frontUserVo);
+        List<UserCountVo> userCountVoList =  testPaperRecordsMapper.getByIdCount(id);
+        frontUserVo.setUserCountVoList(userCountVoList);
+        return frontUserVo;
+    }
+
+
 }

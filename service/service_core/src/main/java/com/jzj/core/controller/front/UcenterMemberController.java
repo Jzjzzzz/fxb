@@ -3,8 +3,10 @@ package com.jzj.core.controller.front;
 
 import com.jzj.commonutils.R;
 import com.jzj.core.pojo.entity.UcenterMember;
+import com.jzj.core.pojo.vo.FrontUserVo;
 import com.jzj.core.pojo.vo.LoginVo;
 import com.jzj.core.pojo.vo.RegisterVo;
+import com.jzj.core.pojo.vo.UserPasswordVo;
 import com.jzj.core.service.UcenterMemberService;
 import com.jzj.util.JwtUtils;
 import io.swagger.annotations.Api;
@@ -50,6 +52,32 @@ public class UcenterMemberController {
         UcenterMember member = memberService.getById(id);
         return R.ok().data("userInfo",member);
     }
+
+    @ApiOperation(value = "会员修改个人资料")
+    @PostMapping("updatePersonal")
+    public R updatePersonal(@RequestBody UcenterMember ucenterMember){
+        boolean result = memberService.updateById(ucenterMember);
+        if(result) return R.ok().message("修改个人资料成功");
+        return R.error().message("修改个人资料失败");
+    }
+
+    @ApiOperation(value = "会员修改密码")
+    @PostMapping("updatePassword")
+    public R updatePassword(@RequestBody UserPasswordVo userPasswordVo){
+        boolean result = memberService.updatePasswordById(userPasswordVo);
+        if(result) return R.ok().message("修改密码成功");
+        return R.error().message("修改密码失败");
+    }
+
+    @ApiOperation("根据ID查询会员")
+    @GetMapping("/getById/{id}")
+    public R getById(@PathVariable Long id){
+        FrontUserVo model = memberService.getByIdCount(id);
+        if(model!=null) return R.ok().data("model",model);
+        return R.error().message("该条数据不存在");
+    }
+
+
 
 }
 
