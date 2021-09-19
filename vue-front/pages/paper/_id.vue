@@ -22,11 +22,11 @@
                         </strong>
                       </h3>
                     </div>
-                    <div class="text item">
+                    <div class="text item"  >
                       <el-radio-group v-model="answer.singleRadio[index]"  >
-                        <div style="padding:15px" v-for="option in JSON.parse(item.content)"  :key="option.prefix" >
-                          <el-radio   :label="option.prefix">{{option.prefix}}. 
-                            <span style="display:inline-block;" v-html="option.content"></span>
+                        <div  style="padding:15px;width:740px;" v-for="option in JSON.parse(item.content)"  :key="option.prefix" >
+                          <el-radio    :label="option.prefix">{{option.prefix}}. 
+                            <span style="display:inline-block;word-break:break-all;white-space:normal" v-html="option.content"></span>
                           </el-radio>
                         </div>
                       </el-radio-group>
@@ -177,7 +177,7 @@
               <section class="c-infor-tabTitle ">
                 <div style="margin-top:20px;margin-left:10px">
                   <no-ssr>
-                    <vac :end-time="new Date().getTime() + 1800000" @finish="(vac) => finish(vac)">
+                    <vac ref="suggestTime" :auto-start="false" :end-time="new Date().getTime() + suggestTime" @finish="(vac) => finish(vac)">
                       <h3 slot="process"   slot-scope="{ timeObj }"   class="el-icon-time">剩余时间 : <span style="color:red" >{{ `${timeObj.h}:${timeObj.m}:${timeObj.s}` }}</span></h3>
                       <h3 slot="finish">考试结束啦!</h3>
                     </vac>
@@ -189,7 +189,11 @@
                  <div style="margin-top:20px;margin-left:10px">
                   <h3  class="el-icon-reading">题数 : {{form.questionCount}}</h3>
                  </div>
+                 <el-button size="medium" v-show="isShow"  type="success" style="margin-left: 100px;margin-top:10px"  @click="startCountdown">
+              开始考试
+            </el-button>  
                  <el-divider ></el-divider>
+                 
               </section> 
             </div>
             <div>
@@ -227,6 +231,8 @@ import cookie from 'js-cookie'
 export default {
   data () {
     return { 
+      isShow:true,
+      suggestTime:0,
       isDisabled:false, //防止表单重复提交
       loginInfo:{
         id: 0,
@@ -257,16 +263,20 @@ export default {
     }
     
   },
-  mounted() {
-     setInterval(this.timer, 1000);
-    },
-  created() {
-    //用户信息
+
+  created(){
+//用户信息
     this.showInfo()
     this.fetchData()
-    
-  },
+  },  
+
   methods: {
+    startCountdown() {
+      const vm = this
+      vm.$refs.suggestTime.startCountdown(true)
+      this.isShow = !this.isShow
+      setInterval(this.timer, 1000);
+    },
     timer() {
         this.answer.doTime ++;
       },
@@ -285,9 +295,11 @@ export default {
       }
     },
     fetchData(){
+      
       paperApi.getPaperTopicById(this.$route.params.id)
       .then(response=>{ 
         this.form = response.data.data.model
+        this.suggestTime = this.form.suggestTime
         //初始化单选题的数组大小
         for (let index = 1; index <= this.form.singleChoiceNumber; index++) {
           this.answer.singleRadio.push("")
@@ -303,8 +315,9 @@ export default {
         //初始化简答题的数组大小
         for (let index = 1; index <= this.form.shortAnswerNumber; index++) {
           this.answer.essayQuestion.push("")
-        }
+        } 
       })
+      
     },
     //交卷
     submitPaper(){
@@ -341,7 +354,7 @@ export default {
     },
     //倒计时结束自动交卷
     finish(vac){
-      this.submitPaper()
+      
     },
     //上一题
     lastStep(){

@@ -7,6 +7,7 @@ import com.jzj.core.pojo.query.TopicQuery;
 import com.jzj.core.pojo.vo.EduTopicEditVo;
 import com.jzj.core.pojo.vo.EduTopicSaveVo;
 
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -30,4 +31,6 @@ public interface EduTopicService extends IService<EduTopic> {
     boolean updateTopic(EduTopicSaveVo topicSaveVo);
 
     Map<String, Object> getTopicListById(Long id, Page<EduTopic> pageParam);
+
+    void importData(InputStream inputStream);
 }

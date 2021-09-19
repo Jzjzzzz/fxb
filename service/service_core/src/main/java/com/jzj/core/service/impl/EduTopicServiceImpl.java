@@ -1,13 +1,16 @@
 package com.jzj.core.service.impl;
 
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jzj.commonutils.BusinessException;
 import com.jzj.commonutils.ResultCode;
+import com.jzj.core.listener.ExcelTopicDTOListener;
 import com.jzj.core.mapper.EduTopicContentMapper;
 import com.jzj.core.mapper.EduTopicMapper;
+import com.jzj.core.pojo.dto.ExcelTopicDTO;
 import com.jzj.core.pojo.entity.EduTopic;
 import com.jzj.core.pojo.entity.EduTopicContent;
 import com.jzj.core.pojo.query.TopicQuery;
@@ -22,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -143,5 +147,12 @@ public class EduTopicServiceImpl extends ServiceImpl<EduTopicMapper, EduTopic> i
         map.put("list",list);
         map.put("total",total);
         return map;
+    }
+
+    @Transactional(rollbackFor = {Exception.class})
+    @Override
+    public void importData(InputStream inputStream) {
+        // 这里 需要指定读用哪个class去读，然后读取第一个sheet 文件流会自动关闭
+        EasyExcel.read(inputStream, ExcelTopicDTO.class, new ExcelTopicDTOListener(baseMapper,topicContentMapper)).sheet().doRead();
     }
 }

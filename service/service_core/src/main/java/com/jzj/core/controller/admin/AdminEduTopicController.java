@@ -3,7 +3,10 @@ package com.jzj.core.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.jzj.commonutils.BusinessException;
 import com.jzj.commonutils.R;
+import com.jzj.commonutils.ResponseEnum;
+import com.jzj.commonutils.ResultCode;
 import com.jzj.core.pojo.entity.Dict;
 import com.jzj.core.pojo.entity.EduSubject;
 import com.jzj.core.pojo.entity.EduTopic;
@@ -15,9 +18,12 @@ import com.jzj.core.service.EduTopicService;
 import com.jzj.core.utils.DictUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -95,6 +101,20 @@ public class AdminEduTopicController {
         Page<EduTopic> pageParam = new Page<>(page, limit);
         Map<String, Object> map = topicService.getTopicListById(id,pageParam);
         return R.ok().data("map",map);
+    }
+
+    @ApiOperation("Excel批量导入题目")
+    @PostMapping("/import")
+    public R batchImport(
+            @ApiParam(value = "Excel文件", required = true)
+            @RequestParam("file") MultipartFile file) {
+        try {
+            InputStream inputStream = file.getInputStream();
+            topicService.importData(inputStream);
+            return R.ok().message("批量导入成功");
+        } catch (Exception e) {
+            throw new BusinessException(ResultCode.ERROR, e.getMessage());
+        }
     }
 }
 

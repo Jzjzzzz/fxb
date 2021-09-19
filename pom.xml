@@ -46,10 +46,17 @@
         <docker.image.prefix>zx</docker.image.prefix>
         <cloud-alibaba.version>0.2.2.RELEASE</cloud-alibaba.version>
         <tencentcloud-sdk-java.version>3.1.322</tencentcloud-sdk-java.version>
+        <easyexcel.version>2.1.7</easyexcel.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!--alibabaEasyExcel-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
+            </dependency>
             <!--腾讯云api-->
             <dependency>
                 <groupId>com.tencentcloudapi</groupId>
