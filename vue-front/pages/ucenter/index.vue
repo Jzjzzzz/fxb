@@ -5,7 +5,13 @@
       <div class="grid-content bg-purple">
         <el-tabs>
         <el-tab-pane label="统计">
-          <div id="main" style="width: 600px;height:400px;"></div> 
+          <!-- /无数据提示 开始-->
+          <section class="no-data-wrap" v-if="this.xData.length<=0">
+              <em class="icon30 no-data-ico">&nbsp;</em>
+              <span class="c-666 fsize14 ml10 vam">暂无考试记录</span>
+          </section>
+          <!-- /无数据提示 结束-->
+          <div v-show="this.xData.length>0" id="main" style="width: 600px;height:400px;"></div> 
         </el-tab-pane>
         <el-tab-pane label="修改个人资料">
           <el-form  :model="form"   ref="form">

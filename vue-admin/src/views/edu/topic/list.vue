@@ -34,9 +34,9 @@
       <el-table-column type="index" width="50" align="center" />
       <el-table-column prop="name" label="科目名称" align="center" />
       <el-table-column prop="questionName" label="题型" align="center" />
-      <el-table-column prop="titleContent" :show-overflow-tooltip='true' label="题干" align="center">
-        <template slot-scope="scope">
-          <p v-html='scope.row.titleContent'></p>
+      <el-table-column  prop="titleContent" :show-overflow-tooltip='true' label="题干" align="center">
+        <template slot-scope="scope" >
+          <p  v-html='scope.row.titleContent'></p>
         </template>
       </el-table-column>
       <el-table-column prop="score" label="分数" align="center" />
