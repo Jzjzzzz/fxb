@@ -104,14 +104,15 @@ public class AdminEduTopicController {
     }
 
     @ApiOperation("Excel批量导入题目")
-    @PostMapping("/import")
+    @PostMapping("/import/{subjectId}")
     public R batchImport(
             @ApiParam(value = "Excel文件", required = true)
-            @RequestParam("file") MultipartFile file
+            @RequestParam("file") MultipartFile file,
+            @PathVariable Long subjectId
             ) {
         try {
             InputStream inputStream = file.getInputStream();
-            topicService.importData(inputStream);
+            topicService.importData(inputStream,subjectId);
             return R.ok().message("批量导入成功");
         } catch (Exception e) {
             throw new BusinessException(ResultCode.ERROR, e.getMessage());

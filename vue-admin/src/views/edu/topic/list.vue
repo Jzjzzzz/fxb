@@ -104,13 +104,18 @@
             :on-exceed="fileUploadExceed"
             :on-success="fileUploadSuccess"
             :on-error="fileUploadError"
-            :action="BASE_API + '/admin/core/topic/import'"
+            :action="BASE_API + '/admin/core/topic/import/'+excelForm.subjectId"
             name="file"
             accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           >
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item>
+        <el-form-item>
+       <el-select v-model="excelForm.subjectId" placeholder="学科" >
+          <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id" :label="item.name"></el-option>
+        </el-select>
+      </el-form-item>
       </el-form>
       <el-link :href="'https://fxb-jzj.oss-cn-guangzhou.aliyuncs.com/excel/%E5%8D%95%E9%80%89%E9%A2%98%E7%A4%BA%E4%BE%8B.xlsx'">单选题excel示例<i class="el-icon-view el-icon--right"></i> </el-link>
       <el-link :href="'https://fxb-jzj.oss-cn-guangzhou.aliyuncs.com/excel/%E9%97%AE%E7%AD%94%E9%A2%98%E7%A4%BA%E4%BE%8B.xlsx'">问答题excel示例<i class="el-icon-view el-icon--right"></i> </el-link>                                                                                                                                                                                          
@@ -128,6 +133,9 @@ import topicApi from '@/api/edu/topic'
 export default {
   data() {
     return {
+      excelForm:{
+        subjectId:10
+      },
       dialogVisible: false, //文件上传对话框是否显示
       editUrlEnum:[],
       searchObj:{},

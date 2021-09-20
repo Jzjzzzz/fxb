@@ -32,5 +32,5 @@ public interface EduTopicService extends IService<EduTopic> {
 
     Map<String, Object> getTopicListById(Long id, Page<EduTopic> pageParam);
 
-    void importData(InputStream inputStream);
+    void importData(InputStream inputStream,Long subjectId);
 }

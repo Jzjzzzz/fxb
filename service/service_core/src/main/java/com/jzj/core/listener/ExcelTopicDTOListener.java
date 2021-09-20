@@ -28,7 +28,7 @@ public class ExcelTopicDTOListener extends AnalysisEventListener<ExcelTopicDTO> 
     /**
      * 字母列表
      */
-    private static final List<String> letterList = Arrays.asList("A", "B", "C", "D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T");
+    private static final List<String>  LETTER_LIST = Arrays.asList("A", "B", "C", "D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T");
 
 
     /**
@@ -37,9 +37,13 @@ public class ExcelTopicDTOListener extends AnalysisEventListener<ExcelTopicDTO> 
     private EduTopicMapper topicMapper;
     private EduTopicContentMapper topicContentMapper;
 
-    public ExcelTopicDTOListener(EduTopicMapper topicMapper,EduTopicContentMapper topicContentMapper) {
+    //学科
+    private Long subjectId;
+
+    public ExcelTopicDTOListener(EduTopicMapper topicMapper,EduTopicContentMapper topicContentMapper,Long subjectId) {
         this.topicMapper = topicMapper;
         this.topicContentMapper = topicContentMapper;
+        this.subjectId = subjectId;
     }
 
 
@@ -72,7 +76,7 @@ public class ExcelTopicDTOListener extends AnalysisEventListener<ExcelTopicDTO> 
 
 
         //封装题目表
-        eduTopic.setSubjectId(10L); //学科id
+        eduTopic.setSubjectId(subjectId); //学科id
 
         eduTopic.setDifficult(5); //难度
         eduTopic.setCorrect(data.getCorrect()); //正确答案
@@ -99,7 +103,7 @@ public class ExcelTopicDTOListener extends AnalysisEventListener<ExcelTopicDTO> 
         ArrayList<String> content = new ArrayList<>(); //最终拼接答案
         for (int i =0;i<contentList.size();i++) {
             HashMap<String, String> map = new HashMap<>();
-            map.put("prefix",letterList.get(i));
+            map.put("prefix",LETTER_LIST.get(i));
             map.put("content",contentList.get(i));
             String jsonString = JSON.toJSONString(map);
             content.add(jsonString);

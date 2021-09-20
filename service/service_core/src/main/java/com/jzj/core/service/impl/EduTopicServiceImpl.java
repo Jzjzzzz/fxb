@@ -161,8 +161,8 @@ public class EduTopicServiceImpl extends ServiceImpl<EduTopicMapper, EduTopic> i
 
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public void importData(InputStream inputStream) {
+    public void importData(InputStream inputStream,Long subjectId) {
         // 这里 需要指定读用哪个class去读，然后读取第一个sheet 文件流会自动关闭
-        EasyExcel.read(inputStream, ExcelTopicDTO.class, new ExcelTopicDTOListener(baseMapper,topicContentMapper)).sheet().doRead();
+        EasyExcel.read(inputStream, ExcelTopicDTO.class, new ExcelTopicDTOListener(baseMapper,topicContentMapper,subjectId)).sheet().doRead();
     }
 }
