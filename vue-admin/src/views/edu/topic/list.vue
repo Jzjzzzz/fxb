@@ -20,6 +20,13 @@
           <el-button slot="reference" type="primary" class="link-left">添加</el-button>
       </el-popover>
       <el-button type="default" @click="resetData()">清空</el-button>
+      <el-button
+        @click="dialogVisible = true"
+        type="success"
+        icon="el-icon-download"
+      >
+        Excel批量导入题目
+      </el-button>
     </el-form>
     <!-- 表格 -->
     <el-table
@@ -87,6 +94,32 @@
       @current-change="changeCurrentPage"
       
     />
+    <el-dialog title="题目批量导入" :visible.sync="dialogVisible" width="30%">
+      <el-form>
+        <el-form-item label="请选择Excel文件">
+          <el-upload
+            :auto-upload="true"
+            :multiple="false"
+            :limit="1"
+            :on-exceed="fileUploadExceed"
+            :on-success="fileUploadSuccess"
+            :on-error="fileUploadError"
+            :action="BASE_API + '/admin/core/topic/import'"
+            name="file"
+            accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          >
+            <el-button size="small" type="primary">点击上传</el-button>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+      <el-link :href="'https://fxb-jzj.oss-cn-guangzhou.aliyuncs.com/excel/%E5%8D%95%E9%80%89%E9%A2%98%E7%A4%BA%E4%BE%8B.xlsx'">单选题excel示例<i class="el-icon-view el-icon--right"></i> </el-link>
+      <el-link :href="'https://fxb-jzj.oss-cn-guangzhou.aliyuncs.com/excel/%E9%97%AE%E7%AD%94%E9%A2%98%E7%A4%BA%E4%BE%8B.xlsx'">问答题excel示例<i class="el-icon-view el-icon--right"></i> </el-link>                                                                                                                                                                                          
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">
+          取消
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -95,6 +128,7 @@ import topicApi from '@/api/edu/topic'
 export default {
   data() {
     return {
+      dialogVisible: false, //文件上传对话框是否显示
       editUrlEnum:[],
       searchObj:{},
       subjectFilter:[], //科目列表
@@ -103,12 +137,28 @@ export default {
       total:0,//总记录数
       listLoading:true, //当没有数据时显示
       list: [], //数据列表
+      BASE_API: process.env.BASE_API, // 接口API地址
     }
   },
   created() {
     this.fetchData()
   },
   methods: {
+    // 上传多于一个文件时
+    fileUploadExceed() {
+      this.$message.warning('只能选取一个文件')
+    },
+    //上传成功回调
+    fileUploadSuccess(response) {
+      this.$message.success(response.message)
+      this.dialogVisible = false
+     
+    },
+    //上传失败回调
+    fileUploadError(error) {
+      this.$message.error('数据导入失败')
+    },
+
     //修改跳转
     approvalShow(scope){
       if(scope.row.questionId==1){

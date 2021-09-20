@@ -9,6 +9,7 @@ import com.jzj.core.pojo.dto.ExcelTopicDTO;
 import com.jzj.core.pojo.entity.EduTopic;
 import com.jzj.core.pojo.entity.EduTopicContent;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,23 +49,35 @@ public class ExcelTopicDTOListener extends AnalysisEventListener<ExcelTopicDTO> 
     @Override
     public void invoke(ExcelTopicDTO data, AnalysisContext context) {
 
-        //封装题目详情表
+        //初始化
         EduTopicContent eduTopicContent = new EduTopicContent();
+        EduTopic eduTopic = new EduTopic();
+
+        //封装题目详情表
         eduTopicContent.setCorrect(data.getCorrect()); //答案
         eduTopicContent.setTitleContent(data.getTitleContent());
-        List<String> contents = topicString(data);
-        eduTopicContent.setContent(String.valueOf(contents));
+
+        //当内容为空时是简答题，内容不为空时是单选题，并对内容进行处理
+        if(StringUtils.isAllBlank(data.getContentA(),data.getContentB(),data.getContentC(),data.getContentD())){
+            eduTopic.setQuestionId(4); //简答题
+            eduTopic.setScore(10); //分数
+        }else {
+            List<String> contents = topicString(data); //封装选项
+            eduTopicContent.setContent(String.valueOf(contents));
+            eduTopic.setQuestionId(1); //单选题
+            eduTopic.setScore(5); //分数
+        }
+
         topicContentMapper.insert(eduTopicContent);
 
 
         //封装题目表
-    EduTopic eduTopic = new EduTopic();
         eduTopic.setSubjectId(10L); //学科id
-        eduTopic.setScore(5); //分数
+
         eduTopic.setDifficult(5); //难度
         eduTopic.setCorrect(data.getCorrect()); //正确答案
         eduTopic.setStatus(1); //状态
-        eduTopic.setQuestionId(1); //题型
+
         eduTopic.setTopicDetailsId(eduTopicContent.getId()); //详情表id
         topicMapper.insert(eduTopic);
 }

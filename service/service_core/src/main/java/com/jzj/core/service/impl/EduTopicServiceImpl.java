@@ -8,9 +8,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jzj.commonutils.BusinessException;
 import com.jzj.commonutils.ResultCode;
 import com.jzj.core.listener.ExcelTopicDTOListener;
+import com.jzj.core.mapper.EduPaperMapper;
+import com.jzj.core.mapper.EduPaperTopicMapper;
 import com.jzj.core.mapper.EduTopicContentMapper;
 import com.jzj.core.mapper.EduTopicMapper;
 import com.jzj.core.pojo.dto.ExcelTopicDTO;
+import com.jzj.core.pojo.entity.EduPaper;
+import com.jzj.core.pojo.entity.EduPaperTopic;
 import com.jzj.core.pojo.entity.EduTopic;
 import com.jzj.core.pojo.entity.EduTopicContent;
 import com.jzj.core.pojo.query.TopicQuery;
@@ -43,6 +47,8 @@ import java.util.Map;
 public class EduTopicServiceImpl extends ServiceImpl<EduTopicMapper, EduTopic> implements EduTopicService {
     @Resource
     private EduTopicContentMapper topicContentMapper;
+    @Resource
+    private EduPaperTopicMapper paperTopicMapper;
 
     @Transactional
     @Override
@@ -95,11 +101,15 @@ public class EduTopicServiceImpl extends ServiceImpl<EduTopicMapper, EduTopic> i
     @Transactional
     @Override
     public boolean removeTopicById(Long id) {
+        //判断是否在某个试卷中使用到该题
+        Integer count = paperTopicMapper.selectCount(new QueryWrapper<EduPaperTopic>().eq("topic_id", id));
+        if(count>0) throw new BusinessException(ResultCode.ERROR,"该题在试卷中有应用，无法删除,请先在试卷中删除该题");
         EduTopic topic = baseMapper.selectById(id);
         //删除题目详情数据
         topicContentMapper.deleteById(topic.getTopicDetailsId());
         //删除题目
         return baseMapper.deleteById(topic.getId())>0;
+
     }
 
     @Override

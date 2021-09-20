@@ -107,7 +107,8 @@ public class AdminEduTopicController {
     @PostMapping("/import")
     public R batchImport(
             @ApiParam(value = "Excel文件", required = true)
-            @RequestParam("file") MultipartFile file) {
+            @RequestParam("file") MultipartFile file
+            ) {
         try {
             InputStream inputStream = file.getInputStream();
             topicService.importData(inputStream);
