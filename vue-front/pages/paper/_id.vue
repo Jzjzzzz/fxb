@@ -354,7 +354,7 @@ export default {
     },
     //倒计时结束自动交卷
     finish(vac){
-      
+      this.submitPaper()
     },
     //上一题
     lastStep(){

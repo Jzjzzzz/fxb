@@ -37,7 +37,7 @@ public class ExcelTopicDTOListener extends AnalysisEventListener<ExcelTopicDTO> 
     private EduTopicMapper topicMapper;
     private EduTopicContentMapper topicContentMapper;
 
-    //学科
+    //学科id
     private Long subjectId;
 
     public ExcelTopicDTOListener(EduTopicMapper topicMapper,EduTopicContentMapper topicContentMapper,Long subjectId) {

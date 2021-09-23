@@ -4,17 +4,13 @@ package com.jzj.core.controller.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jzj.commonutils.R;
-import com.jzj.core.pojo.entity.Dict;
-import com.jzj.core.pojo.entity.EduSubject;
 import com.jzj.core.pojo.entity.UcenterMember;
 import com.jzj.core.pojo.query.UserQuery;
 import com.jzj.core.service.UcenterMemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
-import java.util.Map;
 
 /**
  * <p>
@@ -34,8 +30,7 @@ public class AdminUcenterMemberController {
     @ApiOperation("获取会员信息列表")
     @PostMapping("/listPage/{page}/{limit}")
     public R getUserList(@PathVariable Long page, @PathVariable Long limit, @RequestBody(required = false) UserQuery userQuery){
-        Page<UcenterMember> memberPage = new Page<>(page, limit);
-        IPage<UcenterMember> listPage = memberService.getUserList(memberPage, userQuery);
+        IPage<UcenterMember> listPage = memberService.getUserList(new Page<>(page, limit), userQuery);
         return R.ok().data("list",listPage);
     }
     @ApiOperation("根据Id删除会员")

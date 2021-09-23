@@ -1,24 +1,15 @@
 package com.jzj.core.controller.admin;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jzj.commonutils.R;
-import com.jzj.core.pojo.entity.EduPaper;
-import com.jzj.core.pojo.entity.EduSubject;
 import com.jzj.core.pojo.query.PaperQuery;
 import com.jzj.core.pojo.vo.EduPaperSaveVo;
-import com.jzj.core.pojo.vo.EduTopicEditVo;
-import com.jzj.core.pojo.vo.EduTopicSaveVo;
 import com.jzj.core.service.EduPaperService;
-import com.jzj.core.service.EduSubjectService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,9 +26,6 @@ import java.util.Map;
 public class AdminEduPaperController {
     @Resource
     private EduPaperService paperService;
-
-    @Resource
-    private EduSubjectService subjectService;
 
     @ApiOperation("新增试卷")
     @PostMapping("/savePaper")
@@ -59,11 +47,7 @@ public class AdminEduPaperController {
     @PostMapping("/listPage/{page}/{limit}")
     public R listByPage(@PathVariable Long page, @PathVariable Long limit, @RequestBody(required = false) PaperQuery paperQuery){
         //列表数据
-        Page<EduPaper> pageParam = new Page<>(page, limit);
-        Map<String,Object> map = paperService.listPage(pageParam, paperQuery);
-        //科目数据
-        List<EduSubject> subjectList = subjectService.list(new QueryWrapper<EduSubject>().eq("status", 1));
-        map.put("subjectList",subjectList);
+        Map<String,Object> map = paperService.listPage(new Page<>(page, limit), paperQuery);
         return R.ok().data("map",map);
     }
 
@@ -74,6 +58,7 @@ public class AdminEduPaperController {
         if(result) return R.ok().message("删除试卷成功");
         return R.error().message("删除试卷失败");
     }
+
     @ApiOperation("根据ID获取试卷详情")
     @GetMapping("/getById/{id}")
     public R getById(@PathVariable Long id){

@@ -40,8 +40,8 @@
           <i class="el-icon-view" style="font-size:50px"></i>
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">访问量</div>
-          <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num"/>
+          <div class="card-panel-text">在线考试次数</div>
+          <count-to :start-val="0" :end-val="list.testTimes" :duration="2600" class="card-panel-num"/>
         </div>
       </div>
       </el-col>

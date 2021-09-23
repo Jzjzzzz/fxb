@@ -4,7 +4,6 @@ package com.jzj.core.controller.admin;
 import com.jzj.commonutils.R;
 import com.jzj.core.pojo.entity.WebConfig;
 import com.jzj.core.service.WebConfigService;
-import com.jzj.core.utils.DictUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -37,9 +36,7 @@ public class AdminWebConfigController {
     @PutMapping("/editWebConfig")
     public R editWebConfig(@RequestBody WebConfig webConfig){
         boolean result = webConfigService.editWebConfig(webConfig);
-        if(result){
-            return R.ok().message("修改成功");
-        }
+        if(result) return R.ok().message("修改成功");
         return R.error().message("修改失败");
     }
 

@@ -3,8 +3,6 @@ package com.jzj.core.controller.front;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jzj.commonutils.R;
-import com.jzj.core.pojo.entity.EduPaper;
-import com.jzj.core.pojo.entity.EduTestPaperRecords;
 import com.jzj.core.service.EduTestPaperRecordsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,11 +26,11 @@ public class EduTestPaperRecordsController {
 
     @Resource
     private EduTestPaperRecordsService testPaperRecordsService;
+
     @ApiOperation("获取用户考试记录列表分页")
     @PostMapping("/getTestRecordList/{page}/{limit}/{userId}")
     public R getTestRecordList(@PathVariable long page,@PathVariable long limit,@PathVariable Long userId){
-        Page<EduTestPaperRecords> recordsPage = new Page<>(page, limit);
-        Map<String,Object> map = testPaperRecordsService.getTestRecordList(recordsPage,userId);
+        Map<String,Object> map = testPaperRecordsService.getTestRecordList(new Page<>(page, limit),userId);
         return R.ok().data("map",map);
     }
 }

@@ -18,12 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
-
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -46,30 +42,15 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
     public String login(LoginVo loginVo) {
         String mobile = loginVo.getMobile();
         String password = loginVo.getPassword();
-
         //校验参数
-        if(StringUtils.isEmpty(mobile) ||
-                StringUtils.isEmpty(password) ||
-                StringUtils.isEmpty(mobile)) {
-            throw new BusinessException(20001,"error");
-        }
-
+        if(StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password) || StringUtils.isEmpty(mobile)) throw new BusinessException(20001,"error");
         //获取会员
         UcenterMember member = baseMapper.selectOne(new QueryWrapper<UcenterMember>().eq("mobile", mobile));
-        if(null == member) {
-            throw new BusinessException(20001,"该用户信息不存在！");
-        }
-
+        if(null == member) throw new BusinessException(20001,"该用户信息不存在！");
         //校验密码
-        if(!MD5.encrypt(password).equals(member.getPassword())) {
-            throw new BusinessException(20001,"密码错误！");
-        }
-
+        if(!MD5.encrypt(password).equals(member.getPassword())) throw new BusinessException(20001,"密码错误！");
         //校验是否被禁用
-        if(member.getIsDisabled()) {
-            throw new BusinessException(20001,"账号已被禁用，请联系管理员！");
-        }
-
+        if(member.getIsDisabled()) throw new BusinessException(20001,"账号已被禁用，请联系管理员！");
         //使用JWT生成token字符串
         String token = JwtUtils.getJwtToken(member.getId(), member.getNickname());
         return token;
@@ -84,12 +65,7 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         String code = registerVo.getCode();
 
         //校验参数
-        if(StringUtils.isEmpty(mobile) ||
-                StringUtils.isEmpty(mobile) ||
-                StringUtils.isEmpty(password) ||
-                StringUtils.isEmpty(code)) {
-            throw new BusinessException(20001,"error");
-        }
+        if(StringUtils.isEmpty(mobile) || StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password) || StringUtils.isEmpty(code)) throw new BusinessException(20001,"error");
 
         //校验校验验证码
         //从redis获取发送的验证码
@@ -100,9 +76,7 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
 
         //查询数据库中是否存在相同的手机号码
         Integer count = baseMapper.selectCount(new QueryWrapper<UcenterMember>().eq("mobile", mobile));
-        if(count.intValue() > 0) {
-            throw new BusinessException(20001,"error");
-        }
+        if(count.intValue() > 0) throw new BusinessException(20001,"error");
 
         //添加注册信息到数据库
         UcenterMember member = new UcenterMember();
@@ -168,6 +142,5 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         frontUserVo.setUserCountVoList(userCountVoList);
         return frontUserVo;
     }
-
 
 }

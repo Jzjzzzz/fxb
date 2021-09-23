@@ -12,7 +12,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
 
 /**
@@ -34,16 +33,14 @@ public class AdminDictController {
     @ApiOperation("查询所有上级节点数据列表")
     @PostMapping("/listByTop/{page}/{limit}")
     public R listByTop(@PathVariable Long page,@PathVariable Long limit,@RequestBody(required = false) DictQuery dictQuery){
-        Page<Dict> pageParam = new Page<>(page, limit);
-        IPage<Dict> listPage = dictService.listPage(pageParam, dictQuery);
+        IPage<Dict> listPage = dictService.listPage(new Page<>(page, limit), dictQuery);
         return R.ok().data("listPage",listPage);
     }
 
     @ApiOperation("根据上级id获取子节点数据列表")
     @PostMapping("/listByParentId/{page}/{limit}/{parentId}")
     public R listByParentId(@PathVariable Long page,@PathVariable Long limit,@PathVariable Long parentId,@RequestBody(required = false) DictQuery dictQuery){
-        Page<Dict> pageParam = new Page<>(page, limit);
-        IPage<Dict> listPage = dictService.listByParentId(pageParam,dictQuery,parentId);
+        IPage<Dict> listPage = dictService.listByParentId(new Page<>(page, limit),dictQuery,parentId);
         return R.ok().data("listPage",listPage);
     }
 

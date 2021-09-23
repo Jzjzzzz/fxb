@@ -5,11 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jzj.commonutils.BusinessException;
 import com.jzj.commonutils.R;
-import com.jzj.commonutils.ResponseEnum;
 import com.jzj.commonutils.ResultCode;
 import com.jzj.core.pojo.entity.Dict;
 import com.jzj.core.pojo.entity.EduSubject;
-import com.jzj.core.pojo.entity.EduTopic;
 import com.jzj.core.pojo.query.TopicQuery;
 import com.jzj.core.pojo.vo.EduTopicEditVo;
 import com.jzj.core.pojo.vo.EduTopicSaveVo;
@@ -62,9 +60,8 @@ public class AdminEduTopicController {
     @ApiOperation("题目列表数据")
     @PostMapping("/listByTopic/{page}/{limit}")
     public R listByTop(@PathVariable Long page,@PathVariable Long limit,@RequestBody(required = false) TopicQuery topicQuery){
-        Page<EduTopic> pageParam = new Page<>(page, limit);
         //列表数据
-        Map<String, Object> map = topicService.listPage(pageParam, topicQuery);
+        Map<String, Object> map = topicService.listPage(new Page<>(page, limit), topicQuery);
         //字典数据
         List<Dict> dictList = DictUtils.getListByParentId(100L);
         map.put("dictList",dictList);
@@ -98,8 +95,7 @@ public class AdminEduTopicController {
     @ApiOperation("根据课程id查询题目列表")
     @GetMapping("/getTopicListBySubjectId/{id}/{page}/{limit}")
     public R getTopicListBySubjectId(@PathVariable Long id,@PathVariable Long page,@PathVariable Long limit){
-        Page<EduTopic> pageParam = new Page<>(page, limit);
-        Map<String, Object> map = topicService.getTopicListById(id,pageParam);
+        Map<String, Object> map = topicService.getTopicListById(id,new Page<>(page, limit));
         return R.ok().data("map",map);
     }
 

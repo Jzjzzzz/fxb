@@ -31,19 +31,13 @@ import java.util.List;
 public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
 
 
-
-
-
-
     @Override
     public boolean removeByIdTop(Long id) {
         //判断当前节点是否有子节点，找到当前的dict下级有没有子节点
         boolean hasChildren = this.hasChildren(id);
         Assert.isTrue(!hasChildren, ResponseEnum.Dic_Top_NotNull);
         int result = baseMapper.deleteById(id);
-        if (result >= 1) {
-            return true;
-        }
+        if (result >= 1) return true;
         return false;
     }
 
@@ -54,12 +48,10 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         if(StringUtils.isBlank(dict.getName())) throw new BusinessException(ResultCode.ERROR,"字典名称不能为空");
         Integer count = baseMapper.selectCount(new QueryWrapper<Dict>().eq("name", dict.getName()));
         if(count>0) throw new BusinessException(ResultCode.ERROR,"已存在该名称字典");
-        QueryWrapper<Dict> dictQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<Dict> wrapper = new QueryWrapper<>();
         //查询出当前最大的id
-        dictQueryWrapper.eq("parent_id", 1)
-                .orderByDesc("id")
-                .last("limit 1");
-        Dict dictMax = baseMapper.selectOne(dictQueryWrapper);
+        wrapper.eq("parent_id", 1).orderByDesc("id").last("limit 1");
+        Dict dictMax = baseMapper.selectOne(wrapper);
         //当为空时设置初始值100否则向上添加100
         if (dictMax == null) {
             dict.setId(100L);
@@ -80,21 +72,16 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         Integer nameCount = baseMapper.selectCount(new QueryWrapper<Dict>().eq("name", dict.getName()));
         if(nameCount>0) throw new BusinessException(ResultCode.ERROR,"已存在该名称字典");
         //判空
-        if(StringUtils.isBlank(dict.getName())){
-            throw new BusinessException(20001,"参数不能为空");
-        }
+        if(StringUtils.isBlank(dict.getName())) throw new BusinessException(20001,"参数不能为空");
         QueryWrapper<Dict> wrapper = new QueryWrapper<>();
         wrapper.eq("parent_id", parentId);
         //查询所有子节点
         List<Dict> list = baseMapper.selectList(wrapper);
         for (Dict item : list) {
-            if(item.getValue() ==dict.getValue()){
-                throw new BusinessException(20001,"该值已存在");
-            }
+            if(item.getValue() ==dict.getValue()) throw new BusinessException(20001,"该值已存在");
         }
         //查询当前顶级节点下最后一个节点
-        wrapper.orderByDesc("id")
-                .last("limit 1");
+        wrapper.orderByDesc("id").last("limit 1");
         Dict dictMax = baseMapper.selectOne(wrapper);
         if (dictMax == null) {
             dict.setId(parentId + 1);
@@ -103,9 +90,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         }
         dict.setParentId(parentId);
         int count = baseMapper.insert(dict);
-        if (count >= 1) {
-            return true;
-        }
+        if (count >= 1) return true;
         return false;
     }
 
@@ -150,9 +135,9 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
      * @return
      */
     private boolean hasChildren(Long parentId) {
-        QueryWrapper<Dict> dictQueryWrapper = new QueryWrapper<>();
-        dictQueryWrapper.eq("parent_id", parentId);
-        Integer count = baseMapper.selectCount(dictQueryWrapper);
+        QueryWrapper<Dict> wrapper = new QueryWrapper<>();
+        wrapper.eq("parent_id", parentId);
+        Integer count = baseMapper.selectCount(wrapper);
         if (count > 0) return true;
         return false;
     }

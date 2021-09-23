@@ -3,7 +3,6 @@ package com.jzj.core.controller.front;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jzj.commonutils.R;
-import com.jzj.core.pojo.entity.EduPaper;
 import com.jzj.core.pojo.query.PaperQuery;
 import com.jzj.core.pojo.vo.*;
 import com.jzj.core.service.EduPaperService;
@@ -30,7 +29,6 @@ public class EduPaperController {
     @Resource
     private EduPaperService paperService;
 
-
     @ApiOperation("首页获取热门试卷")
     @GetMapping("/getHotPaper")
     public R getHotPaper(){
@@ -41,8 +39,7 @@ public class EduPaperController {
     @ApiOperation("试卷分页")
     @PostMapping("getFrontPaperList/{page}/{limit}")
     public R getFrontPaperList(@PathVariable long page, @PathVariable long limit, @RequestBody(required = false) PaperQuery paperQuery){
-        Page<EduPaper> eduPaperPage = new Page<>(page, limit);
-        Map<String,Object> map = paperService.getFrontPaperList(eduPaperPage,paperQuery);
+        Map<String,Object> map = paperService.getFrontPaperList(new Page<>(page, limit),paperQuery);
         return R.ok().data("map",map);
     }
 

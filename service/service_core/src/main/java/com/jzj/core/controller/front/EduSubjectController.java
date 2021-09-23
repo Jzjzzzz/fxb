@@ -27,7 +27,6 @@ public class EduSubjectController {
     @Resource
     private EduSubjectService subjectService;
 
-
     @ApiOperation("查询科目列表")
     @GetMapping("/listSubject")
     public R listSubject(){

@@ -6,10 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jzj.commonutils.BusinessException;
 import com.jzj.commonutils.ResultCode;
 import com.jzj.core.mapper.*;
-import com.jzj.core.pojo.entity.EduPaper;
-import com.jzj.core.pojo.entity.EduPaperTopic;
-import com.jzj.core.pojo.entity.EduTestPaperRecords;
-import com.jzj.core.pojo.entity.EduTestTopicRecords;
+import com.jzj.core.pojo.entity.*;
 import com.jzj.core.pojo.query.PaperQuery;
 import com.jzj.core.pojo.vo.*;
 import com.jzj.core.service.EduPaperService;
@@ -41,6 +38,8 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
     @Resource
     private EduTestTopicRecordsMapper testTopicRecordsMapper;
 
+    @Resource
+    private EduSubjectMapper subjectMapper;
 
     @Resource
     private EduTestPaperRecordsMapper testPaperRecordsMapper;
@@ -103,40 +102,36 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
             eduPaperTopic.setTopicContentId(vo.getTopicDetailsId());//题目详情id
             eduPaperTopicMapper.insert(eduPaperTopic);
         }
-
-
         return true;
     }
 
     @Override
     public List<FrontPaperIndexVo> getHotPaperList() {
-        List<FrontPaperIndexVo> list = baseMapper.getHotPaperList();
-        return list;
+        return baseMapper.getHotPaperList();
     }
 
     @Override
     public Map<String, Object> getFrontPaperList(Page<EduPaper> eduPaperPage, PaperQuery paperQuery) {
         QueryWrapper<EduPaper> wrapper = new QueryWrapper<>();
         ArrayList<FrontPaperIndexVo> list = new ArrayList<>();
-
-        if (!StringUtils.isEmpty(paperQuery.getSubjectId())) {
-            wrapper.eq("subject_id", paperQuery.getSubjectId());
+        //查询条件封装
+        if(!StringUtils.isEmpty(paperQuery)){
+            if (!StringUtils.isEmpty(paperQuery.getSubjectId())) {
+                wrapper.eq("subject_id", paperQuery.getSubjectId());
+            }
+            if (!StringUtils.isEmpty(paperQuery.getGmtCreate())) {
+                wrapper.orderByDesc("gmt_create");
+            }
         }
-        if (!StringUtils.isEmpty(paperQuery.getGmtCreate())) {
-            wrapper.orderByDesc("gmt_create");
-        }
-
 
         baseMapper.selectPage(eduPaperPage, wrapper);
-
         List<EduPaper> records = eduPaperPage.getRecords();
         for (EduPaper paper : records) {
             //封装数据
             FrontPaperIndexVo paperList = baseMapper.getBasePaperById(paper.getId());
             list.add(paperList);
         }
-
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("items", list);
         map.put("current", eduPaperPage.getCurrent());
         map.put("pages", eduPaperPage.getPages());
@@ -144,17 +139,13 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         map.put("total", eduPaperPage.getTotal());
         map.put("hasNext", eduPaperPage.hasNext());
         map.put("hasPrevious", eduPaperPage.hasPrevious());
-
         return map;
     }
 
     @Override
     public FrontPaperIndexVo getPaperById(Long id) {
-        FrontPaperIndexVo paperList = baseMapper.getBasePaperById(id);
-        return paperList;
+        return baseMapper.getBasePaperById(id);
     }
-
-
 
     @Override
     public Map<String, Object> listPage(Page<EduPaper> pageParam, PaperQuery paperQuery) {
@@ -170,15 +161,18 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
                 wrapper.like("paper_name",paperQuery.getPaperName());
             }
         }
-        IPage<EduPaper> selectPage = baseMapper.selectPage(pageParam, wrapper);
-        List<EduPaper> records = selectPage.getRecords();
+        baseMapper.selectPage(pageParam, wrapper);
+        List<EduPaper> records = pageParam.getRecords();
         for (EduPaper paper : records) {
             //封装数据
             EduPaperListVo paperList = baseMapper.getBasePaperList(paper.getId());
             list.add(paperList);
         }
+        //科目数据
+        List<EduSubject> subjectList = subjectMapper.selectList(new QueryWrapper<EduSubject>().eq("status", 1));
         //获取数据总数
-        long total = selectPage.getTotal();
+        long total = pageParam.getTotal();
+        map.put("subjectList",subjectList);
         map.put("list",list);
         map.put("total",total);
         return map;
@@ -191,9 +185,7 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         eduPaperTopicMapper.delete(new QueryWrapper<EduPaperTopic>().eq("paper_id",id));
         //删除试卷表
         int result = baseMapper.delete(new QueryWrapper<EduPaper>().eq("id", id));
-        if(result>0){
-            return true;
-        }
+        if(result>0) return true;
         return false;
     }
 
@@ -227,7 +219,6 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         ArrayList<FrontTopicVo> multipleChoiceList = new ArrayList<>(); //多选题集合
         ArrayList<FrontTopicVo> judgeList = new ArrayList<>(); //判断题集合
         ArrayList<FrontTopicVo> shortAnswerList = new ArrayList<>(); //简答题集合
-
 
         int singleChoiceNumber =0,multipleChoiceNumber =0,shortAnswerNumber =0,judgeNumber =0; //初始化题数
 

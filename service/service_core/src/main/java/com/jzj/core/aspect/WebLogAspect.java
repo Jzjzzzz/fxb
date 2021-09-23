@@ -38,7 +38,6 @@ import java.util.Map;
 @Component
 @Order(1)
 public class WebLogAspect {
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebLogAspect.class);
 
     @Resource
     private WebLogService webLogService;
@@ -48,11 +47,11 @@ public class WebLogAspect {
     }
 
     @Before("webLog()")
-    public void doBefore(JoinPoint joinPoint) throws Throwable {
+    public void doBefore() {
     }
 
     @AfterReturning(value = "webLog()", returning = "ret")
-    public void doAfterReturning(Object ret) throws Throwable {
+    public void doAfterReturning(Object ret) {
     }
 
     @Around("webLog()")
@@ -61,25 +60,31 @@ public class WebLogAspect {
         //获取当前请求对象
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        //记录请求信息
-        WebLog webLog = new WebLog();
         Object result = joinPoint.proceed();
-        Signature signature = joinPoint.getSignature();
-        MethodSignature methodSignature = (MethodSignature) signature;
-        Method method = methodSignature.getMethod();
-        if (method.isAnnotationPresent(ApiOperation.class)) {
-            ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
-            webLog.setDescription(apiOperation.value());
-        }
-        long endTime = System.currentTimeMillis();
+        if(!request.getMethod().equals("GET")){
+            //记录请求信息
+            WebLog webLog = new WebLog();
 
-        webLog.setIp(request.getRemoteHost());
-        webLog.setMethod(request.getMethod());
-        webLog.setSpendTime((int) (endTime - startTime));
-        webLog.setUri(request.getRequestURI());
-        webLog.setUrl(request.getRequestURL().toString());
-        webLogService.save(webLog);
+            Signature signature = joinPoint.getSignature();
+            MethodSignature methodSignature = (MethodSignature) signature;
+            Method method = methodSignature.getMethod();
+            if (method.isAnnotationPresent(ApiOperation.class)) {
+                ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
+                webLog.setDescription(apiOperation.value());
+            }
+            long endTime = System.currentTimeMillis();
+
+            webLog.setIp(request.getRemoteHost());
+            webLog.setMethod(request.getMethod());
+            webLog.setSpendTime((int) (endTime - startTime));
+            webLog.setUri(request.getRequestURI());
+            webLog.setUrl(request.getRequestURL().toString());
+            webLogService.save(webLog);
+
+        }
         return result;
+
+
     }
     /**
      * 根据方法和传入的参数获取请求参数（未用到）

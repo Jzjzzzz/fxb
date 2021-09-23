@@ -26,7 +26,6 @@ public class WebConfigServiceImpl extends ServiceImpl<WebConfigMapper, WebConfig
 
     private static final String FILE_PATH = "fxb:web_config:";
 
-
     @Resource
     private RedisTemplate redisTemplate;
 

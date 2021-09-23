@@ -1,6 +1,5 @@
 package com.jzj.core.controller.admin;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,7 +10,6 @@ import com.jzj.core.service.EduSubjectService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -33,8 +31,7 @@ public class AdminEduSubjectController {
     @ApiOperation("分页查询科目列表")
     @PostMapping("/listPage/{page}/{limit}")
     public R listByTop(@PathVariable Long page, @PathVariable Long limit, @RequestBody(required = false) SubjectQuery subjectQuery){
-        Page<EduSubject> pageParam = new Page<>(page, limit);
-        IPage<EduSubject> listPage = subjectService.listPage(pageParam, subjectQuery);
+        IPage<EduSubject> listPage = subjectService.listPage(new Page<>(page, limit), subjectQuery);
         return R.ok().data("listPage",listPage);
     }
     @ApiOperation("查询科目列表")

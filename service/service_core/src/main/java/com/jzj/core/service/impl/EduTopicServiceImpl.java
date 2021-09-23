@@ -8,12 +8,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jzj.commonutils.BusinessException;
 import com.jzj.commonutils.ResultCode;
 import com.jzj.core.listener.ExcelTopicDTOListener;
-import com.jzj.core.mapper.EduPaperMapper;
 import com.jzj.core.mapper.EduPaperTopicMapper;
 import com.jzj.core.mapper.EduTopicContentMapper;
 import com.jzj.core.mapper.EduTopicMapper;
 import com.jzj.core.pojo.dto.ExcelTopicDTO;
-import com.jzj.core.pojo.entity.EduPaper;
 import com.jzj.core.pojo.entity.EduPaperTopic;
 import com.jzj.core.pojo.entity.EduTopic;
 import com.jzj.core.pojo.entity.EduTopicContent;
@@ -21,7 +19,6 @@ import com.jzj.core.pojo.query.TopicQuery;
 import com.jzj.core.pojo.vo.EduTopicEditVo;
 import com.jzj.core.pojo.vo.EduTopicListVo;
 import com.jzj.core.pojo.vo.EduTopicSaveVo;
-import com.jzj.core.service.EduTopicContentService;
 import com.jzj.core.service.EduTopicService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -45,8 +42,10 @@ import java.util.Map;
  */
 @Service
 public class EduTopicServiceImpl extends ServiceImpl<EduTopicMapper, EduTopic> implements EduTopicService {
+
     @Resource
     private EduTopicContentMapper topicContentMapper;
+
     @Resource
     private EduPaperTopicMapper paperTopicMapper;
 

@@ -24,8 +24,8 @@ public class IndexCountVo {
     @ApiModelProperty(value = "试卷数量")
     private Integer paperCount;
 
-    @ApiModelProperty(value = "访问人数")
-    private Integer numberVisitors;
+    @ApiModelProperty(value = "考试数")
+    private Integer TestTimes;
 
     @ApiModelProperty(value = "近七天日期")
     private List<String> recentDate;

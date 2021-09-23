@@ -1,12 +1,11 @@
 package com.jzj.core.controller.admin;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jzj.commonutils.R;
-import com.jzj.core.pojo.entity.UcenterMember;
 import com.jzj.core.pojo.entity.WebLog;
-import com.jzj.core.pojo.query.UserQuery;
 import com.jzj.core.service.WebLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,7 +33,7 @@ public class AdminWebLogController {
     @GetMapping("/listPage/{page}/{limit}")
     public R listPage(@PathVariable Long page, @PathVariable Long limit){
         Page<WebLog> webLogPage = new Page<>(page, limit);
-        IPage<WebLog> listPage = webLogService.page(webLogPage,null);
+        IPage<WebLog> listPage = webLogService.page(webLogPage,new QueryWrapper<WebLog>().orderByDesc("gmt_create"));
         return R.ok().data("list",listPage);
     }
 

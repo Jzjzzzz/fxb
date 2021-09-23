@@ -102,7 +102,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="排序" :label-width="formLabelWidth" prop="sort">
-          <el-input v-model="form.sort" auto-complete="off"></el-input>
+          <el-input v-model.number="form.sort" auto-complete="off" maxLength="7" ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -142,7 +142,11 @@ export default {
           { required: true, message: '科目名不能为空', trigger: 'blur' },
           { min: 1, max: 20, message: '长度在1到20个字符' }
         ],
-        status: [{ required: true, message: '状态不能为空', trigger: 'blur' }]
+        status: [{ required: true, message: '状态不能为空', trigger: 'blur' }],
+        sort:[
+          { required: true, message: '排序不能为空', trigger: 'blur' },
+          { type: 'number', message: '排序必须为数字值'}
+        ]
       }
     }
   },
