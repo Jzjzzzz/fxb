@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "tengxun.npl")
-public class NplProperties implements InitializingBean {
+@ConfigurationProperties(prefix = "tencent.npl")
+public class TenCentProperties implements InitializingBean {
 
     private String secretId;
     private String secretKey;

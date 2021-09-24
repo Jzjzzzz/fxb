@@ -19,6 +19,9 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script:[
+      {src: "https://ssl.captcha.qq.com/TCaptcha.js", type:"text/javascript"}
     ]
 },
   /*

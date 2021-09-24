@@ -1,31 +1,76 @@
 {
   "groups": [
     {
-      "name": "tengxun.npl",
-      "type": "com.jzj.core.utils.NplProperties",
-      "sourceType": "com.jzj.core.utils.NplProperties"
+      "name": "tencent.code",
+      "type": "com.jzj.core.utils.TenCentCodeProperties",
+      "sourceType": "com.jzj.core.utils.TenCentCodeProperties"
+    },
+    {
+      "name": "tencent.npl",
+      "type": "com.jzj.core.utils.TenCentProperties",
+      "sourceType": "com.jzj.core.utils.TenCentProperties"
     }
   ],
   "properties": [
     {
-      "name": "tengxun.npl.s-e-c-r-e-t-i-d",
+      "name": "tencent.code.a-p-p-s-e-c-r-e-t-k-e-y",
       "type": "java.lang.String",
-      "sourceType": "com.jzj.core.utils.NplProperties"
+      "sourceType": "com.jzj.core.utils.TenCentCodeProperties"
     },
     {
-      "name": "tengxun.npl.s-e-c-r-e-t-k-e-y",
+      "name": "tencent.code.app-secret-key",
       "type": "java.lang.String",
-      "sourceType": "com.jzj.core.utils.NplProperties"
+      "sourceType": "com.jzj.core.utils.TenCentCodeProperties"
     },
     {
-      "name": "tengxun.npl.secret-id",
+      "name": "tencent.code.c-a-p-t-c-h-a-a-p-p-i-d",
       "type": "java.lang.String",
-      "sourceType": "com.jzj.core.utils.NplProperties"
+      "sourceType": "com.jzj.core.utils.TenCentCodeProperties"
     },
     {
-      "name": "tengxun.npl.secret-key",
+      "name": "tencent.code.captcha-app-id",
       "type": "java.lang.String",
-      "sourceType": "com.jzj.core.utils.NplProperties"
+      "sourceType": "com.jzj.core.utils.TenCentCodeProperties"
+    },
+    {
+      "name": "tencent.code.s-e-c-r-e-t-i-d",
+      "type": "java.lang.String",
+      "sourceType": "com.jzj.core.utils.TenCentCodeProperties"
+    },
+    {
+      "name": "tencent.code.s-e-c-r-e-t-k-e-y",
+      "type": "java.lang.String",
+      "sourceType": "com.jzj.core.utils.TenCentCodeProperties"
+    },
+    {
+      "name": "tencent.code.secret-id",
+      "type": "java.lang.String",
+      "sourceType": "com.jzj.core.utils.TenCentCodeProperties"
+    },
+    {
+      "name": "tencent.code.secret-key",
+      "type": "java.lang.String",
+      "sourceType": "com.jzj.core.utils.TenCentCodeProperties"
+    },
+    {
+      "name": "tencent.npl.s-e-c-r-e-t-i-d",
+      "type": "java.lang.String",
+      "sourceType": "com.jzj.core.utils.TenCentProperties"
+    },
+    {
+      "name": "tencent.npl.s-e-c-r-e-t-k-e-y",
+      "type": "java.lang.String",
+      "sourceType": "com.jzj.core.utils.TenCentProperties"
+    },
+    {
+      "name": "tencent.npl.secret-id",
+      "type": "java.lang.String",
+      "sourceType": "com.jzj.core.utils.TenCentProperties"
+    },
+    {
+      "name": "tencent.npl.secret-key",
+      "type": "java.lang.String",
+      "sourceType": "com.jzj.core.utils.TenCentProperties"
     }
   ],
   "hints": []

@@ -37,5 +37,13 @@ export default {
       method: 'put',
       data: user
     })
+  },
+  //校验图形验证码
+  verificationCode(codeVo) {
+    return request({
+      url: `/ucenterservice/apimember/verificationCode`,
+      method: 'post',
+      data: codeVo
+    })
   }
 }

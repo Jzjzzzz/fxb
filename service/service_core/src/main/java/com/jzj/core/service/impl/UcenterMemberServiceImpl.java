@@ -12,13 +12,23 @@ import com.jzj.core.pojo.query.UserQuery;
 import com.jzj.core.pojo.vo.*;
 import com.jzj.core.service.UcenterMemberService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.jzj.core.utils.CodeUtils;
+import com.jzj.core.utils.TenCentProperties;
 import com.jzj.util.JwtUtils;
 import com.jzj.util.MD5;
+import com.tencentcloudapi.captcha.v20190722.CaptchaClient;
+import com.tencentcloudapi.captcha.v20190722.models.DescribeCaptchaResultRequest;
+import com.tencentcloudapi.captcha.v20190722.models.DescribeCaptchaResultResponse;
+import com.tencentcloudapi.common.Credential;
+import com.tencentcloudapi.common.exception.TencentCloudSDKException;
+import com.tencentcloudapi.common.profile.ClientProfile;
+import com.tencentcloudapi.common.profile.HttpProfile;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -46,15 +56,16 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         if(StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password) || StringUtils.isEmpty(mobile)) throw new BusinessException(20001,"error");
         //获取会员
         UcenterMember member = baseMapper.selectOne(new QueryWrapper<UcenterMember>().eq("mobile", mobile));
-        if(null == member) throw new BusinessException(20001,"该用户信息不存在！");
+        if(null == member) throw new BusinessException(ResultCode.ERROR,"该用户信息不存在！");
         //校验密码
-        if(!MD5.encrypt(password).equals(member.getPassword())) throw new BusinessException(20001,"密码错误！");
+        if(!MD5.encrypt(password).equals(member.getPassword())) throw new BusinessException(ResultCode.ERROR,"密码错误！");
         //校验是否被禁用
-        if(member.getIsDisabled()) throw new BusinessException(20001,"账号已被禁用，请联系管理员！");
+        if(member.getIsDisabled()) throw new BusinessException(ResultCode.ERROR,"账号已被禁用，请联系管理员！");
         //使用JWT生成token字符串
         String token = JwtUtils.getJwtToken(member.getId(), member.getNickname());
         return token;
     }
+
 
     @Override
     public void register(RegisterVo registerVo) {
@@ -141,6 +152,12 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         List<UserCountVo> userCountVoList =  testPaperRecordsMapper.getByIdCount(id);
         frontUserVo.setUserCountVoList(userCountVoList);
         return frontUserVo;
+    }
+
+    @Override
+    public Long verifyCode(CodeVo codeVo, HttpServletRequest request) {
+        Long result = CodeUtils.tenCentCode(codeVo,request);
+        return result;
     }
 
 }

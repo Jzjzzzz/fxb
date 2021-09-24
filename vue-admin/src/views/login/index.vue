@@ -24,7 +24,7 @@
         </span>
       </el-form-item>
       <el-form-item>
-        <el-button :loading="loading" type="primary" style="width:100%;" @click="handleLogin">
+        <el-button :loading="loading" type="primary" style="width:100%;" @click="varify(handleLogin)" >
           登录
         </el-button>
       </el-form-item>
@@ -38,6 +38,7 @@
 
 <script>
 import { isvalidUsername } from '@/utils/validate'
+import userApi from '@/api/user/user'
 
 export default {
   name: 'Login',
@@ -79,6 +80,30 @@ export default {
     }
   },
   methods: {
+    //滑块验证
+      varify(submit) {
+          let appid = '2033594012'; // 腾讯云控制台中对应这个项目的 appid
+          //生成一个滑块验证码对象
+          let captcha = new TencentCaptcha(appid, function (res) {
+          // 用户滑动结束或者关闭弹窗，腾讯返回的内容
+          if (res.ret === 0) {
+            var obj =new Object();         
+            obj.randStr = res.randstr
+            obj.ticket = res.ticket
+            userApi.verificationCode(obj)
+            .then(response=>{
+              if(response.data.captchaCode){
+                submit && submit()
+              }
+            })
+                } else {
+                  
+            // 提示用户完成验证
+          }
+          });
+          // 滑块显示
+          captcha.show();
+      },
     showPwd() {
       if (this.pwdType === 'password') {
         this.pwdType = ''

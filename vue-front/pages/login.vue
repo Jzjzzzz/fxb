@@ -24,7 +24,7 @@
         </el-form-item>
 
         <div class="btn">
-          <input type="button" class="sign-in-button" value="登录" @click="submitLogin()">
+          <input type="button"  class="sign-in-button" value="登录" @click="varify(submitLogin)">
         </div>
       </el-form>
       <!-- 更多登录方式 -->
@@ -51,6 +51,7 @@
 
     data () {
       return {
+        
         //封装登录的手机号和密码
         user:{
           mobile:'',
@@ -64,11 +65,40 @@
           mobile: '',
           nickname: '',
           sex: ''
+        },
+        //图形验证码封装信息
+        codeVo:{
+          randStr:'',
+          ticket:''
         }
       }
     },
 
     methods: {
+      //滑块验证
+      varify(submit) {
+          let appid = '2033594012'; // 腾讯云控制台中对应这个项目的 appid
+          //生成一个滑块验证码对象
+          let captcha = new TencentCaptcha(appid, function (res) {
+          // 用户滑动结束或者关闭弹窗，腾讯返回的内容
+          if (res.ret === 0) {
+            var obj =new Object();         
+            obj.randStr = res.randstr
+            obj.ticket = res.ticket
+            loginApi.verificationCode(obj)
+            .then(response=>{
+              if(response.data.data.captchaCode){
+                submit && submit()
+              }
+            })
+                } else {
+                  
+            // 提示用户完成验证
+          }
+          });
+          // 滑块显示
+          captcha.show();
+      },
       //第一步，调用接口登录，返回token字符串
       submitLogin(){
         loginApi.submitLogin(this.user)
@@ -89,6 +119,8 @@
           })
 
         })
+        .catch(response=>{
+          })
       }
     }
   }

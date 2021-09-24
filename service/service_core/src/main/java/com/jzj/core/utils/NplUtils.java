@@ -10,6 +10,7 @@ import com.tencentcloudapi.nlp.v20190408.models.TextSimilarityRequest;
 import com.tencentcloudapi.nlp.v20190408.models.TextSimilarityResponse;
 
 /**
+ * 自然语言处理工具类
  * @Author Jzj
  * @Date 2021/9/10 0:37
  * @Version 1.0
@@ -17,7 +18,7 @@ import com.tencentcloudapi.nlp.v20190408.models.TextSimilarityResponse;
 public class NplUtils {
     public static Float similarity(String originalString, String inputString){
         try{
-            Credential cred = new Credential(NplProperties.SECRET_ID,NplProperties.SECRET_KEY);
+            Credential cred = new Credential(TenCentProperties.SECRET_ID, TenCentProperties.SECRET_KEY);
             // 实例化一个http选项，可选的，没有特殊需求可以跳过
             HttpProfile httpProfile = new HttpProfile();
             httpProfile.setEndpoint("nlp.tencentcloudapi.com");

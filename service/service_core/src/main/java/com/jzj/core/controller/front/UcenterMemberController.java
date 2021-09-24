@@ -3,10 +3,7 @@ package com.jzj.core.controller.front;
 
 import com.jzj.commonutils.R;
 import com.jzj.core.pojo.entity.UcenterMember;
-import com.jzj.core.pojo.vo.FrontUserVo;
-import com.jzj.core.pojo.vo.LoginVo;
-import com.jzj.core.pojo.vo.RegisterVo;
-import com.jzj.core.pojo.vo.UserPasswordVo;
+import com.jzj.core.pojo.vo.*;
 import com.jzj.core.service.UcenterMemberService;
 import com.jzj.util.JwtUtils;
 import io.swagger.annotations.Api;
@@ -75,6 +72,14 @@ public class UcenterMemberController {
         FrontUserVo model = memberService.getByIdCount(id);
         if(model!=null) return R.ok().data("model",model);
         return R.error().message("该条数据不存在");
+    }
+
+    @ApiOperation("校验图形验证码")
+    @PostMapping("/verificationCode")
+    public R verificationCode(@RequestBody CodeVo codeVo,HttpServletRequest request){
+        Long result = memberService.verifyCode(codeVo,request);
+        return R.ok().data("captchaCode",result);
+
     }
 
 

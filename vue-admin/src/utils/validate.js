@@ -32,3 +32,5 @@ export function validatAlphabets(str) {
   return reg.test(str)
 }
 
+
+

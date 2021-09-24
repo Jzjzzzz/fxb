@@ -15,5 +15,13 @@ export default {
       method: 'get',
      // headers: {'token': cookie.get('guli_token')}
     })
+  },
+  //校验图形验证码
+  verificationCode(codeVo) {
+    return request({
+      url: `/ucenterservice/apimember/verificationCode`,
+      method: 'post',
+      data: codeVo
+    })
   }
 }

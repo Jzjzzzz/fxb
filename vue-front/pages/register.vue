@@ -41,7 +41,7 @@
         </el-form-item>
 
         <div class="btn">
-          <input type="button" class="sign-up-button" value="注册" @click="submitRegister()">
+          <input type="button" class="sign-up-button" value="注册" @click="varify(submitRegister)">
         </div>
         <p class="sign-up-msg">
           点击 “注册” 即表示您同意并愿意遵守简书
@@ -68,6 +68,7 @@
   import '~/assets/css/sign.css'
   import '~/assets/css/iconfont.css'
   import registerApi from '@/api/register'
+  import loginApi from '@/api/login'
 
 
   export default {
@@ -86,6 +87,30 @@
       }
     },
     methods: {
+      //滑块验证
+      varify(submit) {
+          let appid = '2033594012'; // 腾讯云控制台中对应这个项目的 appid
+          //生成一个滑块验证码对象
+          let captcha = new TencentCaptcha(appid, function (res) {
+          // 用户滑动结束或者关闭弹窗，腾讯返回的内容
+          if (res.ret === 0) {
+            var obj =new Object();         
+            obj.randStr = res.randstr
+            obj.ticket = res.ticket
+            loginApi.verificationCode(obj)
+            .then(response=>{
+              if(response.data.data.captchaCode){
+                submit && submit()
+              }
+            })
+                } else {
+                  
+            // 提示用户完成验证
+          }
+          });
+          // 滑块显示
+          captcha.show();
+      },
       getCodeFun() {
         //sending = false
         //his.sending原为true,请求成功，!this.sending == true，主要是防止有人把disabled属性去掉，多次点击；

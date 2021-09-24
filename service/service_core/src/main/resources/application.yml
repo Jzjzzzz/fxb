@@ -50,8 +50,11 @@ feign:
         connectTimeout: 10000 #连接超时配置
         readTimeout: 600000 #执行超时配置
 
-#腾讯云npl
-tengxun:
+#腾讯云
+tencent:
   npl:
     secretId: AKIDRo9DzWytymLBn9bSGo4rQkuxpRnsxRXF
     secretKey: RgfOq45rOo3N3Td3j8HDuMZeeT3NRIce
+  code:
+    captchaAppId: 2033594012
+    appSecretKey: 0TlT75IKpUdBuvhHgxfmrTQ**
