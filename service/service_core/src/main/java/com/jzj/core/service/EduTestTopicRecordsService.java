@@ -16,4 +16,10 @@ import java.util.List;
 public interface EduTestTopicRecordsService extends IService<EduTestTopicRecords> {
 
     List<EduTestTopicRecords> getTestTopicListById(Long paperId);
+
+    Boolean collectionTopic(Long topicId);
+
+    List<EduTestTopicRecords> getCollectionList(Long userId);
+
+    Boolean cancelCollection(Long topicId);
 }

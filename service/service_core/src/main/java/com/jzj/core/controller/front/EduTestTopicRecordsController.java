@@ -37,5 +37,29 @@ public class EduTestTopicRecordsController {
         EduTestPaperRecords paper = testPaperRecordsService.getTestPaperById(paperId); //试卷详情
         return R.ok().data("list",list).data("paper",paper);
     }
+    @ApiOperation("收藏错题")
+        @PutMapping("/collectionError/{topicId}")
+    public R collectionError(@PathVariable Long topicId){
+        Boolean result = testTopicRecordsService.collectionTopic(topicId);
+        if(result) return R.ok().data("result", true);
+        return R.error().data("result", false);
+    }
+
+    @ApiOperation("取消收藏")
+    @PutMapping("/cancelCollection/{topicId}")
+    public R cancelCollection(@PathVariable Long topicId){
+        Boolean result = testTopicRecordsService.cancelCollection(topicId);
+        if(result) return R.ok().data("result", true);
+        return R.error().data("result", false);
+
+    }
+
+    @ApiOperation("获取用户收藏错题库")
+    @GetMapping("/getCollectionList/{userId}")
+    public R getCollectionList(@PathVariable Long userId){
+        List<EduTestTopicRecords> list = testTopicRecordsService.getCollectionList(userId); //题目列表
+        return R.ok().data("list",list);
+    }
+
 }
 

@@ -33,6 +33,7 @@ public class UcenterMemberController {
     public R login(@RequestBody LoginVo loginVo) {
         String token = memberService.login(loginVo);
         return R.ok().data("token", token);
+
     }
 
     @ApiOperation(value = "会员注册")

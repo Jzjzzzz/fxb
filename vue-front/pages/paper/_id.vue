@@ -35,7 +35,6 @@
                       <el-col :span="17">
                         <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
                         <el-button size="small" type="success" @click="next" style="margin-top:20px" v-if="active<form.questionCount-1" >下一题</el-button>
-                        <el-button class="shiny" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
                       </el-col>
                     <el-col :span="1.5" style="padding-top:27px">
                     <h5><strong>难度 : </strong></h5>
@@ -75,7 +74,6 @@
                       <el-col :span="17">
                         <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
                         <el-button size="small" type="success" @click="next" style="margin-top:20px" v-if="active<form.questionCount-1" >下一题</el-button>
-                        <el-button class="shiny" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
                       </el-col>
                     <el-col :span="1.5" style="padding-top:27px">
                     <h5><strong>难度 : </strong></h5>
@@ -115,7 +113,6 @@
                       <el-col :span="17">
                         <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
                         <el-button size="small" type="success" @click="next" style="margin-top:20px" v-if="active<form.questionCount-1" >下一题</el-button>
-                        <el-button class="shiny" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
                       </el-col>
                     <el-col :span="1.5" style="padding-top:27px">
                     <h5><strong>难度 : </strong></h5>
@@ -151,7 +148,6 @@
                       <el-col :span="17">
                         <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
                         <el-button size="small" type="success" @click="next" style="margin-top:20px" v-if="active<form.questionCount-1" >下一题</el-button>
-                        <el-button class="shiny" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
                       </el-col>
                     <el-col :span="1.5" style="padding-top:27px">
                     <h5><strong>难度 : </strong></h5>
@@ -263,7 +259,7 @@ export default {
     }
     
   },
-
+  
   created(){
 //用户信息
     this.showInfo()

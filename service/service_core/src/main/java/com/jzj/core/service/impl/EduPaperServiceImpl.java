@@ -274,22 +274,22 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         //单选题
         List<Long> singleIds = fillAnswer.getSingleIds(); //单选题id列表
         List<String> singleRadio = fillAnswer.getSingleRadio(); //单选题答案
-        verifyRadio(testPaperRecords.getId(),singleIds,singleRadio,count);
+        verifyRadio(testPaperRecords,singleIds,singleRadio,count);
 
         //多选题
         List<Long> multipleIds = fillAnswer.getMultipleIds(); //多选题id列表
         String[][] multipleRadio = fillAnswer.getMultipleRadio(); //多选题答案
-        verifyMultiple(testPaperRecords.getId(),multipleIds,multipleRadio,count);
+        verifyMultiple(testPaperRecords,multipleIds,multipleRadio,count);
 
         //判断题
         List<Long> judgeIds = fillAnswer.getJudgeIds(); //判断题id列表
         List<String> judgeRadio = fillAnswer.getJudgeRadio(); //判断题答案
-        verifyRadio(testPaperRecords.getId(),judgeIds,judgeRadio,count);
+        verifyRadio(testPaperRecords,judgeIds,judgeRadio,count);
 
         //问答题
         List<Long> essayIds = fillAnswer.getEssayIds();//问答题id列表
         List<String> essayQuestion = fillAnswer.getEssayQuestion();//问答题答案
-        verifyQuestions(testPaperRecords.getId(),essayIds,essayQuestion,count);
+        verifyQuestions(testPaperRecords,essayIds,essayQuestion,count);
 
 
         //试卷统计数据
@@ -307,7 +307,7 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
      * @param count 统计数据
      * @return 返回修改后的统计数据
      */
-    private  List<Integer> verifyRadio(Long testPaperId,List<Long> ids,List<String> answerList,List<Integer> count){
+    private  List<Integer> verifyRadio(EduTestPaperRecords testPaperRecords,List<Long> ids,List<String> answerList,List<Integer> count){
         //初始化
         Integer sumScore = count.get(0); //总得分
         Integer sumQuestionNumber = count.get(1); //总答对题数
@@ -318,9 +318,10 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
             String answer = answerList.get(i); //当前题目答案
             //对数据进行装箱
             BeanUtils.copyProperties(topic,model);
-            model.setTestPaperId(testPaperId); //试卷统计表id
+            model.setTestPaperId(testPaperRecords.getId()); //试卷统计表id
             model.setSerial(serial); //题目序号
             model.setUserAnswer(answer);
+            model.setUserId(testPaperRecords.getUserId());
             serial++; //叠加序号
             //当答案匹配时
             if(answer.equals(topic.getCorrect())){
@@ -349,7 +350,7 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
      * @param count 统计数据
      * @return
      */
-    private List<Integer> verifyMultiple(Long testPaperId,List<Long> ids,String[][] answerList,List<Integer> count){
+    private List<Integer> verifyMultiple(EduTestPaperRecords testPaperRecords,List<Long> ids,String[][] answerList,List<Integer> count){
         //初始化
         Integer sumScore = count.get(0); //总得分
         Integer sumQuestionNumber = count.get(1); //总答对题数
@@ -361,7 +362,8 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
             String [] correct =topic.getCorrect().split(","); //正确答案
             //对数据进行装箱
             BeanUtils.copyProperties(topic,model);
-            model.setTestPaperId(testPaperId); //试卷统计表id
+            model.setTestPaperId(testPaperRecords.getId()); //试卷统计表id
+            model.setUserId(testPaperRecords.getUserId());
             model.setSerial(serial); //题目序号
             model.setUserAnswer(Arrays.toString(answers));
             serial++; //叠加序号
@@ -391,7 +393,7 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
      * @param count 统计数据
      * @return 返回修改后的统计数据
      */
-    private  List<Integer> verifyQuestions(Long testPaperId,List<Long> ids,List<String> answerList,List<Integer> count){
+    private  List<Integer> verifyQuestions(EduTestPaperRecords testPaperRecords,List<Long> ids,List<String> answerList,List<Integer> count){
         //初始化
         Integer sumScore = count.get(0); //总得分
         Integer sumQuestionNumber = count.get(1); //总答对题数
@@ -403,7 +405,8 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
             String correct = topic.getCorrect(); //正确答案
             //对数据进行装箱
             BeanUtils.copyProperties(topic,model);
-            model.setTestPaperId(testPaperId); //试卷统计表id
+            model.setTestPaperId(testPaperRecords.getId()); //试卷统计表id
+            model.setUserId(testPaperRecords.getUserId());
             model.setSerial(serial); //题目序号
             model.setUserAnswer(answer);
             serial++; //叠加序号

@@ -4,16 +4,23 @@
     <section class="container">
       <!-- /考试封面介绍 -->
       <div class="mt20 c-infor-box" >
-        <article class="fl col-7">
+        <article class="fl" style="width:1200px">
           <section class="mr30">
             <div class="i-box">
               <div>
                 <section id="c-i-tabTitle" class="c-infor-tabTitle c-tab-title">
-                  <h3 style="padding-left:310px">{{data.paperName}}</h3>
+                  <h3 style="padding-left:500px">错题集</h3>
                 </section>
               </div>
+              <!-- /无数据提示 开始-->
+              <section class="no-data-wrap" v-if="this.list.length<=0">
+                  <em class="icon30 no-data-ico">&nbsp;</em>
+                  <span class="c-666 fsize14 ml10 vam">暂无收藏题目</span>
+              </section>
+              <!-- /无数据提示 结束-->  
               <!--题目 开始-->
-              <div style="padding:20px"  v-for="(item,index) in list" :key="item.id">               
+              <div style="padding:20px"  v-for="(item,index) in list" :key="item.id">
+                           
                   <el-card class="box-card" shadow="hover">
                     <div slot="header" class="clearfix">
                       <h3 >
@@ -76,33 +83,14 @@
                     <p style="font-size:16px;padding:10px">正确答案 : <span v-html="item.correct"></span></p>
                     <el-divider></el-divider>
                     <p style="font-size:16px;padding:10px" >解析 : <span style="display:inline-block;" v-html="item.analyzes"></span></p>
-                    <el-button class="shiny" @click="btnCollection(item.id)" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
+                    <el-button  @click="btnCollection(item.id)" icon="el-icon-star-off" size="small" type="danger" style="margin-top:20px" >取消收藏</el-button>
                   </el-card>   
               </div>
               <!-- /题目 结束 -->
             </div>    
           </section> 
         </article>
-        <aside class="fl col-3 " >
-          <div class="i-box" >
-            <div>
-              <section class="c-infor-tabTitle ">
-                 <div>
-                   <el-divider >总分</el-divider>
-                   <h3 style="padding-left:105px">{{data.paperScore}}/{{data.userScore}}</h3>
-                 </div>
-                 <div>
-                   <el-divider >题数</el-divider>
-                   <h3 style="padding-left:115px">{{data.questionCount}}/{{data.questionCorrect}}</h3>
-                 </div>
-                 <div>
-                   <el-divider >考试用时</el-divider>
-                   <h3 style="padding-left:113px">{{data.doTime}}秒</h3>
-                 </div>
-              </section>
-            </div>
-          </div> 
-        </aside>
+       
       </div>
     </section>
     <!-- /考试详情 结束 -->
@@ -111,34 +99,56 @@
 <script>
 import '/static/DynamicButton/style.css'
 import recordsApi from '@/api/records'
+import cookie from 'js-cookie'
 export default {
   data () {
     return {
+      loginInfo:{
+        id: 0,
+        age: '',
+        avatar: '',
+        mobile: '',
+        nickname: '',
+        sex: ''
+      }, 
      list:[], //题目列表
-     data:{}, //试卷详情
      radio:[], //单选题用户填写答案列表
      judgeRadio:[], //判断题用户填写答案列表
      essayQuestion:[], //简答题用户填写答案列表
     }
   },
   created () {
+    //用户信息
+    this.showInfo()
     this.fetchData()
   },
   methods:{
-    //收藏错题
+    //从cookie中获取用户信息
+     showInfo() {
+      //debugger
+      var jsonStr = cookie.get("guli_ucenter");
+      
+      if (jsonStr) { 
+        this.loginInfo = JSON.parse(jsonStr)
+      }
+      if(this.loginInfo.id==0){
+        this.$router.push({ path: '/login' })
+      }
+    },
+    //取消收藏
     btnCollection(topicId){
-      recordsApi.collectionError(topicId)
+      recordsApi.cancelCollection(topicId)
       .then(response=>{
-        if(response.data.data.result){
-          this.$message.success("收藏成功")
+                if(response.data.data.result){
+          this.$message.success("取消收藏成功")
+          this.fetchData()
         }
       })
     },
    fetchData(){
-     recordsApi.getTestTopicListById(this.$route.params.id)
+     recordsApi.getCollectionList(this.loginInfo.id)
      .then(response=>{
        this.list = response.data.data.list
-       this.data = response.data.data.paper      
      })
    }
   }

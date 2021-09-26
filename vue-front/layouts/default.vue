@@ -19,12 +19,10 @@
             <router-link to="/records" tag="li" active-class="current" v-show="this.loginInfo.id!=0" >
               <a>考试记录</a>
             </router-link>
-            <router-link to="#" tag="li" active-class="current">
-              <a>文章</a>
+            <router-link to="/colletion" tag="li" active-class="current" v-show="this.loginInfo.id!=0">
+              <a>错题集</a>
             </router-link>
-            <router-link to="#" tag="li" active-class="current">
-              <a>问答</a>
-            </router-link>
+
           </ul>
            <!-- / nav -->
           <ul class="h-r-login">

@@ -53,7 +53,7 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         String mobile = loginVo.getMobile();
         String password = loginVo.getPassword();
         //校验参数
-        if(StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password) || StringUtils.isEmpty(mobile)) throw new BusinessException(20001,"error");
+        if(StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password) || StringUtils.isEmpty(mobile)) throw new BusinessException(20001,"账号密码不能为空");
         //获取会员
         UcenterMember member = baseMapper.selectOne(new QueryWrapper<UcenterMember>().eq("mobile", mobile));
         if(null == member) throw new BusinessException(ResultCode.ERROR,"该用户信息不存在！");
