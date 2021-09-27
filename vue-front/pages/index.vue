@@ -60,47 +60,7 @@
         </section>
       </div>
       <!-- /热门试卷 结束 -->
-      <!-- 温故知新 开始 -->
-      <div>
-        <section class="container">
-          <header class="comm-title">
-            <h2 class="tac">
-              <span class="c-333">温故知新</span>
-            </h2>
-          </header>
-          <div>
-            <article class="i-teacher-list">
-              <ul class="of">
-                <li v-for="teacher in teacherList" :key="teacher.id">
-                  <section class="i-teach-wrap">
-                    <div class="i-teach-pic">
-                      <a href="/teacher/1" :title="teacher.name">
-                        <img :alt="teacher.name" :src="teacher.avatar">
-                      </a>
-                    </div>
-                    <div class="mt10 hLh30 txtOf tac">
-                      <a href="/teacher/1" :title="teacher.name" class="fsize18 c-666">{{teacher.name}}</a>
-                    </div>
-                    <div class="hLh30 txtOf tac">
-                      <span class="fsize14 c-999">{{teacher.career}}</span>
-                    </div>
-                    <div class="mt15 i-q-txt">
-                      <p
-                        class="c-999 f-fA"
-                      >{{teacher.intro}}</p>
-                    </div>
-                  </section>
-                </li>
-              </ul>
-              <div class="clear"></div>
-            </article>
-            <section class="tac pt20">
-              <a href="#" title="全部文章" class="comm-btn c-btn-2">全部文章</a>
-            </section>
-          </div>
-        </section>
-      </div>
-      <!-- /温故知新 结束 -->
+      
     </div>
   </div>
 </template>

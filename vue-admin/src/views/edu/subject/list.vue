@@ -75,7 +75,7 @@
         </template>
       </el-table-column>
     </el-table>
-      <!-- 分页组件 -->
+    <!-- 分页组件 -->
     <el-pagination
       
       :current-page="page"

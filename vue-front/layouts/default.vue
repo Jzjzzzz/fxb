@@ -37,7 +37,7 @@
                   </a>
               </li>
               <li v-if="loginInfo.id" id="is-login-one" class="mr10">
-                  <a id="headerMsgCountId" href="#" title="消息">
+                  <a id="headerMsgCountId" href="/message" title="消息">
                       <em class="icon18 news-icon">&nbsp;</em>
                   </a>
                   <q class="red-point" style="display: none">&nbsp;</q>
@@ -57,16 +57,7 @@
               </li>
               <!-- /未登录显示第1 li；登录后显示第2，3 li -->
           </ul>       
-          <aside class="h-r-search">
-            <el-form ref="form" :model="form">
-              <label class="h-r-s-box">
-                <input type="text" placeholder="输入你要查找的试卷" name="queryCourse.paperName" value>
-                <a :href="'/paper'" class="s-btn" style="padding-top:5px">
-                  <em class="icon18">&nbsp;</em>
-                </a>  
-              </label>
-            </el-form>
-          </aside>
+  
         </div>
         <aside class="mw-nav-btn">
           <div class="mw-nav-icon"></div>
@@ -97,9 +88,8 @@
             <section class="mr20">
               <section class="b-f-link">
                 <a href="#" title="关于我们" target="_blank">关于我们</a>|
-                <a href="#" title="联系我们" target="_blank">联系我们</a>|
-                <a href="#" title="帮助中心" target="_blank">帮助中心</a>|
-                <a href="#" title="资源下载" target="_blank">资源下载</a>|
+                <a :href="webconfig.gitee" title="码云" target="_blank">码云</a>|
+                <a :href="webconfig.github" title="github" target="_blank">github</a>|
                 <span >管理员QQ：{{webconfig.qqNumber}}</span>
                 <span>邮箱：{{webconfig.email}}</span>
               </section>
