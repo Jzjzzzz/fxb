@@ -33,8 +33,8 @@
                     </div>
                     <el-row >
                       <el-col :span="17">
-                        <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
-                        <el-button size="small" type="success" @click="next" style="margin-top:20px" v-if="active<form.questionCount-1" >下一题</el-button>
+                        <el-button size="small" plain  type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
+                        <el-button size="small" plain  type="success" @click="next" style="margin-top:20px" v-if="active<form.questionCount-1" >下一题</el-button>
                       </el-col>
                     <el-col :span="1.5" style="padding-top:27px">
                     <h5><strong>难度 : </strong></h5>
@@ -72,8 +72,8 @@
                     </div>
                     <el-row >
                       <el-col :span="17">
-                        <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
-                        <el-button size="small" type="success" @click="next" style="margin-top:20px" v-if="active<form.questionCount-1" >下一题</el-button>
+                        <el-button size="small" plain  type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
+                        <el-button size="small" plain  type="success" @click="next" style="margin-top:20px" v-if="active<form.questionCount-1" >下一题</el-button>
                       </el-col>
                     <el-col :span="1.5" style="padding-top:27px">
                     <h5><strong>难度 : </strong></h5>
@@ -111,8 +111,8 @@
                     </div>
                     <el-row >
                       <el-col :span="17">
-                        <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
-                        <el-button size="small" type="success" @click="next" style="margin-top:20px" v-if="active<form.questionCount-1" >下一题</el-button>
+                        <el-button size="small" plain  type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
+                        <el-button size="small" plain  type="success" @click="next" style="margin-top:20px" v-if="active<form.questionCount-1" >下一题</el-button>
                       </el-col>
                     <el-col :span="1.5" style="padding-top:27px">
                     <h5><strong>难度 : </strong></h5>
@@ -146,8 +146,8 @@
                     </el-form>
                     <el-row >
                       <el-col :span="17">
-                        <el-button size="small" type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
-                        <el-button size="small" type="success" @click="next" style="margin-top:20px" v-if="active<form.questionCount-1" >下一题</el-button>
+                        <el-button size="small" plain  type="success" @click="lastStep" style="margin-top:20px" v-if="active!=0" >上一题</el-button>
+                        <el-button size="small" plain  type="success" @click="next" style="margin-top:20px" v-if="active<form.questionCount-1" >下一题</el-button>
                       </el-col>
                     <el-col :span="1.5" style="padding-top:27px">
                     <h5><strong>难度 : </strong></h5>
@@ -185,7 +185,7 @@
                  <div style="margin-top:20px;margin-left:10px">
                   <h3  class="el-icon-reading">题数 : {{form.questionCount}}</h3>
                  </div>
-                 <el-button size="medium" v-show="isShow"  type="success" style="margin-left: 100px;margin-top:10px"  @click="startCountdown">
+                 <el-button :disabled="isDisabled" size="medium" v-show="isShow"  type="success" style="margin-left: 100px;margin-top:10px"  @click="startCountdown">
               开始考试
             </el-button>  
                  <el-divider ></el-divider>
@@ -229,7 +229,7 @@ export default {
     return { 
       isShow:true,
       suggestTime:0,
-      isDisabled:false, //防止表单重复提交
+      isDisabled:true, //防止表单重复提交
       loginInfo:{
         id: 0,
         age: '',
@@ -265,7 +265,6 @@ export default {
     this.showInfo()
     this.fetchData()
   },  
-
   methods: {
     startCountdown() {
       const vm = this
@@ -276,7 +275,6 @@ export default {
     timer() {
         this.answer.doTime ++;
       },
-
     //从cookie中获取用户信息
      showInfo() {
       //debugger
@@ -296,6 +294,7 @@ export default {
       .then(response=>{ 
         this.form = response.data.data.model
         this.suggestTime = this.form.suggestTime
+        this.isDisabled=false
         //初始化单选题的数组大小
         for (let index = 1; index <= this.form.singleChoiceNumber; index++) {
           this.answer.singleRadio.push("")
@@ -368,4 +367,3 @@ export default {
   }
 }
 </script>
-
