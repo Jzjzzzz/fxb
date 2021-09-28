@@ -173,7 +173,7 @@
               <section class="c-infor-tabTitle ">
                 <div style="margin-top:20px;margin-left:10px">
                   <no-ssr>
-                    <vac ref="suggestTime" :auto-start="false" :end-time="new Date().getTime() + suggestTime" @finish="(vac) => finish(vac)">
+                    <vac ref="suggestTime" @start="start" :auto-start="false" :left-time="suggestTime" @finish="(vac) => finish(vac)">
                       <h3 slot="process"   slot-scope="{ timeObj }"   class="el-icon-time">剩余时间 : <span style="color:red" >{{ `${timeObj.h}:${timeObj.m}:${timeObj.s}` }}</span></h3>
                       <h3 slot="finish">考试结束啦!</h3>
                     </vac>
@@ -210,7 +210,7 @@
                 <el-button style=" margin: 5px;" @click.native="handleStep(index+form.judgeNumber+form.multipleChoiceNumber+form.singleChoiceNumber)" v-for="(item,index) in form.shortAnswerList" :key="item.id">{{index+1+form.judgeNumber+form.multipleChoiceNumber+form.singleChoiceNumber}}</el-button>
               </section>
             </div>
-            <el-button size="medium"  type="primary" style="margin-left: 100px;margin-top:10px" :disabled="isDisabled" @click="onSubmit">
+            <el-button size="medium" v-if="isShow==false"  type="primary" style="margin-left: 100px;margin-top:10px" :disabled="isDisabled" @click="onSubmit">
               交卷
             </el-button>  
           </div>   
@@ -238,7 +238,6 @@ export default {
         nickname: '',
         sex: ''
       }, 
-      runTimes:0,
       form:{}, //试卷信息和题目信息
       radio: '1',
       //学生填写的集合
@@ -266,11 +265,13 @@ export default {
     this.fetchData()
   },  
   methods: {
+    start() {
+      this.isShow = !this.isShow
+      setInterval(this.timer, 1000); 
+    },
     startCountdown() {
       const vm = this
       vm.$refs.suggestTime.startCountdown(true)
-      this.isShow = !this.isShow
-      setInterval(this.timer, 1000);
     },
     timer() {
         this.answer.doTime ++;
@@ -349,6 +350,7 @@ export default {
     },
     //倒计时结束自动交卷
     finish(vac){
+      this.answer.doTime = this.suggestTime/1000
       this.submitPaper()
     },
     //上一题

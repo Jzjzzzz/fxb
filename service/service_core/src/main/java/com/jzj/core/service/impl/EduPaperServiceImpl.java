@@ -301,7 +301,7 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
 
     /**
      * 对单选题，判断题进行批改操作
-     * @param testPaperId 试卷统计表id
+     * @param testPaperRecords 试卷统计详情
      * @param ids 题目id列表
      * @param answerList 用户填写答案列表
      * @param count 统计数据
@@ -344,7 +344,7 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
 
     /**
      * 对多选题进行批改操作
-     * @param testPaperId 试卷统计表id
+     * @param testPaperRecords 试卷统计详情
      * @param ids 题目id列表
      * @param answerList 用户填写答案列表
      * @param count 统计数据
@@ -387,7 +387,7 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
 
     /**
      * 对问答题进行批改操作
-     * @param testPaperId 试卷统计表id
+     * @param testPaperRecords 试卷统计详情
      * @param ids 题目id列表
      * @param answerList 用户填写答案列表
      * @param count 统计数据
@@ -413,7 +413,9 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
 
             Float similarity= 0F;
             if(org.apache.commons.lang.StringUtils.isNotBlank(answer)){
-                similarity = NplUtils.similarity(correct, answer); //获取相似度
+                if(correct.length()<500){
+                    similarity = NplUtils.similarity(correct, answer); //获取相似度
+                }
             }
 
             //当答案匹配时

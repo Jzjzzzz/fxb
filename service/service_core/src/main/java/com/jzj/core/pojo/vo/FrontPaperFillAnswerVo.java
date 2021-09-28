@@ -24,6 +24,7 @@ public class FrontPaperFillAnswerVo {
     @ApiModelProperty(value = "用时")
     private Integer doTime;
 
+
     @ApiModelProperty(value = "单选题用户填写的答案")
     private List<String> singleRadio;
 
@@ -47,4 +48,6 @@ public class FrontPaperFillAnswerVo {
 
     @ApiModelProperty(value = "问答题id列表")
     private List<Long> essayIds;
+
+
 }
