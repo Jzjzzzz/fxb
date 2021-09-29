@@ -6,6 +6,7 @@ import com.jzj.commonutils.R;
 import com.jzj.core.pojo.query.PaperQuery;
 import com.jzj.core.pojo.vo.*;
 import com.jzj.core.service.EduPaperService;
+import com.jzj.core.service.EduTestTopicRecordsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,9 @@ import java.util.Map;
 public class EduPaperController {
     @Resource
     private EduPaperService paperService;
+
+    @Resource
+    private EduTestTopicRecordsService testTopicRecordsService;
 
     @ApiOperation("首页获取热门试卷")
     @GetMapping("/getHotPaper")
@@ -62,6 +66,14 @@ public class EduPaperController {
     public R automaticCorrecting(@RequestBody FrontPaperFillAnswerVo fillAnswer){
         paperService.automaticGrading(fillAnswer);
         return R.ok().message("交卷成功");
+    }
+
+    @ApiOperation("手动批改问答题")
+    @PutMapping("/manualCorrect/{topicId}/{result}")
+    public R manualCorrect(@PathVariable Long topicId,@PathVariable int result){
+        Boolean success = testTopicRecordsService.manualCorrect(topicId,result);
+        if(success) return R.ok().message("批改成功");
+        return R.error().message("批改失败");
     }
 
 

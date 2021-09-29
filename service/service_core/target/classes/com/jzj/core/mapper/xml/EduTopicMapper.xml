@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzj.core.mapper.EduTopicMapper">
+
+    <!--题目列表所有信息集合-->
+    <select id="getBaseTopicList" resultType="com.jzj.core.pojo.vo.EduTopicListVo">
+        select t.id,t.score,t.difficult,t.gmt_create,t.gmt_modified,t.topic_details_id,t.question_id,s.name,tc.title_content,d.name question_name
+        from edu_topic t
+                 left join edu_subject s on t.subject_id =s.id
+                 left join edu_topic_content tc on t.topic_details_id=tc.id
+                 left join dict d on d.parent_id=100 and t.question_id = d.value
+        where t.id =#{id}
+    </select>
+
+    <!--题目表修改实体-->
+    <select id="getByIdTopic" resultType="com.jzj.core.pojo.vo.EduTopicEditVo">
+        select t.id,t.subject_id,t.score,t.difficult,t.correct,t.topic_details_id,title_content,tc.content,tc.analyzes
+        from edu_topic t
+                 left join edu_topic_content tc on t.topic_details_id=tc.id
+        where t.id=#{id}
+    </select>
+    <select id="getByIdTopicFront" resultType="com.jzj.core.pojo.vo.FrontTopicVo">
+        select t.id,t.score,t.difficult,tc.content,tc.title_content,t.question_id,dict.name question_name
+        from edu_topic t
+                 left join edu_topic_content tc
+                           on t.topic_details_id =tc.id
+                 left join dict
+                           on dict.parent_id =#{parentId}
+                               and dict.value =t.question_id
+        where t.id = #{topicId}
+    </select>
+    <select id="getByIdTopicFrontAnswer" resultType="com.jzj.core.pojo.vo.FrontPaperAnswerVo">
+        select t.id,t.score,t.question_id,t.difficult,tc.content,tc.correct,tc.analyzes,tc.title_content
+        from edu_topic t
+                 left join edu_topic_content tc
+                           on t.topic_details_id =tc.id
+        where t.id = #{id}
+    </select>
+    <select id="getTopicSevenDays" resultType="java.lang.Integer">
+        SELECT ifnull(b.count,0) as count
+        from (
+            SELECT curdate() as days
+            union all
+            SELECT date_sub(curdate(), interval 1 day) as days
+            union all
+            SELECT date_sub(curdate(), interval 2 day) as days
+            union all
+            SELECT date_sub(curdate(), interval 3 day) as days
+            union all
+            SELECT date_sub(curdate(), interval 4 day) as days
+            union all
+            SELECT date_sub(curdate(), interval 5 day) as days
+            union all
+            SELECT date_sub(curdate(), interval 6 day) as days
+            ) a left join (
+            select date(gmt_create) as datetime, count(*) as count
+            from edu_topic
+            group by date(gmt_create)
+            ) b on a.days = b.datetime  ORDER BY a.days desc;
+
+    </select>
+</mapper>

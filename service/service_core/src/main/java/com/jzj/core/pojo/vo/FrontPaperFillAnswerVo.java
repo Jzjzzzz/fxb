@@ -24,6 +24,8 @@ public class FrontPaperFillAnswerVo {
     @ApiModelProperty(value = "用时")
     private Integer doTime;
 
+    @ApiModelProperty(value = "是否使用问答题自动批改")
+    private Integer isAuto;
 
     @ApiModelProperty(value = "单选题用户填写的答案")
     private List<String> singleRadio;

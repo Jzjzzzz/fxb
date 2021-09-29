@@ -33,7 +33,13 @@ export default {
       method:'put'
     })
   },
-
+  //手动批改问答题
+  manualCorrect(topicId,result){
+    return request({
+      url: `/front/core/paper/manualCorrect/${topicId}/${result}`,
+      method:'put'
+    })
+  },
 
   
 }

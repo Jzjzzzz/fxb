@@ -22,4 +22,6 @@ public interface EduTestTopicRecordsService extends IService<EduTestTopicRecords
     List<EduTestTopicRecords> getCollectionList(Long userId);
 
     Boolean cancelCollection(Long topicId);
+
+    Boolean manualCorrect(Long topicId,int result);
 }

@@ -69,13 +69,14 @@
                     </div>
                     <!-- 简答题 结束 -->                  
                     <el-divider></el-divider>
-                    <p style="font-size:16px;padding:10px">得分 : <el-tag size="small">{{item.score}}</el-tag></p>
+                    <p v-if="item.status==1" style="font-size:16px;padding:10px">得分 : <el-tag size="small">{{item.score}}</el-tag></p>
                     <el-divider></el-divider>
                     <p style="font-size:16px;padding:10px">填写答案 : <span v-html="item.userAnswer"></span></p>
                     <el-divider></el-divider>
                     <p style="font-size:16px;padding:10px">正确答案 : <span v-html="item.correct"></span></p>
                     <el-divider></el-divider>
                     <p style="font-size:16px;padding:10px" >解析 : <span style="display:inline-block;" v-html="item.analyzes"></span></p>
+                    <el-button @click="onSubmit(item.id)" v-if="item.status==0" size="small" type="warning" style="margin-top:20px" >批改</el-button>
                     <el-button class="shiny" @click="btnCollection(item.id)" icon="el-icon-star-off" size="small" type="warning" style="margin-top:20px" >收藏本题</el-button>
                   </el-card>   
               </div>
@@ -133,6 +134,28 @@ export default {
           this.$message.success("收藏成功")
         }
       })
+    },
+    // 批改问答题
+    onSubmit(id) {   
+      this.$confirm('批改', '提示', {
+        confirmButtonText: '正确',
+        cancelButtonText: '错误',
+        type: 'warning',
+      })
+        .then(() => {
+          recordsApi.manualCorrect(id,1)
+          .then(response=>{
+            this.$message.success("批改成功")
+            this.fetchData()
+          })
+        })
+        .catch(error => {
+          recordsApi.manualCorrect(id,0)
+          .then(response=>{
+            this.$message.success("批改失败")
+            this.fetchData()
+          })
+        })
     },
    fetchData(){
      recordsApi.getTestTopicListById(this.$route.params.id)

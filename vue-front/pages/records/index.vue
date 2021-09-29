@@ -30,6 +30,16 @@
             align="center"
             label="做对题数">
           </el-table-column>
+          <el-table-column prop="status" width="100" label="状态" align="center">
+                <template slot-scope="scope">
+                <template v-if="scope.row.status == 1">
+                    <span>已批改</span>
+                </template>
+                <template v-if="scope.row.status == 0">
+                    <span>未批改</span>
+                </template>
+                </template>
+          </el-table-column>
           <el-table-column
             prop="gmtCreate"
             align="center"

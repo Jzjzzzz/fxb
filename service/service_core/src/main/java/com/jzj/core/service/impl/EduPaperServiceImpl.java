@@ -258,17 +258,18 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
     @Override
     public void automaticGrading(FrontPaperFillAnswerVo fillAnswer) {
         Long paperId = fillAnswer.getId(); //试卷id
+        Integer isAuto = fillAnswer.getIsAuto();//是否使用自动批改
 
         //对试卷数据进行封装
         EduPaper paper = baseMapper.selectById(paperId); //试卷model
         EduTestPaperRecords testPaperRecords = new EduTestPaperRecords();
         BeanUtils.copyProperties(paper,testPaperRecords);
         testPaperRecords.setPaperScore(paper.getScore()); //试卷原始分数
-        testPaperRecords.setStatus(1); //状态修改
+        testPaperRecords.setStatus(isAuto); //状态修改
         testPaperRecords.setDoTime(fillAnswer.getDoTime()); //用时
         testPaperRecords.setUserId(fillAnswer.getUserId()); //用户id
         testPaperRecordsMapper.insert(testPaperRecords);
-        List<Integer> count = Arrays.asList(0,0,1);//第一个是总得分，第二个是总答对题数，第三个是序号
+        List<Integer> count = Arrays.asList(0,0);//第一个是总得分，第二个是总答对题数
 
 
         //单选题
@@ -289,7 +290,11 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         //问答题
         List<Long> essayIds = fillAnswer.getEssayIds();//问答题id列表
         List<String> essayQuestion = fillAnswer.getEssayQuestion();//问答题答案
-        verifyQuestions(testPaperRecords,essayIds,essayQuestion,count);
+        if(isAuto==1){
+            verifyQuestions(testPaperRecords,essayIds,essayQuestion,count); //自动批改简答题
+        }else {
+            verifyQuestions(testPaperRecords,essayIds,essayQuestion); //手动批改简答题
+        }
 
 
         //试卷统计数据
@@ -298,6 +303,7 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         testPaperRecords.setQuestionCorrect(count.get(1)); //答对题数
         testPaperRecordsMapper.updateById(testPaperRecords);
     }
+
 
     /**
      * 对单选题，判断题进行批改操作
@@ -311,7 +317,6 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         //初始化
         Integer sumScore = count.get(0); //总得分
         Integer sumQuestionNumber = count.get(1); //总答对题数
-        Integer serial = count.get(2); //序号
         for (int i = 0; i <ids.size() ; i++) {
             EduTestTopicRecords model = new EduTestTopicRecords();
             FrontPaperAnswerVo topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
@@ -319,10 +324,9 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
             //对数据进行装箱
             BeanUtils.copyProperties(topic,model);
             model.setTestPaperId(testPaperRecords.getId()); //试卷统计表id
-            model.setSerial(serial); //题目序号
+            model.setStatus(1);//已批改状态
             model.setUserAnswer(answer);
             model.setUserId(testPaperRecords.getUserId());
-            serial++; //叠加序号
             //当答案匹配时
             if(answer.equals(topic.getCorrect())){
                 sumScore+=topic.getScore(); //叠加分数
@@ -338,7 +342,6 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         //统计
         count.set(0,sumScore);
         count.set(1,sumQuestionNumber);
-        count.set(2,serial);
         return count;
     }
 
@@ -354,7 +357,6 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         //初始化
         Integer sumScore = count.get(0); //总得分
         Integer sumQuestionNumber = count.get(1); //总答对题数
-        Integer serial = count.get(2); //序号
         for (int i = 0; i <ids.size() ; i++) {
             EduTestTopicRecords model = new EduTestTopicRecords();
             FrontPaperAnswerVo topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
@@ -364,9 +366,8 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
             BeanUtils.copyProperties(topic,model);
             model.setTestPaperId(testPaperRecords.getId()); //试卷统计表id
             model.setUserId(testPaperRecords.getUserId());
-            model.setSerial(serial); //题目序号
+            model.setStatus(1);//已批改状态
             model.setUserAnswer(Arrays.toString(answers));
-            serial++; //叠加序号
             //当答案匹配时
             if(!Arrays.asList(answers).isEmpty() && Arrays.asList(correct).containsAll(Arrays.asList(answers))){
                 sumScore+=topic.getScore(); //叠加分数
@@ -381,12 +382,11 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         //统计
         count.set(0,sumScore);
         count.set(1,sumQuestionNumber);
-        count.set(2,serial);
         return count;
     }
 
     /**
-     * 对问答题进行批改操作
+     * 对问答题进行自动批改操作
      * @param testPaperRecords 试卷统计详情
      * @param ids 题目id列表
      * @param answerList 用户填写答案列表
@@ -397,7 +397,6 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         //初始化
         Integer sumScore = count.get(0); //总得分
         Integer sumQuestionNumber = count.get(1); //总答对题数
-        Integer serial = count.get(2); //序号
         for (int i = 0; i <ids.size() ; i++) {
             EduTestTopicRecords model = new EduTestTopicRecords();
             FrontPaperAnswerVo topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
@@ -407,10 +406,8 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
             BeanUtils.copyProperties(topic,model);
             model.setTestPaperId(testPaperRecords.getId()); //试卷统计表id
             model.setUserId(testPaperRecords.getUserId());
-            model.setSerial(serial); //题目序号
             model.setUserAnswer(answer);
-            serial++; //叠加序号
-
+            model.setStatus(1);//已批改状态
             Float similarity= 0F;
             if(org.apache.commons.lang.StringUtils.isNotBlank(answer)){
                 if(correct.length()<500){
@@ -432,9 +429,30 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         //统计
         count.set(0,sumScore);
         count.set(1,sumQuestionNumber);
-        count.set(2,serial);
         return count;
 
+    }
+    /**
+     * 对问答题进行手动批改操作
+     * @param testPaperRecords 试卷统计详情
+     * @param ids 题目id列表
+     * @param answerList 用户填写答案列表
+     * @return 返回修改后的统计数据
+     */
+    private void verifyQuestions(EduTestPaperRecords testPaperRecords,List<Long> ids,List<String> answerList){
+        //初始化
+        for (int i = 0; i <ids.size() ; i++) {
+            EduTestTopicRecords model = new EduTestTopicRecords();
+            FrontPaperAnswerVo topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
+            String answer = answerList.get(i); //用户填写的答案
+            //对数据进行装箱
+            BeanUtils.copyProperties(topic,model);
+            model.setTestPaperId(testPaperRecords.getId()); //试卷统计表id
+            model.setUserId(testPaperRecords.getUserId());
+            model.setUserAnswer(answer);
+            model.setStatus(0);//未批改状态
+            testTopicRecordsMapper.insert(model);
+        }
     }
 
 }

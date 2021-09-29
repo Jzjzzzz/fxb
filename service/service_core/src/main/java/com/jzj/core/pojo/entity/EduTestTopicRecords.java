@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author Jzj
- * @since 2021-09-26
+ * @since 2021-09-28
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -56,9 +56,6 @@ public class EduTestTopicRecords implements Serializable {
     @ApiModelProperty(value = "正确答案")
     private String correct;
 
-    @ApiModelProperty(value = "序号")
-    private Integer serial;
-
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
     private Date gmtCreate;
@@ -78,6 +75,9 @@ public class EduTestTopicRecords implements Serializable {
 
     @ApiModelProperty(value = "用户id")
     private Long userId;
+
+    @ApiModelProperty(value = "状态")
+    private Integer status;
 
 
 }

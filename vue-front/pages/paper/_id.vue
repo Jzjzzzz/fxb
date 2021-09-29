@@ -253,6 +253,8 @@ export default {
         essayIds:[], //问答题序号
         userId:0, //用户id
         doTime:0, //用时
+        isAuto:0, //是否自动批改
+
       },
       active: 0, //控制题目显示
     }
@@ -315,6 +317,24 @@ export default {
       })
       
     },
+    // 交卷选择按钮
+    onSubmit(id) {
+      
+      this.$confirm('批改模式（自动批改批改成绩仅供参考!）', '提示', {
+        confirmButtonText: '自动批改',
+        cancelButtonText: '手动批改',
+        type: 'warning',
+        showClose: false,
+        closeOnClickModal:false
+      })
+        .then(() => {
+          this.answer.isAuto = 1
+          this.submitPaper()
+        })
+        .catch(error => {
+          this.submitPaper()
+        })
+    },
     //交卷
     submitPaper(){
       this.isDisabled=true //禁用提交按钮
@@ -344,14 +364,11 @@ export default {
         this.isDisabled=false
       })
     },
-    //主动点击交卷
-    onSubmit(){
-      this.submitPaper()
-    },
+
     //倒计时结束自动交卷
     finish(vac){
       this.answer.doTime = this.suggestTime/1000
-      this.submitPaper()
+      this.onSubmit()
     },
     //上一题
     lastStep(){
