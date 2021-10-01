@@ -107,6 +107,7 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
 
     @Override
     public List<FrontPaperIndexVo> getHotPaperList() {
+        Integer count = baseMapper.selectCount(new QueryWrapper<EduPaper>().gt("gmt_create", "2021-09-30"));
         return baseMapper.getHotPaperList();
     }
 

@@ -253,7 +253,7 @@ export default {
         essayIds:[], //问答题序号
         userId:0, //用户id
         doTime:0, //用时
-        isAuto:0, //是否自动批改
+        isAuto:1, //是否自动批改
 
       },
       active: 0, //控制题目显示
@@ -324,14 +324,12 @@ export default {
         confirmButtonText: '自动批改',
         cancelButtonText: '手动批改',
         type: 'warning',
-        showClose: false,
-        closeOnClickModal:false
       })
         .then(() => {
-          this.answer.isAuto = 1
           this.submitPaper()
         })
         .catch(error => {
+          tihs.answer.isAuto=0
           this.submitPaper()
         })
     },
@@ -365,10 +363,10 @@ export default {
       })
     },
 
-    //倒计时结束自动交卷
+    //倒计时结束自动交卷，走自动批改方法
     finish(vac){
       this.answer.doTime = this.suggestTime/1000
-      this.onSubmit()
+      this.submitPaper()
     },
     //上一题
     lastStep(){
