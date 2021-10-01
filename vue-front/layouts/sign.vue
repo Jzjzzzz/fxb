@@ -3,7 +3,7 @@
     <!--标题-->
     <div class="logo">
       <a href="/">
-      <img  src="~/assets/img/logo3.png" alt="logo">
+      <img  src="~/assets/img/logo.png" alt="logo">
       </a>
       
     </div>
