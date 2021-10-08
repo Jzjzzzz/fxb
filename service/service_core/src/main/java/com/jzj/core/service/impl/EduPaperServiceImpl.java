@@ -1,7 +1,6 @@
 package com.jzj.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jzj.commonutils.BusinessException;
 import com.jzj.commonutils.ResultCode;
@@ -125,7 +124,6 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
                 wrapper.orderByDesc("gmt_create");
             }
         }
-
         baseMapper.selectPage(eduPaperPage, wrapper);
         List<EduPaper> records = eduPaperPage.getRecords();
         FrontPaperIndexVo paperList;
@@ -320,9 +318,10 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         Integer sumScore = count.get(0); //总得分
         Integer sumQuestionNumber = count.get(1); //总答对题数
         EduTestTopicRecords model;
+        FrontPaperAnswerVo topic;
         for (int i = 0; i <ids.size() ; i++) {
             model = new EduTestTopicRecords();
-            FrontPaperAnswerVo topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
+            topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
             String answer = answerList.get(i); //当前题目答案
             //对数据进行装箱
             BeanUtils.copyProperties(topic,model);
@@ -331,7 +330,7 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
             model.setUserAnswer(answer);
             model.setUserId(testPaperRecords.getUserId());
             //当答案匹配时
-            if(answer.equals(topic.getCorrect())){
+            if(topic.getCorrect().equals(answer)){
                 sumScore+=topic.getScore(); //叠加分数
                 model.setResult(1); //结果
                 sumQuestionNumber++;
@@ -360,9 +359,10 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         Integer sumScore = count.get(0); //总得分
         Integer sumQuestionNumber = count.get(1); //总答对题数
         EduTestTopicRecords model;
+        FrontPaperAnswerVo topic;
         for (int i = 0; i <ids.size() ; i++) {
             model = new EduTestTopicRecords();
-            FrontPaperAnswerVo topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
+            topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
             String[] answers = answerList[i];//用户输入的答案
             String [] correct =topic.getCorrect().split(","); //正确答案
             //对数据进行装箱
@@ -401,9 +401,10 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         Integer sumScore = count.get(0); //总得分
         Integer sumQuestionNumber = count.get(1); //总答对题数
         EduTestTopicRecords model;
+        FrontPaperAnswerVo topic;
         for (int i = 0; i <ids.size() ; i++) {
             model = new EduTestTopicRecords();
-            FrontPaperAnswerVo topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
+            topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
             String answer = answerList.get(i); //用户填写的答案
             String correct = topic.getCorrect(); //正确答案
             //对数据进行装箱
@@ -446,9 +447,10 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
     private void verifyQuestions(EduTestPaperRecords testPaperRecords,List<Long> ids,List<String> answerList){
         //初始化
         EduTestTopicRecords model;
+        FrontPaperAnswerVo topic;
         for (int i = 0; i <ids.size() ; i++) {
             model = new EduTestTopicRecords();
-            FrontPaperAnswerVo topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
+            topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
             String answer = answerList.get(i); //用户填写的答案
             //对数据进行装箱
             BeanUtils.copyProperties(topic,model);

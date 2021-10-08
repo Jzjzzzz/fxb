@@ -2,14 +2,14 @@ package com.jzj.core.controller.front;
 
 
 import com.jzj.commonutils.R;
-import com.jzj.core.pojo.entity.WebConfig;
 import com.jzj.core.pojo.vo.SlideshowVo;
 import com.jzj.core.pojo.vo.WebConfigVo;
 import com.jzj.core.service.WebConfigService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.BeanUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 

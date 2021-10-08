@@ -2,16 +2,12 @@ package com.jzj.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jzj.core.pojo.entity.EduPaper;
-import com.jzj.core.pojo.entity.EduTestPaperRecords;
-import com.jzj.core.mapper.EduTestPaperRecordsMapper;
-import com.jzj.core.pojo.vo.FrontPaperIndexVo;
-import com.jzj.core.service.EduTestPaperRecordsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.jzj.core.mapper.EduTestPaperRecordsMapper;
+import com.jzj.core.pojo.entity.EduTestPaperRecords;
+import com.jzj.core.service.EduTestPaperRecordsService;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

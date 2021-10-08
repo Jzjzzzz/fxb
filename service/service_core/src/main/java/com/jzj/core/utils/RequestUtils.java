@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Date 2021/9/24 17:52
  * @Version 1.0
  */
-public class requestUtils {
+public class RequestUtils {
 
     public static String getVisitorIp(HttpServletRequest request){
         String ip = request.getHeader("X-Real-IP");

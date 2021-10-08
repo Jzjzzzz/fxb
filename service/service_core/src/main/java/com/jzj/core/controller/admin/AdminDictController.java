@@ -29,6 +29,7 @@ import javax.annotation.Resource;
 public class AdminDictController {
     @Resource
     private DictService dictService;
+    
 
     @ApiOperation("查询所有上级节点数据列表")
     @PostMapping("/listByTop/{page}/{limit}")

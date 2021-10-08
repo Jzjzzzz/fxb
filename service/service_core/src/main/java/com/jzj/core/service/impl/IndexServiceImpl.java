@@ -31,7 +31,7 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     public IndexCountVo getCount() {
-        EduStatistics eduStatistics = statisticsMapper.selectOne(new QueryWrapper<EduStatistics>().orderByDesc().last("limit 1"));
+        EduStatistics eduStatistics = statisticsMapper.selectOne(new QueryWrapper<EduStatistics>().orderByDesc("gmt_create").last("limit 1"));
         IndexCountVo indexCountVo = new IndexCountVo();
         //统计当前注册会员数
         indexCountVo.setUserCount(eduStatistics.getUserCount());

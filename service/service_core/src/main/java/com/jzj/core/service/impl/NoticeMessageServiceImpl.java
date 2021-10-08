@@ -3,23 +3,17 @@ package com.jzj.core.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jzj.commonutils.BusinessException;
 import com.jzj.commonutils.ResultCode;
-import com.jzj.core.pojo.entity.EduPaper;
-import com.jzj.core.pojo.entity.EduSubject;
-import com.jzj.core.pojo.entity.NoticeMessage;
 import com.jzj.core.mapper.NoticeMessageMapper;
+import com.jzj.core.pojo.entity.NoticeMessage;
 import com.jzj.core.pojo.query.MessageQuery;
-import com.jzj.core.pojo.query.PaperQuery;
-import com.jzj.core.pojo.vo.FrontPaperIndexVo;
 import com.jzj.core.service.NoticeMessageService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

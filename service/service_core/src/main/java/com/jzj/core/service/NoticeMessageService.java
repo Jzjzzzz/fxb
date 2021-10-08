@@ -2,10 +2,9 @@ package com.jzj.core.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jzj.core.pojo.entity.NoticeMessage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jzj.core.pojo.entity.NoticeMessage;
 import com.jzj.core.pojo.query.MessageQuery;
-import com.jzj.core.pojo.query.PaperQuery;
 
 import java.util.Map;
 
