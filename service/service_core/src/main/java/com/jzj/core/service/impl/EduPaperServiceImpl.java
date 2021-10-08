@@ -65,8 +65,9 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         eduPaper.setScore(topicListVoList.stream().mapToInt((s)->s.getScore()).sum()); //总分
         baseMapper.insert(eduPaper);
         //封装试卷题目详情数据
+        EduPaperTopic eduPaperTopic;
         for (EduTopicListVo vo : topicListVoList) {
-            EduPaperTopic eduPaperTopic = new EduPaperTopic();
+            eduPaperTopic = new EduPaperTopic();
             eduPaperTopic.setPaperId(eduPaper.getId()); //试卷id
             eduPaperTopic.setTopicId(vo.getId()); //题目id
             eduPaperTopic.setTopicContentId(vo.getTopicDetailsId());//题目详情id
@@ -95,8 +96,9 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         baseMapper.updateById(eduPaper);
         //修改试卷题目表
         eduPaperTopicMapper.delete(new QueryWrapper<EduPaperTopic>().eq("paper_id",eduPaper.getId())); //删除原有数据
+        EduPaperTopic eduPaperTopic;
         for (EduTopicListVo vo : topicListVoList) {
-            EduPaperTopic eduPaperTopic = new EduPaperTopic();
+            eduPaperTopic = new EduPaperTopic();
             eduPaperTopic.setPaperId(eduPaper.getId()); //试卷id
             eduPaperTopic.setTopicId(vo.getId()); //题目id
             eduPaperTopic.setTopicContentId(vo.getTopicDetailsId());//题目详情id
@@ -107,7 +109,6 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
 
     @Override
     public List<FrontPaperIndexVo> getHotPaperList() {
-        Integer count = baseMapper.selectCount(new QueryWrapper<EduPaper>().gt("gmt_create", "2021-09-30"));
         return baseMapper.getHotPaperList();
     }
 
@@ -127,9 +128,10 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
 
         baseMapper.selectPage(eduPaperPage, wrapper);
         List<EduPaper> records = eduPaperPage.getRecords();
+        FrontPaperIndexVo paperList;
         for (EduPaper paper : records) {
             //封装数据
-            FrontPaperIndexVo paperList = baseMapper.getBasePaperById(paper.getId());
+            paperList = baseMapper.getBasePaperById(paper.getId());
             list.add(paperList);
         }
         Map<String, Object> map = new HashMap<>();
@@ -164,9 +166,10 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         }
         baseMapper.selectPage(pageParam, wrapper);
         List<EduPaper> records = pageParam.getRecords();
+        EduPaperListVo paperList;
         for (EduPaper paper : records) {
             //封装数据
-            EduPaperListVo paperList = baseMapper.getBasePaperList(paper.getId());
+            paperList = baseMapper.getBasePaperList(paper.getId());
             list.add(paperList);
         }
         //科目数据
@@ -199,8 +202,9 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         BeanUtils.copyProperties(paper,paperSaveVo);
         //封装题目
         List<EduPaperTopic> paperTopicList = eduPaperTopicMapper.selectList(new QueryWrapper<EduPaperTopic>().eq("paper_id", id));
+        EduTopicListVo topicListVo;
         for (EduPaperTopic eduPaperTopic : paperTopicList) {
-            EduTopicListVo topicListVo = eduTopicMapper.getBaseTopicList(eduPaperTopic.getTopicId());
+            topicListVo = eduTopicMapper.getBaseTopicList(eduPaperTopic.getTopicId());
             list.add(topicListVo);
         }
         paperSaveVo.setTopicListVoList(list);
@@ -222,12 +226,10 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         ArrayList<FrontTopicVo> shortAnswerList = new ArrayList<>(); //简答题集合
 
         int singleChoiceNumber =0,multipleChoiceNumber =0,shortAnswerNumber =0,judgeNumber =0; //初始化题数
-
+        FrontTopicVo frontTopicVo;
         for (EduPaperTopic paperTopic : paperTopicList) {
             //查询封装题目
-            FrontTopicVo frontTopicVo;
             frontTopicVo = eduTopicMapper.getByIdTopicFront(paperTopic.getTopicId(),100L);
-
             //判断题型按题型存入集合
             if(frontTopicVo.getQuestionId()==1){
                 singleChoiceList.add(frontTopicVo); //封装单选题
@@ -242,7 +244,6 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
                 judgeList.add(frontTopicVo); //封装判断题
                 judgeNumber++;
             }
-
         }
         //装箱
         model.setSingleChoiceNumber(singleChoiceNumber);
@@ -318,8 +319,9 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         //初始化
         Integer sumScore = count.get(0); //总得分
         Integer sumQuestionNumber = count.get(1); //总答对题数
+        EduTestTopicRecords model;
         for (int i = 0; i <ids.size() ; i++) {
-            EduTestTopicRecords model = new EduTestTopicRecords();
+            model = new EduTestTopicRecords();
             FrontPaperAnswerVo topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
             String answer = answerList.get(i); //当前题目答案
             //对数据进行装箱
@@ -332,7 +334,6 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
             if(answer.equals(topic.getCorrect())){
                 sumScore+=topic.getScore(); //叠加分数
                 model.setResult(1); //结果
-
                 sumQuestionNumber++;
             }else{
                 model.setResult(0);
@@ -358,8 +359,9 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         //初始化
         Integer sumScore = count.get(0); //总得分
         Integer sumQuestionNumber = count.get(1); //总答对题数
+        EduTestTopicRecords model;
         for (int i = 0; i <ids.size() ; i++) {
-            EduTestTopicRecords model = new EduTestTopicRecords();
+            model = new EduTestTopicRecords();
             FrontPaperAnswerVo topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
             String[] answers = answerList[i];//用户输入的答案
             String [] correct =topic.getCorrect().split(","); //正确答案
@@ -398,8 +400,9 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
         //初始化
         Integer sumScore = count.get(0); //总得分
         Integer sumQuestionNumber = count.get(1); //总答对题数
+        EduTestTopicRecords model;
         for (int i = 0; i <ids.size() ; i++) {
-            EduTestTopicRecords model = new EduTestTopicRecords();
+            model = new EduTestTopicRecords();
             FrontPaperAnswerVo topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
             String answer = answerList.get(i); //用户填写的答案
             String correct = topic.getCorrect(); //正确答案
@@ -442,8 +445,9 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
      */
     private void verifyQuestions(EduTestPaperRecords testPaperRecords,List<Long> ids,List<String> answerList){
         //初始化
+        EduTestTopicRecords model;
         for (int i = 0; i <ids.size() ; i++) {
-            EduTestTopicRecords model = new EduTestTopicRecords();
+            model = new EduTestTopicRecords();
             FrontPaperAnswerVo topic = eduTopicMapper.getByIdTopicFrontAnswer(ids.get(i)); //根据题目id查询题目详情
             String answer = answerList.get(i); //用户填写的答案
             //对数据进行装箱

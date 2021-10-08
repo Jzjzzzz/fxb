@@ -16,16 +16,16 @@ import java.util.List;
 @ApiModel("后台首页统计数据")
 public class IndexCountVo {
     @ApiModelProperty(value = "会员人数")
-    private Integer userCount;
+    private Long userCount;
 
     @ApiModelProperty(value = "题目数量")
-    private Integer topicCount;
+    private Long topicCount;
 
     @ApiModelProperty(value = "试卷数量")
-    private Integer paperCount;
+    private Long paperCount;
 
     @ApiModelProperty(value = "考试数")
-    private Integer TestTimes;
+    private Long TestTimes;
 
     @ApiModelProperty(value = "近七天日期")
     private List<String> recentDate;

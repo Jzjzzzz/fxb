@@ -85,9 +85,10 @@ public class EduTopicServiceImpl extends ServiceImpl<EduTopicMapper, EduTopic> i
         }
         IPage<EduTopic> selectPage = baseMapper.selectPage(pageParam, wrapper);
         List<EduTopic> records = selectPage.getRecords();
+        EduTopicListVo topicListVo;
         for (EduTopic topic : records) {
             //封装数据
-            EduTopicListVo topicListVo = baseMapper.getBaseTopicList(topic.getId());
+            topicListVo = baseMapper.getBaseTopicList(topic.getId());
             list.add(topicListVo);
         }
         //获取数据总数
@@ -146,9 +147,10 @@ public class EduTopicServiceImpl extends ServiceImpl<EduTopicMapper, EduTopic> i
         wrapper.eq("subject_id",id);
         IPage<EduTopic> selectPage = baseMapper.selectPage(pageParam, wrapper);
         List<EduTopic> records = selectPage.getRecords();
+        EduTopicListVo topicListVo;
         for (EduTopic topic : records) {
             //封装数据
-            EduTopicListVo topicListVo = baseMapper.getBaseTopicList(topic.getId());
+            topicListVo = baseMapper.getBaseTopicList(topic.getId());
             list.add(topicListVo);
         }
         //获取数据总数

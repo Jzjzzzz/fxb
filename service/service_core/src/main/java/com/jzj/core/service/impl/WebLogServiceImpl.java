@@ -1,7 +1,5 @@
 package com.jzj.core.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jzj.core.pojo.entity.WebLog;
 import com.jzj.core.mapper.WebLogMapper;
 import com.jzj.core.service.WebLogService;

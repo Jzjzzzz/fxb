@@ -51,7 +51,6 @@ public class NoticeMessageServiceImpl extends ServiceImpl<NoticeMessageMapper, N
     public IPage<NoticeMessage> listPage(Page<NoticeMessage> pageParam, MessageQuery messageQuery) {
         QueryWrapper<NoticeMessage> wrapper = new QueryWrapper<>();
         if (messageQuery == null) return baseMapper.selectPage(pageParam, wrapper);
-
         String title = messageQuery.getTitle();
         if(!StringUtils.isBlank(title)){
             wrapper.like("title", title);
