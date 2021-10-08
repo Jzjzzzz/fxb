@@ -1,0 +1,8 @@
+/common/common_utils/target/
+/common/service_base/target/
+/common/spring_security/target/
+/infrastructure/api_gateway/target/
+/log/
+/service/service_acl/target/
+/service/service_core/target/
+/service/service_oss/target/
