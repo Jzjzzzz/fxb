@@ -68,18 +68,14 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         String code = registerVo.getCode();
 
         //校验参数
-        if(StringUtils.isEmpty(mobile) || StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password) || StringUtils.isEmpty(code)) throw new BusinessException(20001,"error");
+        if(StringUtils.isEmpty(nickname) || StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password) || StringUtils.isEmpty(code)) throw new BusinessException(ResultCode.ERROR,"必填项不能为空");
 
         //校验校验验证码
         //从redis获取发送的验证码
-        // String mobleCode = redisTemplate.opsForValue().get(mobile);
-        // if(!code.equals(mobleCode)) {
-        //     throw new BusinessException(20001,"error");
-        // }
-
-        //查询数据库中是否存在相同的手机号码
-        Integer count = baseMapper.selectCount(new QueryWrapper<UcenterMember>().eq("mobile", mobile));
-        if(count.intValue() > 0) throw new BusinessException(20001,"error");
+        String mobileCode = redisTemplate.opsForValue().get("fxb:sms:code:"+mobile);
+        if(!code.equals(mobileCode)) {
+            throw new BusinessException(ResultCode.ERROR,"验证码错误");
+        }
 
         //添加注册信息到数据库
         UcenterMember member = new UcenterMember();
@@ -120,7 +116,9 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         //数据校验
         if(ucenterMember==null) throw new BusinessException(ResultCode.ERROR,"数据异常");
         if(StringUtils.isAllBlank(ucenterMember.getNickname(),ucenterMember.getMobile(),ucenterMember.getPassword())) throw new BusinessException(ResultCode.ERROR,"必填项不能为空");
-        ucenterMember.setPassword(MD5.encrypt(ucenterMember.getPassword())); //密码加密
+        if(ucenterMember.getPassword()!=null){
+            ucenterMember.setPassword(MD5.encrypt(ucenterMember.getPassword())); //密码加密
+        }
         return baseMapper.updateById(ucenterMember)>0;
     }
 
@@ -150,6 +148,12 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
     public Long verifyCode(CodeVo codeVo, HttpServletRequest request) {
         Long result = CodeUtils.tenCentCode(codeVo,request);
         return result;
+    }
+
+    @Override
+    public boolean checkMobile(String mobile) {
+        Integer count = baseMapper.selectCount(new QueryWrapper<UcenterMember>().eq("mobile", mobile));
+        return count > 0;
     }
 
 }

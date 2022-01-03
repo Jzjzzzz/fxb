@@ -80,7 +80,12 @@ public class UcenterMemberController {
     public R verificationCode(@RequestBody CodeVo codeVo,HttpServletRequest request){
         Long result = memberService.verifyCode(codeVo,request);
         return R.ok().data("captchaCode",result);
+    }
 
+    @ApiOperation("校验手机号是否注册")
+    @GetMapping("/checkMobile/{mobile}")
+    public boolean checkMobile(@PathVariable String mobile){
+        return memberService.checkMobile(mobile);
     }
 
 

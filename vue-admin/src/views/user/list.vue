@@ -302,9 +302,9 @@ export default {
         if(this.form.isDisabled){
           this.form.isDisabled = 1
         }else {
-          this.form.isDisabled = 0
+          this.form.isDisabled1 = 0
         }
-        this.form.password=""
+        this.form.password=null
       })
     },
     //列表数据

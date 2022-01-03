@@ -329,7 +329,7 @@ export default {
           this.submitPaper()
         })
         .catch(error => {
-          tihs.answer.isAuto=0
+          this.answer.isAuto=0
           this.submitPaper()
         })
     },

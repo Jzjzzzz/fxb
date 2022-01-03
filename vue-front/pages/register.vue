@@ -138,13 +138,21 @@
       submitRegister() {
         this.$refs['userForm'].validate((valid) => {
           if (valid) {
-            registerApi.submitRegister(this.params).then(response => {
+            registerApi.submitRegister(this.params)
+            .then(response => {
               //提示注册成功
               this.$message({
                 type: 'success',
-                message: "注册成功"
+                message: response.data.message,
+                type: 'success'
               })
               this.$router.push({path: '/login'})
+            })
+            .catch(error => {
+                this.$message({
+                message: response.data.message,
+                type: 'error'
+              });
             })
           }
         })

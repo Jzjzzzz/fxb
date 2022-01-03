@@ -4,7 +4,7 @@ export default {
   //根据手机号码发送短信
   getMobile(phone) {
     return request({
-      url: `/edumsm/msm/send/${phone}`,
+      url: `/api/sms/send/${phone}`,
       method: 'get'
     })
   },

@@ -1,5 +1,5 @@
 server:
-  port: 80 # 服务端口
+  port: 9001 # 服务端口
 spring:
   profiles:
     active: dev # 环境设置
@@ -26,4 +26,8 @@ spring:
           uri: lb://service-oss
           predicates:
             - Path=/eduoss/fileoss/**
+        - id: service-sms
+          uri: lb://service-sms
+          predicates:
+            - Path=/api/sms/**
 

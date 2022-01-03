@@ -54,7 +54,6 @@ public class WebConfigServiceImpl extends ServiceImpl<WebConfigMapper, WebConfig
 
     @Override
     public WebConfigVo getWebConfigRedis() {
-
         WebConfig webConfig;
         //判断是否在redis中有缓存数据
         WebConfigVo webConfigs = (WebConfigVo)redisTemplate.opsForValue().get(FILE_PATH + "config");
@@ -69,7 +68,6 @@ public class WebConfigServiceImpl extends ServiceImpl<WebConfigMapper, WebConfig
         //存入redis
         redisTemplate.opsForValue().set(FILE_PATH+"config",webConfigVo);
         return webConfigVo;
-
     }
 
     @Override

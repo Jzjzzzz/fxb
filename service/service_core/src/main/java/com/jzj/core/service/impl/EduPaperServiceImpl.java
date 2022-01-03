@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
 import javax.annotation.Resource;
 import java.util.*;
 
@@ -413,13 +414,12 @@ public class EduPaperServiceImpl extends ServiceImpl<EduPaperMapper, EduPaper> i
             model.setUserId(testPaperRecords.getUserId());
             model.setUserAnswer(answer);
             model.setStatus(1);//已批改状态
-            Float similarity= 0F;
-            if(org.apache.commons.lang.StringUtils.isNotBlank(answer)){
-                if(correct.length()<500){
-                    similarity = NplUtils.similarity(correct, answer); //获取相似度
-                }
-            }
 
+            double similarity= 0;
+            if(org.apache.commons.lang.StringUtils.isNotBlank(answer)){
+                    similarity = NplUtils.similarity(correct, answer); //腾讯云接口
+                    // similarity = Similarity.phraseSimilarity(correct, answer); //获取相似度
+            }
             //当答案匹配时
             if(similarity>0.85){
                 sumScore+=topic.getScore(); //叠加分数

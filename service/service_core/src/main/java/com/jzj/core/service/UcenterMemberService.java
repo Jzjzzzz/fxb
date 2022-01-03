@@ -35,4 +35,6 @@ public interface UcenterMemberService extends IService<UcenterMember> {
     FrontUserVo getByIdCount(Long id);
 
     Long verifyCode(CodeVo codeVo, HttpServletRequest request);
+
+    boolean checkMobile(String mobile);
 }

@@ -17,5 +17,6 @@ import java.util.Map;
 public interface EduTestPaperRecordsService extends IService<EduTestPaperRecords> {
 
     Map<String, Object> getTestRecordList(Page<EduTestPaperRecords> recordsPage,Long userId);
+
     EduTestPaperRecords getTestPaperById(Long paperId);
 }

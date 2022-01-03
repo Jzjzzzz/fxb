@@ -17,9 +17,8 @@ spring:
 #不同的服务器，地址不同
 aliyun:
   oss:
-    file:
-      endpoint: oss-cn-guangzhou.aliyuncs.com
-      keyid: LTAI5tN2Qrd9BRpABEVEP246
-      keysecret: JEOzlrD8h4IRDFY5R6FuEWacgBebzn
-      bucketname: fxb-jzj
+    endpoint: oss-cn-guangzhou.aliyuncs.com
+    keyid: LTAI5tN2Qrd9BRpABEVEP246
+    keysecret: JEOzlrD8h4IRDFY5R6FuEWacgBebzn
+    bucketname: fxb-jzj
 

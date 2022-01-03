@@ -22,10 +22,8 @@ public class OssServiceImpl implements OssService {
 
     @Override
     public String uploadFileAvatar(InputStream inputStream, String module, String fileName) {
-
         // 创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(ConstantPropertiesUtils.END_POINT, ConstantPropertiesUtils.KEY_ID, ConstantPropertiesUtils.KEY_SECRET);
-
         //判断BUCKET_NAME是否存在
         if(!ossClient.doesBucketExist(ConstantPropertiesUtils.BUCKET_NAME)){
             ossClient.createBucket(ConstantPropertiesUtils.BUCKET_NAME);
@@ -38,10 +36,8 @@ public class OssServiceImpl implements OssService {
         fileName=UUID.randomUUID().toString()+ fileName.substring(fileName.lastIndexOf("."));
         String key=module+timeFolder+fileName;
         ossClient.putObject(ConstantPropertiesUtils.BUCKET_NAME, key, inputStream);
-
         // 关闭OSSClient。
         ossClient.shutdown();
-
         //文件的URL地址
         return "https://" + ConstantPropertiesUtils.BUCKET_NAME + "." + ConstantPropertiesUtils.END_POINT + "/" + key;
     }

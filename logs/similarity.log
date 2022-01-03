@@ -1,0 +1,6 @@
+2022-01-03 02:14:22,397 [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskScheduler [Line:218] - Shutting down ExecutorService 'taskScheduler'
+2022-01-03 02:14:22,400 [SpringContextShutdownHook] INFO  c.a.c.n.r.NacosServiceRegistry [Line:86 ] - De-registering from Nacos Server now...
+2022-01-03 02:14:22,447 [SpringContextShutdownHook] INFO  c.a.c.n.r.NacosServiceRegistry [Line:106] - De-registration finished.
+2022-01-03 02:14:31,825 [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskExecutor [Line:218] - Shutting down ExecutorService 'applicationTaskExecutor'
+2022-01-03 02:14:31,954 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource [Line:350] - HikariPool-1 - Shutdown initiated...
+2022-01-03 02:14:31,958 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource [Line:352] - HikariPool-1 - Shutdown completed.

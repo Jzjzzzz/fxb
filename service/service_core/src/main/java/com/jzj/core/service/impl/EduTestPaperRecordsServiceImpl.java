@@ -27,6 +27,7 @@ public class EduTestPaperRecordsServiceImpl extends ServiceImpl<EduTestPaperReco
     public Map<String, Object> getTestRecordList(Page<EduTestPaperRecords> recordsPage,Long userId) {
         QueryWrapper<EduTestPaperRecords> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id",userId);
+        wrapper.select().orderByDesc("gmt_create");
         baseMapper.selectPage(recordsPage, wrapper);
         List<EduTestPaperRecords> records = recordsPage.getRecords();
         Map<String, Object> map = new HashMap<>();

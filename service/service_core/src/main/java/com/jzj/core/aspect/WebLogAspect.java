@@ -51,17 +51,23 @@ public class WebLogAspect {
     public void doAfterReturning(Object ret) {
     }
 
+    /**
+     * 环绕通知
+     * @param joinPoint
+     * @return
+     * @throws Throwable
+     */
     @Around("webLog()")
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
         //获取当前请求对象
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
+        //执行被增强的方法
         Object result = joinPoint.proceed();
         if(!request.getMethod().equals("GET")){
             //记录请求信息
             WebLog webLog = new WebLog();
-
             Signature signature = joinPoint.getSignature();
             MethodSignature methodSignature = (MethodSignature) signature;
             Method method = methodSignature.getMethod();
@@ -70,19 +76,16 @@ public class WebLogAspect {
                 webLog.setDescription(apiOperation.value());
             }
             long endTime = System.currentTimeMillis();
-
             webLog.setIp(request.getRemoteHost());
             webLog.setMethod(request.getMethod());
             webLog.setSpendTime((int) (endTime - startTime));
             webLog.setUri(request.getRequestURI());
             webLog.setUrl(request.getRequestURL().toString());
             webLogService.save(webLog);
-
         }
         return result;
-
-
     }
+
     /**
      * 根据方法和传入的参数获取请求参数（未用到）
      */
