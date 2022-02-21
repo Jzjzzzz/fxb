@@ -1,4 +1,5 @@
 # 微服务前后端分离在线考试平台
+## 使用技术：SpringBoot，SpringCloud Alibaba，Mybatis-Plus，Redis，MySQL，EasyExcel，SpringSecurity+JWT+Token，Swagger，Vue，Element-Ui
 ## 项目快速启动
 ### 前端启动
 1. 打开vue-admin文件夹
