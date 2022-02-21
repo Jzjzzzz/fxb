@@ -46,10 +46,10 @@ public class CodeGenerator {
 
         // 3、数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://110.42.224.240:3306/fxb?useSSL=false&useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true&allowMultiQueries=true");
+        dsc.setUrl("jdbc:mysql://xx:3306/fxb?useSSL=false&useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true&allowMultiQueries=true");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("6AxUi94j82ICyPkq97HnNVnxdnhBKkZs");
+        dsc.setPassword("xx");
         dsc.setDbType(DbType.MYSQL);
         mpg.setDataSource(dsc);
 
