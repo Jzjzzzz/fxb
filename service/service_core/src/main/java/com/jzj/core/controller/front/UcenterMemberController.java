@@ -78,8 +78,8 @@ public class UcenterMemberController {
     @ApiOperation("校验图形验证码")
     @PostMapping("/verificationCode")
     public R verificationCode(@RequestBody CodeVo codeVo,HttpServletRequest request){
-        Long result = memberService.verifyCode(codeVo,request);
-        return R.ok().data("captchaCode",result);
+        // Long result = memberService.verifyCode(codeVo,request); //验证码过期未使用到
+        return R.ok().data("captchaCode",1);
     }
 
     @ApiOperation("校验手机号是否注册")

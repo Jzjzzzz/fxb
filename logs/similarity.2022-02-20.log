@@ -1,0 +1,150 @@
+2022-01-08 07:11:52,078 [main] INFO  com.jzj.core.CoreApplication [Line:655] - The following profiles are active: dev
+2022-01-08 07:11:54,120 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [Line:249] - Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-01-08 07:11:54,122 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [Line:127] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-01-08 07:11:54,162 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [Line:187] - Finished Spring Data repository scanning in 16ms. Found 0 Redis repository interfaces.
+2022-01-08 07:11:54,500 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'dictMapper' and 'com.jzj.core.mapper.DictMapper' mapperInterface. Bean already defined with the same name!
+2022-01-08 07:11:54,500 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'eduPaperMapper' and 'com.jzj.core.mapper.EduPaperMapper' mapperInterface. Bean already defined with the same name!
+2022-01-08 07:11:54,500 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'eduPaperTopicMapper' and 'com.jzj.core.mapper.EduPaperTopicMapper' mapperInterface. Bean already defined with the same name!
+2022-01-08 07:11:54,500 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'eduStatisticsMapper' and 'com.jzj.core.mapper.EduStatisticsMapper' mapperInterface. Bean already defined with the same name!
+2022-01-08 07:11:54,500 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'eduSubjectMapper' and 'com.jzj.core.mapper.EduSubjectMapper' mapperInterface. Bean already defined with the same name!
+2022-01-08 07:11:54,500 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'eduTestPaperRecordsMapper' and 'com.jzj.core.mapper.EduTestPaperRecordsMapper' mapperInterface. Bean already defined with the same name!
+2022-01-08 07:11:54,500 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'eduTestTopicRecordsMapper' and 'com.jzj.core.mapper.EduTestTopicRecordsMapper' mapperInterface. Bean already defined with the same name!
+2022-01-08 07:11:54,500 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'eduTopicContentMapper' and 'com.jzj.core.mapper.EduTopicContentMapper' mapperInterface. Bean already defined with the same name!
+2022-01-08 07:11:54,500 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'eduTopicMapper' and 'com.jzj.core.mapper.EduTopicMapper' mapperInterface. Bean already defined with the same name!
+2022-01-08 07:11:54,501 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'noticeMessageMapper' and 'com.jzj.core.mapper.NoticeMessageMapper' mapperInterface. Bean already defined with the same name!
+2022-01-08 07:11:54,501 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'ucenterMemberMapper' and 'com.jzj.core.mapper.UcenterMemberMapper' mapperInterface. Bean already defined with the same name!
+2022-01-08 07:11:54,501 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'webConfigMapper' and 'com.jzj.core.mapper.WebConfigMapper' mapperInterface. Bean already defined with the same name!
+2022-01-08 07:11:54,501 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'webLogMapper' and 'com.jzj.core.mapper.WebLogMapper' mapperInterface. Bean already defined with the same name!
+2022-01-08 07:11:54,501 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - No MyBatis mapper was found in '[com.jzj.core.mapper]' package. Please check your configuration.
+2022-01-08 07:11:54,566 [main] INFO  o.s.cloud.context.scope.GenericScope [Line:295] - BeanFactory id=1561be07-d5d2-3761-b73b-de268b21e06f
+2022-01-08 07:11:54,903 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [Line:335] - Bean 'redisConfig' of type [com.jzj.servicebase.RedisConfig$$EnhancerBySpringCGLIB$$f8fbee88] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-01-08 07:11:54,950 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [Line:335] - Bean 'spring.cloud.sentinel-com.alibaba.cloud.sentinel.SentinelProperties' of type [com.alibaba.cloud.sentinel.SentinelProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-01-08 07:11:54,957 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [Line:335] - Bean 'com.alibaba.cloud.sentinel.custom.SentinelAutoConfiguration' of type [com.alibaba.cloud.sentinel.custom.SentinelAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-01-08 07:11:55,286 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [Line:108] - Tomcat initialized with port(s): 8002 (http)
+2022-01-08 07:11:55,341 [main] INFO  o.a.coyote.http11.Http11NioProtocol [Line:173] - Initializing ProtocolHandler ["http-nio-8002"]
+2022-01-08 07:11:55,341 [main] INFO  o.a.catalina.core.StandardService [Line:173] - Starting service [Tomcat]
+2022-01-08 07:11:55,342 [main] INFO  o.a.catalina.core.StandardEngine [Line:173] - Starting Servlet engine: [Apache Tomcat/9.0.38]
+2022-01-08 07:11:55,536 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [Line:173] - Initializing Spring embedded WebApplicationContext
+2022-01-08 07:11:55,537 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [Line:285] - Root WebApplicationContext: initialization completed in 3428 ms
+2022-01-08 07:11:59,966 [main] INFO  c.a.c.s.SentinelWebAutoConfiguration [Line:80 ] - [Sentinel Starter] register SentinelWebInterceptor with urlPatterns: [/**].
+2022-01-08 07:12:00,120 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping [Line:69 ] - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2022-01-08 07:12:00,153 [main] WARN  c.n.c.sources.URLConfigurationSource [Line:121] - No URLs will be polled as dynamic configuration sources.
+2022-01-08 07:12:00,154 [main] INFO  c.n.c.sources.URLConfigurationSource [Line:122] - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2022-01-08 07:12:00,157 [main] WARN  c.n.c.sources.URLConfigurationSource [Line:121] - No URLs will be polled as dynamic configuration sources.
+2022-01-08 07:12:00,157 [main] INFO  c.n.c.sources.URLConfigurationSource [Line:122] - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2022-01-08 07:12:00,411 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor [Line:181] - Initializing ExecutorService 'applicationTaskExecutor'
+2022-01-08 07:12:02,002 [main] INFO  o.s.s.c.ThreadPoolTaskScheduler [Line:181] - Initializing ExecutorService 'taskScheduler'
+2022-01-08 07:12:02,579 [main] INFO  o.a.coyote.http11.Http11NioProtocol [Line:173] - Starting ProtocolHandler ["http-nio-8002"]
+2022-01-08 07:12:02,604 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [Line:220] - Tomcat started on port(s): 8002 (http) with context path ''
+2022-01-08 07:12:02,659 [main] INFO  c.a.c.n.r.NacosServiceRegistry [Line:71 ] - nacos registry, DEFAULT_GROUP service-core 192.168.1.110:8002 register finished
+2022-01-08 07:12:02,875 [main] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper [Line:160] - Context refreshed
+2022-01-08 07:12:02,892 [main] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper [Line:163] - Found 1 custom documentation plugin(s)
+2022-01-08 07:12:02,933 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner [Line:41 ] - Scanning for api listing references
+2022-01-08 07:12:03,105 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: getByIdUsingGET_1
+2022-01-08 07:12:03,170 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: getByIdUsingGET_2
+2022-01-08 07:12:03,189 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: listByTopUsingPOST_1
+2022-01-08 07:12:03,193 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: removeByIdUsingDELETE_1
+2022-01-08 07:12:03,207 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: updateUsingPUT_1
+2022-01-08 07:12:03,217 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: getByIdUsingGET_3
+2022-01-08 07:12:03,227 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: listByTopUsingPOST_2
+2022-01-08 07:12:03,229 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: removeByIdUsingDELETE_2
+2022-01-08 07:12:03,243 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: updateTopicByIdUsingPUT_1
+2022-01-08 07:12:03,247 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: getByIdUsingGET_4
+2022-01-08 07:12:03,252 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: listByTopUsingPOST_3
+2022-01-08 07:12:03,255 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: removeByIdUsingDELETE_3
+2022-01-08 07:12:03,268 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: updateUsingPUT_2
+2022-01-08 07:12:03,271 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: getByIdUsingGET_5
+2022-01-08 07:12:03,277 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: removeByIdUsingDELETE_4
+2022-01-08 07:12:03,290 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: saveSubjectUsingPOST_1
+2022-01-08 07:12:03,292 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: updateUsingPUT_3
+2022-01-08 07:12:03,346 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: listSubjectUsingGET_1
+2022-01-08 07:12:03,357 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: getFrontPaperListUsingPOST_1
+2022-01-08 07:12:03,361 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: getByIdUsingGET_6
+2022-01-08 07:12:03,387 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: getWebConfigUsingGET_1
+2022-01-08 07:12:03,420 [main] INFO  com.jzj.core.CoreApplication [Line:61 ] - Started CoreApplication in 12.593 seconds (JVM running for 13.806)
+2022-01-08 07:12:49,466 [http-nio-8002-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [Line:173] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-01-08 07:12:49,466 [http-nio-8002-exec-1] INFO  o.s.web.servlet.DispatcherServlet [Line:525] - Initializing Servlet 'dispatcherServlet'
+2022-01-08 07:12:49,476 [http-nio-8002-exec-1] INFO  o.s.web.servlet.DispatcherServlet [Line:547] - Completed initialization in 10 ms
+2022-01-08 07:12:50,533 [http-nio-8002-exec-1] INFO  com.zaxxer.hikari.HikariDataSource [Line:110] - HikariPool-1 - Starting...
+2022-01-08 07:12:51,180 [http-nio-8002-exec-1] INFO  com.zaxxer.hikari.HikariDataSource [Line:123] - HikariPool-1 - Start completed.
+2022-01-08 13:42:02,026 [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskScheduler [Line:218] - Shutting down ExecutorService 'taskScheduler'
+2022-01-08 13:42:02,027 [SpringContextShutdownHook] INFO  c.a.c.n.r.NacosServiceRegistry [Line:86 ] - De-registering from Nacos Server now...
+2022-01-08 13:42:02,074 [SpringContextShutdownHook] INFO  c.a.c.n.r.NacosServiceRegistry [Line:106] - De-registration finished.
+2022-01-08 13:42:12,731 [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskExecutor [Line:218] - Shutting down ExecutorService 'applicationTaskExecutor'
+2022-01-08 13:42:12,855 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource [Line:350] - HikariPool-1 - Shutdown initiated...
+2022-01-08 13:42:12,857 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource [Line:352] - HikariPool-1 - Shutdown completed.
+2022-02-20 06:23:43,026 [main] INFO  com.jzj.core.CoreApplication [Line:655] - The following profiles are active: dev
+2022-02-20 06:23:45,226 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [Line:249] - Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-02-20 06:23:45,228 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [Line:127] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-02-20 06:23:45,279 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [Line:187] - Finished Spring Data repository scanning in 31ms. Found 0 Redis repository interfaces.
+2022-02-20 06:23:45,453 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'dictMapper' and 'com.jzj.core.mapper.DictMapper' mapperInterface. Bean already defined with the same name!
+2022-02-20 06:23:45,453 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'eduPaperMapper' and 'com.jzj.core.mapper.EduPaperMapper' mapperInterface. Bean already defined with the same name!
+2022-02-20 06:23:45,453 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'eduPaperTopicMapper' and 'com.jzj.core.mapper.EduPaperTopicMapper' mapperInterface. Bean already defined with the same name!
+2022-02-20 06:23:45,453 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'eduStatisticsMapper' and 'com.jzj.core.mapper.EduStatisticsMapper' mapperInterface. Bean already defined with the same name!
+2022-02-20 06:23:45,453 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'eduSubjectMapper' and 'com.jzj.core.mapper.EduSubjectMapper' mapperInterface. Bean already defined with the same name!
+2022-02-20 06:23:45,453 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'eduTestPaperRecordsMapper' and 'com.jzj.core.mapper.EduTestPaperRecordsMapper' mapperInterface. Bean already defined with the same name!
+2022-02-20 06:23:45,453 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'eduTestTopicRecordsMapper' and 'com.jzj.core.mapper.EduTestTopicRecordsMapper' mapperInterface. Bean already defined with the same name!
+2022-02-20 06:23:45,453 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'eduTopicContentMapper' and 'com.jzj.core.mapper.EduTopicContentMapper' mapperInterface. Bean already defined with the same name!
+2022-02-20 06:23:45,453 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'eduTopicMapper' and 'com.jzj.core.mapper.EduTopicMapper' mapperInterface. Bean already defined with the same name!
+2022-02-20 06:23:45,453 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'noticeMessageMapper' and 'com.jzj.core.mapper.NoticeMessageMapper' mapperInterface. Bean already defined with the same name!
+2022-02-20 06:23:45,454 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'ucenterMemberMapper' and 'com.jzj.core.mapper.UcenterMemberMapper' mapperInterface. Bean already defined with the same name!
+2022-02-20 06:23:45,454 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'webConfigMapper' and 'com.jzj.core.mapper.WebConfigMapper' mapperInterface. Bean already defined with the same name!
+2022-02-20 06:23:45,454 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - Skipping MapperFactoryBean with name 'webLogMapper' and 'com.jzj.core.mapper.WebLogMapper' mapperInterface. Bean already defined with the same name!
+2022-02-20 06:23:45,454 [main] WARN  o.m.s.mapper.ClassPathMapperScanner [Line:44 ] - No MyBatis mapper was found in '[com.jzj.core.mapper]' package. Please check your configuration.
+2022-02-20 06:23:45,522 [main] INFO  o.s.cloud.context.scope.GenericScope [Line:295] - BeanFactory id=1561be07-d5d2-3761-b73b-de268b21e06f
+2022-02-20 06:23:45,953 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [Line:335] - Bean 'redisConfig' of type [com.jzj.servicebase.RedisConfig$$EnhancerBySpringCGLIB$$c7c3b27f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-02-20 06:23:46,009 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [Line:335] - Bean 'spring.cloud.sentinel-com.alibaba.cloud.sentinel.SentinelProperties' of type [com.alibaba.cloud.sentinel.SentinelProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-02-20 06:23:46,016 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [Line:335] - Bean 'com.alibaba.cloud.sentinel.custom.SentinelAutoConfiguration' of type [com.alibaba.cloud.sentinel.custom.SentinelAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-02-20 06:23:46,599 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [Line:108] - Tomcat initialized with port(s): 8002 (http)
+2022-02-20 06:23:46,610 [main] INFO  o.a.coyote.http11.Http11NioProtocol [Line:173] - Initializing ProtocolHandler ["http-nio-8002"]
+2022-02-20 06:23:46,611 [main] INFO  o.a.catalina.core.StandardService [Line:173] - Starting service [Tomcat]
+2022-02-20 06:23:46,611 [main] INFO  o.a.catalina.core.StandardEngine [Line:173] - Starting Servlet engine: [Apache Tomcat/9.0.38]
+2022-02-20 06:23:47,167 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [Line:173] - Initializing Spring embedded WebApplicationContext
+2022-02-20 06:23:47,168 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [Line:285] - Root WebApplicationContext: initialization completed in 4069 ms
+2022-02-20 06:23:54,342 [main] INFO  c.a.c.s.SentinelWebAutoConfiguration [Line:80 ] - [Sentinel Starter] register SentinelWebInterceptor with urlPatterns: [/**].
+2022-02-20 06:23:54,694 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping [Line:69 ] - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2022-02-20 06:23:54,788 [main] WARN  c.n.c.sources.URLConfigurationSource [Line:121] - No URLs will be polled as dynamic configuration sources.
+2022-02-20 06:23:54,789 [main] INFO  c.n.c.sources.URLConfigurationSource [Line:122] - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2022-02-20 06:23:54,801 [main] WARN  c.n.c.sources.URLConfigurationSource [Line:121] - No URLs will be polled as dynamic configuration sources.
+2022-02-20 06:23:54,802 [main] INFO  c.n.c.sources.URLConfigurationSource [Line:122] - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2022-02-20 06:23:55,440 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor [Line:181] - Initializing ExecutorService 'applicationTaskExecutor'
+2022-02-20 06:23:58,510 [main] INFO  o.s.s.c.ThreadPoolTaskScheduler [Line:181] - Initializing ExecutorService 'taskScheduler'
+2022-02-20 06:24:00,917 [main] INFO  o.a.coyote.http11.Http11NioProtocol [Line:173] - Starting ProtocolHandler ["http-nio-8002"]
+2022-02-20 06:24:00,944 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [Line:220] - Tomcat started on port(s): 8002 (http) with context path ''
+2022-02-20 06:24:01,307 [main] INFO  c.a.c.n.r.NacosServiceRegistry [Line:71 ] - nacos registry, DEFAULT_GROUP service-core 192.168.0.1:8002 register finished
+2022-02-20 06:24:03,527 [main] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper [Line:160] - Context refreshed
+2022-02-20 06:24:03,544 [main] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper [Line:163] - Found 1 custom documentation plugin(s)
+2022-02-20 06:24:03,640 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner [Line:41 ] - Scanning for api listing references
+2022-02-20 06:24:04,003 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: getByIdUsingGET_1
+2022-02-20 06:24:04,201 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: getByIdUsingGET_2
+2022-02-20 06:24:04,207 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: listByTopUsingPOST_1
+2022-02-20 06:24:04,210 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: removeByIdUsingDELETE_1
+2022-02-20 06:24:04,220 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: updateUsingPUT_1
+2022-02-20 06:24:04,230 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: getByIdUsingGET_3
+2022-02-20 06:24:04,246 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: listByTopUsingPOST_2
+2022-02-20 06:24:04,251 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: removeByIdUsingDELETE_2
+2022-02-20 06:24:04,277 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: updateTopicByIdUsingPUT_1
+2022-02-20 06:24:04,288 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: getByIdUsingGET_4
+2022-02-20 06:24:04,332 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: listByTopUsingPOST_3
+2022-02-20 06:24:04,334 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: removeByIdUsingDELETE_3
+2022-02-20 06:24:04,390 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: updateUsingPUT_2
+2022-02-20 06:24:04,393 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: getByIdUsingGET_5
+2022-02-20 06:24:04,409 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: removeByIdUsingDELETE_4
+2022-02-20 06:24:04,425 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: saveSubjectUsingPOST_1
+2022-02-20 06:24:04,427 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: updateUsingPUT_3
+2022-02-20 06:24:04,534 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: listSubjectUsingGET_1
+2022-02-20 06:24:04,603 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: getFrontPaperListUsingPOST_1
+2022-02-20 06:24:04,628 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: getByIdUsingGET_6
+2022-02-20 06:24:04,715 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator [Line:40 ] - Generating unique operation named: getWebConfigUsingGET_1
+2022-02-20 06:24:04,766 [main] INFO  com.jzj.core.CoreApplication [Line:61 ] - Started CoreApplication in 24.867 seconds (JVM running for 27.032)
+2022-02-20 06:47:20,834 [http-nio-8002-exec-9] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [Line:173] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-02-20 06:47:20,834 [http-nio-8002-exec-9] INFO  o.s.web.servlet.DispatcherServlet [Line:525] - Initializing Servlet 'dispatcherServlet'
+2022-02-20 06:47:20,847 [http-nio-8002-exec-9] INFO  o.s.web.servlet.DispatcherServlet [Line:547] - Completed initialization in 13 ms
+2022-02-20 06:47:22,212 [http-nio-8002-exec-9] INFO  com.zaxxer.hikari.HikariDataSource [Line:110] - HikariPool-1 - Starting...
+2022-02-20 06:47:22,758 [http-nio-8002-exec-9] INFO  com.zaxxer.hikari.HikariDataSource [Line:123] - HikariPool-1 - Start completed.
+2022-02-20 06:50:20,236 [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskScheduler [Line:218] - Shutting down ExecutorService 'taskScheduler'
+2022-02-20 06:50:20,236 [SpringContextShutdownHook] INFO  c.a.c.n.r.NacosServiceRegistry [Line:86 ] - De-registering from Nacos Server now...
+2022-02-20 06:50:20,286 [SpringContextShutdownHook] INFO  c.a.c.n.r.NacosServiceRegistry [Line:106] - De-registration finished.
+2022-02-20 06:50:29,800 [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskExecutor [Line:218] - Shutting down ExecutorService 'applicationTaskExecutor'
+2022-02-20 06:50:29,819 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource [Line:350] - HikariPool-1 - Shutdown initiated...
+2022-02-20 06:50:29,826 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource [Line:352] - HikariPool-1 - Shutdown completed.

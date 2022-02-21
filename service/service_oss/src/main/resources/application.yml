@@ -12,13 +12,13 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 110.42.224.240:8848
+        server-addr: nacos地址
 #阿里云 OSS
 #不同的服务器，地址不同
 aliyun:
   oss:
-    endpoint: oss-cn-guangzhou.aliyuncs.com
-    keyid: LTAI5tN2Qrd9BRpABEVEP246
-    keysecret: JEOzlrD8h4IRDFY5R6FuEWacgBebzn
-    bucketname: fxb-jzj
+    endpoint: xx
+    keyid: xx
+    keysecret: xx
+    bucketname: xx
 
